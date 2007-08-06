@@ -1,0 +1,13 @@
+bin\Debug\CBT.exe.config
+bin\Debug\CBT.exe
+bin\Debug\CBT.pdb
+obj\Debug\ResolveAssemblyReference.cache
+obj\Debug\CBT.CaixaProp.resources
+obj\Debug\CBT.frmEditModelo.resources
+obj\Debug\CBT.frmModelos.resources
+obj\Debug\CBT.frmPrincipal.resources
+obj\Debug\CBT.LinhaProp.resources
+obj\Debug\CBT.Properties.Resources.resources
+obj\Debug\CBT.csproj.GenerateResource.Cache
+obj\Debug\CBT.exe
+obj\Debug\CBT.pdb
