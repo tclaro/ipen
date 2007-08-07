@@ -22,6 +22,7 @@ namespace CBT
         private bool _Eliminacao;
         private bool _Incorporacao;
         private double _Fracao;
+        private System.Drawing.Point _PontoCentral;
 		#endregion
 
 		#region Construtor
@@ -32,10 +33,7 @@ namespace CBT
         public Caixas(int Numero, string Texto, System.Drawing.Point Posicao, System.Drawing.Color Cor, bool Acompanhar, bool Eliminacao): this(Numero, Texto, Posicao, Cor, Acompanhar, Eliminacao, false, 0){ }
         public Caixas(int Numero, string Texto, System.Drawing.Point Posicao, System.Drawing.Color Cor, bool Acompanhar, bool Eliminacao, bool Incorporacao, double Fracao)
 		{
-            //base.SetStyle(ControlStyles.UserPaint, true);
-            //base.SetStyle(ControlStyles.AllPaintingInWmPaint, true);
-            //base.SetStyle(ControlStyles.OptimizedDoubleBuffer, false);
-            //base.SetStyle(ControlStyles.SupportsTransparentBackColor, true);
+
             _Arrastando = false;
             _DragPoint = new Point();
             _Numero = Numero;
@@ -50,6 +48,7 @@ namespace CBT
             this.Font = new Font("Tahoma", 8F, FontStyle.Regular);
             this.Size = this.DefaultSize;
             VerificarTamanho();
+            RecalcularValoresPosicao();
         }
         #endregion
 
@@ -190,7 +189,8 @@ namespace CBT
         {
             get
             {
-                return new Point(this.Left + (this.Width / 2), this.Top + (this.Height / 2));
+                //return new Point(this.Left + (this.Width / 2), this.Top + (this.Height / 2));
+                return _PontoCentral;
             }
         }
         #endregion
@@ -267,6 +267,7 @@ namespace CBT
                 this.Top = this.Top + e.Y - _DragPoint.Y;
             }
             base.OnMouseMove(e);
+
         }
         protected override void OnResize(EventArgs e)
         {
@@ -277,6 +278,7 @@ namespace CBT
         {
             Desenhar();
             e.Graphics.DrawImage(BackBuffer, 0, 0);
+            RecalcularValoresPosicao();
         }
         private void Desenhar()
         {
@@ -379,6 +381,12 @@ namespace CBT
             if (this.Width < System.Windows.Forms.TextRenderer.MeasureText(this._Nome, this.Font).Width + 10)
                 this.Width = System.Windows.Forms.TextRenderer.MeasureText(this._Nome, this.Font).Width + 10;
         }
+
+        private void RecalcularValoresPosicao()
+        {
+            _PontoCentral = new Point(this.Left + (this.Width / 2), this.Top + (this.Height / 2));
+        }
+
         private void DestruirBuffer()
         {
             if (BackBuffer != null)

@@ -171,7 +171,8 @@ namespace CBT
             e.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
             e.Graphics.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
             #endregion
-
+            
+            
             #region Desenhar Linhas
             foreach (Linhas ln in this.SistemaCompartimental.Linhas)
             {
@@ -202,7 +203,7 @@ namespace CBT
                 }
             }
             #endregion
-            
+                   
             //base.OnPaint(e);
         }
         protected override void OnPaintBackground(PaintEventArgs e)
