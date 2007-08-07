@@ -16,17 +16,17 @@ namespace CBT
         private System.Windows.Forms.TextBox txtNome;
 		private System.Windows.Forms.Label lblNome;
 		private System.Windows.Forms.ColorDialog dlgCor;
-		private System.Windows.Forms.Label label1;
+		private System.Windows.Forms.Label lblCor;
 		private System.Windows.Forms.Button btnOK;
 		private System.Windows.Forms.Button btnCancelar;
 		private System.Windows.Forms.Button btnCor;
-        private Label lblCaixas;
+        private Label lblDirecao;
         private Label lblCaixaInicio;
         private Label lblCaixaFim;
         private Button btnDirecao;
-        private Label lblValor;
+        private Label lblValor1;
         private TextBox txtValorAB;
-        private Label label2;
+        private Label lblValor2;
         private TextBox txtValorBA;
 		private System.ComponentModel.Container components = null;
 		#endregion
@@ -106,14 +106,14 @@ namespace CBT
             this.btnCancelar = new System.Windows.Forms.Button();
             this.dlgCor = new System.Windows.Forms.ColorDialog();
             this.btnCor = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
-            this.lblCaixas = new System.Windows.Forms.Label();
+            this.lblCor = new System.Windows.Forms.Label();
+            this.lblDirecao = new System.Windows.Forms.Label();
             this.lblCaixaInicio = new System.Windows.Forms.Label();
             this.lblCaixaFim = new System.Windows.Forms.Label();
             this.btnDirecao = new System.Windows.Forms.Button();
-            this.lblValor = new System.Windows.Forms.Label();
+            this.lblValor1 = new System.Windows.Forms.Label();
             this.txtValorAB = new System.Windows.Forms.TextBox();
-            this.label2 = new System.Windows.Forms.Label();
+            this.lblValor2 = new System.Windows.Forms.Label();
             this.txtValorBA = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
@@ -143,7 +143,6 @@ namespace CBT
             this.btnOK.Size = new System.Drawing.Size(72, 24);
             this.btnOK.TabIndex = 4;
             this.btnOK.Text = "OK";
-            this.btnOK.Click += new System.EventHandler(this.btnOK_Click);
             // 
             // btnCancelar
             // 
@@ -166,22 +165,22 @@ namespace CBT
             this.btnCor.TabIndex = 0;
             this.btnCor.Click += new System.EventHandler(this.btnCor_Click);
             // 
-            // label1
+            // lblCor
             // 
-            this.label1.Location = new System.Drawing.Point(195, 8);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(32, 16);
-            this.label1.TabIndex = 5;
-            this.label1.Text = "Cor:";
+            this.lblCor.Location = new System.Drawing.Point(195, 8);
+            this.lblCor.Name = "lblCor";
+            this.lblCor.Size = new System.Drawing.Size(32, 16);
+            this.lblCor.TabIndex = 5;
+            this.lblCor.Text = "Cor:";
             // 
-            // lblCaixas
+            // lblDirecao
             // 
-            this.lblCaixas.AutoSize = true;
-            this.lblCaixas.Location = new System.Drawing.Point(8, 100);
-            this.lblCaixas.Name = "lblCaixas";
-            this.lblCaixas.Size = new System.Drawing.Size(89, 13);
-            this.lblCaixas.TabIndex = 8;
-            this.lblCaixas.Text = "Direção do fluxo:";
+            this.lblDirecao.AutoSize = true;
+            this.lblDirecao.Location = new System.Drawing.Point(8, 100);
+            this.lblDirecao.Name = "lblDirecao";
+            this.lblDirecao.Size = new System.Drawing.Size(89, 13);
+            this.lblDirecao.TabIndex = 8;
+            this.lblDirecao.Text = "Direção do fluxo:";
             // 
             // lblCaixaInicio
             // 
@@ -213,13 +212,13 @@ namespace CBT
             this.btnDirecao.Text = "-->";
             this.btnDirecao.Click += new System.EventHandler(this.btnDirecao_Click);
             // 
-            // lblValor
+            // lblValor1
             // 
-            this.lblValor.Location = new System.Drawing.Point(8, 51);
-            this.lblValor.Name = "lblValor";
-            this.lblValor.Size = new System.Drawing.Size(80, 16);
-            this.lblValor.TabIndex = 13;
-            this.lblValor.Text = "Valor     -->";
+            this.lblValor1.Location = new System.Drawing.Point(8, 51);
+            this.lblValor1.Name = "lblValor1";
+            this.lblValor1.Size = new System.Drawing.Size(80, 16);
+            this.lblValor1.TabIndex = 13;
+            this.lblValor1.Text = "Valor     -->";
             // 
             // txtValorAB
             // 
@@ -230,13 +229,13 @@ namespace CBT
             this.txtValorAB.TabIndex = 1;
             this.txtValorAB.TextChanged += new System.EventHandler(this.txtValorAB_TextChanged);
             // 
-            // label2
+            // lblValor2
             // 
-            this.label2.Location = new System.Drawing.Point(120, 51);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(80, 16);
-            this.label2.TabIndex = 15;
-            this.label2.Text = "Valor     <--";
+            this.lblValor2.Location = new System.Drawing.Point(120, 51);
+            this.lblValor2.Name = "lblValor2";
+            this.lblValor2.Size = new System.Drawing.Size(80, 16);
+            this.lblValor2.TabIndex = 15;
+            this.lblValor2.Text = "Valor     <--";
             // 
             // txtValorBA
             // 
@@ -255,15 +254,15 @@ namespace CBT
             this.CancelButton = this.btnCancelar;
             this.ClientSize = new System.Drawing.Size(234, 191);
             this.ControlBox = false;
-            this.Controls.Add(this.label2);
+            this.Controls.Add(this.lblValor2);
             this.Controls.Add(this.txtValorBA);
-            this.Controls.Add(this.lblValor);
+            this.Controls.Add(this.lblValor1);
             this.Controls.Add(this.txtValorAB);
             this.Controls.Add(this.btnDirecao);
             this.Controls.Add(this.lblCaixaFim);
             this.Controls.Add(this.lblCaixaInicio);
-            this.Controls.Add(this.lblCaixas);
-            this.Controls.Add(this.label1);
+            this.Controls.Add(this.lblDirecao);
+            this.Controls.Add(this.lblCor);
             this.Controls.Add(this.btnCor);
             this.Controls.Add(this.btnCancelar);
             this.Controls.Add(this.btnOK);
@@ -408,10 +407,6 @@ namespace CBT
         }
         public Linhas LinhaPropriedades { get { return this._linhaPropriedades; } set { this._linhaPropriedades = value; } }
         #endregion
-
-        private void btnOK_Click(object sender, EventArgs e)
-        {
-        }
 
         private void LinhaProp_FormClosing(object sender, FormClosingEventArgs e)
         {
