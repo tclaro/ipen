@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
+using System.Configuration;
 
 namespace CBT
 {
@@ -303,8 +304,13 @@ namespace CBT
 
         private void configurarBancoDeDadosToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            string caminhoInicial = ConfigurationManager.AppSettings["MDBPath"];
+
+            if (caminhoInicial == "") 
+                caminhoInicial = "c:\\";
+
             OpenFileDialog openFile = new OpenFileDialog();
-            openFile.InitialDirectory = "c:\\";
+            openFile.InitialDirectory = caminhoInicial;
             openFile.DefaultExt = "mdb";
             openFile.Filter = "Microsoft Office Access (*.mdb)|*.mdb";
             openFile.RestoreDirectory = true;
@@ -312,6 +318,13 @@ namespace CBT
             if (openFile.ShowDialog() == DialogResult.OK)
             {
                 Conexao.Arquivo = openFile.FileName;
+
+                Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+                config.AppSettings.Settings["MDBPath"].Value = openFile.FileName;
+                config.Save(ConfigurationSaveMode.Modified);
+                ConfigurationManager.RefreshSection("appSettings");
+
+
             }
         }
 

@@ -53,10 +53,10 @@ namespace CBT
             this.mnuFerramentas = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuFerramentasPersonalizar = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuFerramentasOpcoes = new System.Windows.Forms.ToolStripMenuItem();
+            this.configurarBancoDeDadosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.cadastrarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.modelosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.configurarBancoDeDadosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mnu.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -260,6 +260,13 @@ namespace CBT
             this.mnuFerramentasOpcoes.Text = "&Opções...";
             this.mnuFerramentasOpcoes.Click += new System.EventHandler(this.mnuFerramentasOpcoes_Click);
             // 
+            // configurarBancoDeDadosToolStripMenuItem
+            // 
+            this.configurarBancoDeDadosToolStripMenuItem.Name = "configurarBancoDeDadosToolStripMenuItem";
+            this.configurarBancoDeDadosToolStripMenuItem.Size = new System.Drawing.Size(228, 22);
+            this.configurarBancoDeDadosToolStripMenuItem.Text = "Configurar Banco de Dados...";
+            this.configurarBancoDeDadosToolStripMenuItem.Click += new System.EventHandler(this.configurarBancoDeDadosToolStripMenuItem_Click);
+            // 
             // cadastrarToolStripMenuItem
             // 
             this.cadastrarToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -282,13 +289,6 @@ namespace CBT
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(851, 590);
             this.panel1.TabIndex = 2;
-            // 
-            // configurarBancoDeDadosToolStripMenuItem
-            // 
-            this.configurarBancoDeDadosToolStripMenuItem.Name = "configurarBancoDeDadosToolStripMenuItem";
-            this.configurarBancoDeDadosToolStripMenuItem.Size = new System.Drawing.Size(228, 22);
-            this.configurarBancoDeDadosToolStripMenuItem.Text = "Configurar Banco de Dados...";
-            this.configurarBancoDeDadosToolStripMenuItem.Click += new System.EventHandler(this.configurarBancoDeDadosToolStripMenuItem_Click);
             // 
             // frmPrincipal
             // 

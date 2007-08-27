@@ -167,7 +167,6 @@ namespace CBT
                 OnPropertyChanged(be);
             }
         }
-        
 
         public System.Drawing.Point[] PontosExtremos
         {
@@ -276,9 +275,10 @@ namespace CBT
         }
         protected override void OnPaint(PaintEventArgs e)
         {
+            RecalcularValoresPosicao();
             Desenhar();
             e.Graphics.DrawImage(BackBuffer, 0, 0);
-            RecalcularValoresPosicao();
+            
         }
         private void Desenhar()
         {
