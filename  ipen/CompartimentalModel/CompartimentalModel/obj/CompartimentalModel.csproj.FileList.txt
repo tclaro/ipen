@@ -1,5 +1,0 @@
-obj\Debug\ResolveAssemblyReference.cache
-bin\Debug\CompartimentalModel.dll
-bin\Debug\CompartimentalModel.pdb
-obj\Debug\CompartimentalModel.dll
-obj\Debug\CompartimentalModel.pdb
