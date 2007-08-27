@@ -176,12 +176,16 @@ namespace CBT
             #region Desenhar Linhas
             foreach (Linhas ln in this.SistemaCompartimental.Linhas)
             {
+                //Desenha a seta
                 if (ln.DirecaoDaLinha == Linhas.Direcao.InicioParaFim || ln.DirecaoDaLinha == Linhas.Direcao.Ambos)
                     DesenharSetaDirecao(ln.CaixaFim, ln, ln.CaixaInicio, e.Graphics);
                 if (ln.DirecaoDaLinha == Linhas.Direcao.FimParaInicio || ln.DirecaoDaLinha == Linhas.Direcao.Ambos)
                     DesenharSetaDirecao(ln.CaixaInicio, ln, ln.CaixaFim, e.Graphics);
 
+                //Desenha a linha
                 e.Graphics.DrawLine(new Pen(ln.ForeColor), ln.PontoInicio, ln.PontoFim);
+
+                //Label da Linha
                 if (ln.DirecaoDaLinha != Linhas.Direcao.Ambos)
                 {
                     System.Drawing.SizeF tamanho = e.Graphics.MeasureString(ln.Nome, ln.Font);
@@ -201,6 +205,7 @@ namespace CBT
                     e.Graphics.DrawString(ln.NomeBA, ln.Font, new System.Drawing.SolidBrush(ln.ForeColor), ln.PontoTercoFim.X - tamanho2.Width / 2, ln.PontoTercoFim.Y - tamanho2.Height / 2);
                     e.Graphics.DrawRectangle(new Pen(ln.ForeColor), (ln.PontoTercoFim.X - tamanho2.Width / 2) - 1, (ln.PontoTercoFim.Y - tamanho2.Height / 2) - 1, tamanho2.Width + 2, tamanho2.Height + 2);
                 }
+                break;
             }
             #endregion
                    
