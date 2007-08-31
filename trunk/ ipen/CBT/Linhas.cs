@@ -22,6 +22,7 @@ namespace CBT
         private Color backColor;
         private Color foreColor;
         private Font font;
+        private float _CoeficienteAngular;
         #endregion
 
 		#region Construtor
@@ -158,7 +159,11 @@ namespace CBT
 			}
             set
             {
+                if (_CaixaInicio != null)
+                    _CaixaInicio.Moved -= new Caixas.CaixaEventHandler(_CaixaInicio_Moved);
                 _CaixaInicio = value;
+                if (_CaixaInicio != null)
+                    _CaixaInicio.Moved += new Caixas.CaixaEventHandler(_CaixaInicio_Moved);
             }
 		}
 		public Caixas CaixaFim
@@ -169,10 +174,27 @@ namespace CBT
 			}
             set
             {
+                if (_CaixaFim != null)
+                    _CaixaFim.Moved -= new Caixas.CaixaEventHandler(_CaixaFim_Moved);
                 _CaixaFim = value;
+                if (_CaixaFim != null)
+                    _CaixaFim.Moved += new Caixas.CaixaEventHandler(_CaixaFim_Moved);
             }
         }
-		public System.Drawing.Point PontoCentral
+
+        void _CaixaFim_Moved(Caixas.BoxEventArgs be)
+        {
+            RecalcularCoeficiente();
+        }
+        void _CaixaInicio_Moved(Caixas.BoxEventArgs be)
+        {
+            RecalcularCoeficiente();
+        }
+        void RecalcularCoeficiente()
+        {
+            this._CoeficienteAngular = (float)(this.PontoFim.Y - this.PontoInicio.Y) / (float)(this.PontoFim.X - this.PontoInicio.X);
+        }
+        public System.Drawing.Point PontoCentral
 		{
 			get { return new Point((this.PontoFim.X + this.PontoInicio.X) / 2, (this.PontoFim.Y + this.PontoInicio.Y) / 2); }
 		}
@@ -189,7 +211,7 @@ namespace CBT
 		}
 		public float CoeficienteAngular
 		{
-			get { return (float)(this.PontoFim.Y - this.PontoInicio.Y) / (float)(this.PontoFim.X - this.PontoInicio.X); }
+            get { return _CoeficienteAngular; }
 		}
 		public string Nome
 		{

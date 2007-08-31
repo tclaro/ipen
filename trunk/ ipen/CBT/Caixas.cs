@@ -9,7 +9,7 @@ namespace CBT
 	/// <summary>
 	/// Summary description for Caixas.
 	/// </summary>
-	public class Caixas : System.Windows.Forms.UserControl
+	public class Caixas : System.Windows.Forms.Control
     {
         #region Campos
         private Bitmap _backBuffer;
