@@ -165,12 +165,11 @@ namespace CBT
 
         protected override void OnPaint(PaintEventArgs e)
         {
-            return;
             #region Configurar gráficos
-            e.Graphics.CompositingQuality = CompositingQuality.HighQuality;
-            e.Graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
-            e.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
-            e.Graphics.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
+            //e.Graphics.CompositingQuality = CompositingQuality.HighQuality;
+            //e.Graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
+            //e.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
+            //e.Graphics.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
             #endregion
             
             #region Desenhar Linhas
@@ -199,13 +198,12 @@ namespace CBT
                     e.Graphics.FillRectangle(System.Drawing.Brushes.White, (ln.PontoTercoInicio.X - tamanho.Width / 2) - 1, (ln.PontoTercoInicio.Y - tamanho.Height / 2) - 1, tamanho.Width + 2, tamanho.Height + 2);
                     e.Graphics.DrawString(ln.NomeAB, ln.Font, new System.Drawing.SolidBrush(ln.ForeColor), ln.PontoTercoInicio.X - tamanho.Width / 2, ln.PontoTercoInicio.Y - tamanho.Height / 2);
                     e.Graphics.DrawRectangle(new Pen(ln.ForeColor), (ln.PontoTercoInicio.X - tamanho.Width / 2) - 1, (ln.PontoTercoInicio.Y - tamanho.Height / 2) - 1, tamanho.Width + 2, tamanho.Height + 2);
-
+                    
                     System.Drawing.SizeF tamanho2 = e.Graphics.MeasureString(ln.NomeBA, ln.Font);
                     e.Graphics.FillRectangle(System.Drawing.Brushes.White, (ln.PontoTercoFim.X - tamanho2.Width / 2) - 1, (ln.PontoTercoFim.Y - tamanho2.Height / 2) - 1, tamanho2.Width + 2, tamanho2.Height + 2);
                     e.Graphics.DrawString(ln.NomeBA, ln.Font, new System.Drawing.SolidBrush(ln.ForeColor), ln.PontoTercoFim.X - tamanho2.Width / 2, ln.PontoTercoFim.Y - tamanho2.Height / 2);
                     e.Graphics.DrawRectangle(new Pen(ln.ForeColor), (ln.PontoTercoFim.X - tamanho2.Width / 2) - 1, (ln.PontoTercoFim.Y - tamanho2.Height / 2) - 1, tamanho2.Width + 2, tamanho2.Height + 2);
                 }
-                break;
             }
             #endregion
                    
@@ -218,7 +216,6 @@ namespace CBT
         
         private void DesenharSetaDirecao(Caixas Caixa, Linhas ln, Caixas OutraCaixa, Graphics g)
         {
-            return;
             //Seta na parte superior do compartimento
             if (ln.XdeY(Caixa.Top) >= Caixa.Left && ln.XdeY(Caixa.Top) <= Caixa.Right && OutraCaixa.PontoCentral.Y < Caixa.PontoCentral.Y)
             {

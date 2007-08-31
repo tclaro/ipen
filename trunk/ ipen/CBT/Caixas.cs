@@ -82,6 +82,8 @@ namespace CBT
             get { return _Numero; }
             set
             {
+                if (_Numero == value)
+                    return;
                 _Numero = value;
                 BoxEventArgs be = new BoxEventArgs();
                 be.Box = this;
@@ -99,6 +101,8 @@ namespace CBT
             get { return _Nome; }
             set
             {
+                if (_Nome == value)
+                    return;
                 _Nome = value;
                 BoxEventArgs be = new BoxEventArgs();
                 be.Box = this;
@@ -112,11 +116,13 @@ namespace CBT
             get { return this._EstaSelecionado; }
             set
             {
+                if (_EstaSelecionado == value)
+                    return;
                 this._EstaSelecionado = value;
-                BoxEventArgs be = new BoxEventArgs();
-                be.Box = this;
-                be.EventType = BoxEventArgs.BoxEventTypes.PropertyChanged;
-                OnPropertyChanged(be);
+                //BoxEventArgs be = new BoxEventArgs();
+                //be.Box = this;
+                //be.EventType = BoxEventArgs.BoxEventTypes.PropertyChanged;
+                //OnPropertyChanged(be);
             }
         }
         public bool Acompanhar
@@ -124,6 +130,8 @@ namespace CBT
             get { return _Acompanhar; }
             set
             {
+                if (_Acompanhar == value)
+                    return;
                 _Acompanhar = value;
                 BoxEventArgs be = new BoxEventArgs();
                 be.Box = this;
@@ -136,6 +144,8 @@ namespace CBT
             get { return _Eliminacao; }
             set
             {
+                if (_Eliminacao == value)
+                    return;
                 _Eliminacao = value;
                 BoxEventArgs be = new BoxEventArgs();
                 be.Box = this;
@@ -148,6 +158,8 @@ namespace CBT
             get { return _Incorporacao; }
             set
             {
+                if (_Incorporacao == value)
+                    return;
                 _Incorporacao = value;
                 BoxEventArgs be = new BoxEventArgs();
                 be.Box = this;
@@ -160,6 +172,8 @@ namespace CBT
             get { return _Fracao; }
             set
             {
+                if (_Fracao == value)
+                    return;
                 _Fracao = value;
                 BoxEventArgs be = new BoxEventArgs();
                 be.Box = this;
@@ -268,17 +282,21 @@ namespace CBT
             base.OnMouseMove(e);
 
         }
+        protected override void OnMove(EventArgs e)
+        {
+            RecalcularValoresPosicao();
+            base.OnMove(e);
+        }
         protected override void OnResize(EventArgs e)
         {
+            RecalcularValoresPosicao();
             DestruirBuffer();
             base.OnResize(e);
         }
         protected override void OnPaint(PaintEventArgs e)
         {
-            RecalcularValoresPosicao();
             Desenhar();
             e.Graphics.DrawImage(BackBuffer, 0, 0);
-            
         }
         private void Desenhar()
         {
