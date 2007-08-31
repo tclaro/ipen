@@ -165,13 +165,13 @@ namespace CBT
 
         protected override void OnPaint(PaintEventArgs e)
         {
+            return;
             #region Configurar gráficos
             e.Graphics.CompositingQuality = CompositingQuality.HighQuality;
             e.Graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
             e.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
             e.Graphics.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
             #endregion
-            
             
             #region Desenhar Linhas
             foreach (Linhas ln in this.SistemaCompartimental.Linhas)
@@ -218,6 +218,7 @@ namespace CBT
         
         private void DesenharSetaDirecao(Caixas Caixa, Linhas ln, Caixas OutraCaixa, Graphics g)
         {
+            return;
             //Seta na parte superior do compartimento
             if (ln.XdeY(Caixa.Top) >= Caixa.Left && ln.XdeY(Caixa.Top) <= Caixa.Right && OutraCaixa.PontoCentral.Y < Caixa.PontoCentral.Y)
             {
