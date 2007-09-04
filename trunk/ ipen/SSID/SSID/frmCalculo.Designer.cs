@@ -29,6 +29,7 @@ namespace SSID
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.btnCalcular = new System.Windows.Forms.Button();
             this.txtSaida = new System.Windows.Forms.RichTextBox();
             this.txtTempo = new System.Windows.Forms.TextBox();
@@ -200,6 +201,7 @@ namespace SSID
             this.Controls.Add(this.txtSaida);
             this.Controls.Add(this.btnCalcular);
             this.Controls.Add(this.menuStrip1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "Form1";
             this.Text = "SSID";

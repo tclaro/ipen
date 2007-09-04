@@ -28,6 +28,7 @@ namespace CBT
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmModelos));
             this.dgvModelos = new System.Windows.Forms.DataGridView();
             this.btnNovo = new System.Windows.Forms.Button();
             this.btnAlterar = new System.Windows.Forms.Button();
@@ -121,6 +122,7 @@ namespace CBT
             this.Controls.Add(this.btnAlterar);
             this.Controls.Add(this.btnNovo);
             this.Controls.Add(this.dgvModelos);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "frmModelos";
             this.Text = "frmModelos";
             ((System.ComponentModel.ISupportInitialize)(this.dgvModelos)).EndInit();

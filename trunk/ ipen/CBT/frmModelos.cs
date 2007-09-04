@@ -5,6 +5,8 @@ using System.Data;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
+using CompartimentalModel;
+
 
 namespace CBT
 {
@@ -19,7 +21,7 @@ namespace CBT
         
         private void carregarModelos()
         {
-            Modelos modelo = new Modelos();
+            //Modelos modelo = new Modelos();
             DataTable dt = DataBD.SelecionarModelos();
             dgvModelos.DataSource = null;
             dgvModelos.DataSource = dt;

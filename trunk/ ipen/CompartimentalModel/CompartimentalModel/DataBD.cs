@@ -8,6 +8,7 @@ namespace CompartimentalModel
 {
     public class DataBD
     {
+        
         public static void GravarModelo(Modelos M)
         {
             if (M.idModelo == 0)
