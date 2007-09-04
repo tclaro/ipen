@@ -7,6 +7,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.Collections;
 using ZedGraph;
+using System.Configuration;
 
 namespace SSID
 {
@@ -77,19 +78,6 @@ namespace SSID
                     str.Append(C.Nome);
                 }
             }
-            /*
-            for (int Compartimento = 1; Compartimento < n; Compartimento++)
-            {
-                Compartimento C = (Compartimento)ModeloCompartimental[Compartimento - 1];
-                if (C.Acompanhar)
-                {
-                    PointPairList list = new PointPairList();
-                    coisas[Compartimento] = list;
-                    str.Append("\t");
-                    str.Append(C.Nome);
-                }
-            }
-             */
 
             str.Append("\t");
             str.Append("Total");
@@ -111,7 +99,7 @@ namespace SSID
                         str.Append("\t");
                         str.Append(((double)(xt[indice])).ToString("e10"));
 
-                        //QuantAnt = xt[i]; //--> apenas em compartimentos de saída
+                        QuantAnt = xt[indice]; //--> apenas em compartimentos de saída
 
                         ((PointPairList)coisas[indice]).Add(T, xt[indice]);
                     }
@@ -341,7 +329,6 @@ namespace SSID
                         u[i] = u[i] + b[i, j] * xo[j];
                     u[i] = u[i] * lam;
                 }
-
             }
         }
 
@@ -426,35 +413,37 @@ namespace SSID
 
         }
 
-      //public void LerDataSet(DataSet ds)
-      //  {
-      //      int Tamanho = ds.Tables["TableCaixas"].Rows.Count + 1;  //+ 1 pq o elemento zero nao é utilizado
+        /*
+        public void LerDataSet(DataSet ds)
+        {
+            int Tamanho = ds.Tables["TableCaixas"].Rows.Count + 1;  //+ 1 pq o elemento zero nao é utilizado
 
-      //      n = Tamanho;
-      //      R = new double[n, n];
-      //      R[1, 1] = 1; //Plasma é o 4
+            n = Tamanho;
+            R = new double[n, n];
+            R[1, 1] = 1; //Plasma é o 4
 
-      //      ModeloCompartimental.Clear();
-      //      int Contador = 1;
-      //      foreach (System.Data.DataRow dr in ds.Tables["TableCaixas"].Rows)
-      //      {
-      //          Compartimento C = new Compartimento((int)dr["Numero"], Contador++, (string)dr["Nome"], System.Drawing.Color.FromArgb((byte)dr["CorR"], (byte)dr["CorG"], (byte)dr["CorB"]), (bool)dr["Acompanhar"]);
-      //          ModeloCompartimental.Add(C);
-      //      }
-      //      ModeloCompartimental.TrimToSize();
+            ModeloCompartimental.Clear();
+            int Contador = 1;
+            foreach (System.Data.DataRow dr in ds.Tables["TableCaixas"].Rows)
+            {
+                Compartimento C = new Compartimento((int)dr["Numero"], Contador++, (string)dr["Nome"], System.Drawing.Color.FromArgb((byte)dr["CorR"], (byte)dr["CorG"], (byte)dr["CorB"]), (bool)dr["Acompanhar"]);
+                ModeloCompartimental.Add(C);
+            }
+            ModeloCompartimental.TrimToSize();
 
-      //      foreach (System.Data.DataRow dr in ds.Tables["TableLinhas"].Rows)
-      //      {
-      //          double ValorAB = Convert.ToDouble(dr["ValorAB"]);
-      //          double ValorBA = Convert.ToDouble(dr["ValorBA"]);
-      //          if (ValorAB != 0)
-      //              R[RetornarID((int)dr["CaixaInicio"], ModeloCompartimental), RetornarID((int)dr["CaixaFim"], ModeloCompartimental)] = ValorAB;
-      //          if (ValorBA != 0)
-      //              R[RetornarID((int)dr["CaixaFim"], ModeloCompartimental), RetornarID((int)dr["CaixaInicio"], ModeloCompartimental)] = ValorBA;
-      //      }
-
-      //  }
-
+            foreach (System.Data.DataRow dr in ds.Tables["TableLinhas"].Rows)
+            {
+                double ValorAB = Convert.ToDouble(dr["ValorAB"]);
+                double ValorBA = Convert.ToDouble(dr["ValorBA"]);
+                if (ValorAB != 0)
+                    //Problema aqui
+                    R[RetornarID((int)dr["CaixaInicio"], ModeloCompartimental), RetornarID((int)dr["CaixaFim"], ModeloCompartimental)] = ValorAB;
+                if (ValorBA != 0)
+                    R[RetornarID((int)dr["CaixaFim"], ModeloCompartimental), RetornarID((int)dr["CaixaInicio"], ModeloCompartimental)] = ValorBA;
+            }
+        }
+        */
+         
         private int RetornarID(int NumeroCaixa, CompartimentalModel.CaixasCollection Colecao)
         {
             foreach (CompartimentalModel.Caixas C in Colecao)
@@ -467,28 +456,42 @@ namespace SSID
 
         private void carregarXMLToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            string caminhoInicial = LerSettings("XMLPath");
+
+            if (caminhoInicial == "")
+                caminhoInicial = "c:\\";
+
             OpenFileDialog openFile = new OpenFileDialog();
-            openFile.InitialDirectory = "c:\\";
+            openFile.InitialDirectory = caminhoInicial;
             openFile.DefaultExt = "xml";
             openFile.Filter = "Extensible Markup Language (*.xml)|*.xml";
-            openFile.RestoreDirectory = true;
             openFile.Multiselect = false;
             if (openFile.ShowDialog() == DialogResult.OK)
             {
                 ImportarArquivo(openFile.FileName);
+                if (openFile.FileName != caminhoInicial)
+                    GravarSettings("XMLPath", openFile.FileName);
+
+                btnCalcular.Enabled = true;
             }
         }
 
         private void carregarMDBToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            string caminhoInicial = LerSettings("MDBPath");
+
+            if (caminhoInicial == "")
+                caminhoInicial = "c:\\";
+
             OpenFileDialog openFile = new OpenFileDialog();
-            openFile.InitialDirectory = "c:\\";
+            openFile.InitialDirectory = caminhoInicial;
             openFile.DefaultExt = "mdb";
             openFile.Filter = "Microsoft Office Access (*.mdb)|*.mdb";
-            openFile.RestoreDirectory = true;
             openFile.Multiselect = false;
             if (openFile.ShowDialog() == DialogResult.OK)
             {
+                if (openFile.FileName != caminhoInicial)
+                    GravarSettings("MDBPath", openFile.FileName);
                 frmModelos F = new frmModelos(openFile.FileName, this);
                 F.ShowDialog();
                 btnCalcular.Enabled = true;
@@ -500,6 +503,18 @@ namespace SSID
             Application.Exit();
         }
 
+        private string LerSettings(string Chave)
+        {
+            return ConfigurationManager.AppSettings[Chave];
+        }
+
+        private void GravarSettings(string Chave, string Valor)
+        {
+            Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+            config.AppSettings.Settings[Chave].Value = Valor;
+            config.Save(ConfigurationSaveMode.Modified);
+            ConfigurationManager.RefreshSection("appSettings");
+        }
 
 
 

@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using System.Configuration;
+using CompartimentalModel;
 
 namespace CBT
 {
@@ -86,7 +87,7 @@ namespace CBT
         private void mnuArquivoAbrir_Click(object sender, EventArgs e)
         {
             OpenFileDialog openFile = new OpenFileDialog();
-            openFile.InitialDirectory = "c:\\";
+            openFile.InitialDirectory = LerSettings("XMLPath");
             openFile.DefaultExt = "xml";
             openFile.Filter = "Extensible Markup Language (*.xml)|*.xml";
             openFile.RestoreDirectory = true;
@@ -96,6 +97,8 @@ namespace CBT
                 LimparColecao();
 
                 ArquivoAberto = openFile.FileName;
+                GravarSettings("XMLPath", openFile.FileName);
+
                 DataXML interfaceXML = new DataXML(ArquivoAberto);
                 //DataXML interfaceXML = new DataXML(ArquivoAberto, this.PnlCanvas.SistemaCompartimental.Linhas, this.PnlCanvas.SistemaCompartimental.Caixas);
                 
@@ -127,13 +130,17 @@ namespace CBT
 
         private string SolicitarNomeArquivo()
         {
+            string caminhoInicial = LerSettings("XMLPath");
             SaveFileDialog saveFile = new SaveFileDialog();
-            saveFile.InitialDirectory = "c:\\";
+            saveFile.InitialDirectory = caminhoInicial;
             saveFile.DefaultExt = "xml";
             saveFile.Filter = "Extensible Markup Language (*.xml)|*.xml";
             saveFile.RestoreDirectory = true;
             if (saveFile.ShowDialog() == DialogResult.OK)
+            {
                 return saveFile.FileName;
+                GravarSettings("XMLPath", saveFile.FileName);
+            }
             else
                 return "";
         }
@@ -304,7 +311,7 @@ namespace CBT
 
         private void configurarBancoDeDadosToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            string caminhoInicial = ConfigurationManager.AppSettings["MDBPath"];
+            string caminhoInicial = LerSettings("MDBPath");
 
             if (caminhoInicial == "") 
                 caminhoInicial = "c:\\";
@@ -318,14 +325,22 @@ namespace CBT
             if (openFile.ShowDialog() == DialogResult.OK)
             {
                 Conexao.Arquivo = openFile.FileName;
-
-                Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
-                config.AppSettings.Settings["MDBPath"].Value = openFile.FileName;
-                config.Save(ConfigurationSaveMode.Modified);
-                ConfigurationManager.RefreshSection("appSettings");
-
-
+                if (openFile.FileName != caminhoInicial)
+                    GravarSettings("MDBPath", openFile.FileName);
             }
+        }
+
+        private string LerSettings(string Chave)
+        {
+            return ConfigurationManager.AppSettings[Chave];
+        }
+
+        private void GravarSettings(string Chave, string Valor)
+        {
+            Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+            config.AppSettings.Settings[Chave].Value = Valor;
+            config.Save(ConfigurationSaveMode.Modified);
+            ConfigurationManager.RefreshSection("appSettings");
         }
 
     }

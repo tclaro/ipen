@@ -29,6 +29,7 @@ namespace SSID
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmGrafico));
             this.zg1 = new ZedGraph.ZedGraphControl();
             this.SuspendLayout();
             // 
@@ -51,6 +52,7 @@ namespace SSID
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(617, 485);
             this.Controls.Add(this.zg1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "frmGrafico";
             this.Text = "frmGrafico";
             this.Resize += new System.EventHandler(this.frmGrafico_Resize);

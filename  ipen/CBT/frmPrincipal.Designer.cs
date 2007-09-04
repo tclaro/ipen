@@ -297,6 +297,7 @@ namespace CBT
             this.ClientSize = new System.Drawing.Size(851, 614);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.mnu);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "frmPrincipal";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Modelos Compartimentais";

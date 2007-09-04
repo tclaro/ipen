@@ -11,11 +11,8 @@ namespace CompartimentalModel
 
         public static OleDbConnection Conectar()
         {
-            if (Arquivo == "")
-                return null;
-
-            string connectionstring = "Provider=Microsoft.Jet.OLEDB.4.0;" + 
-                                    "Data Source=" + Arquivo  + ";" + 
+            string connectionstring = "Provider=Microsoft.Jet.OLEDB.4.0;" +
+                                    "Data Source=" + Arquivo + ";" +
                                     "Persist Security Info=False;";
             OleDbConnection cn = new OleDbConnection(connectionstring);
             cn.Open();
