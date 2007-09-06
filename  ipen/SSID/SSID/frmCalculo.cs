@@ -33,6 +33,7 @@ namespace SSID
         private void btnCalcular_Click(object sender, EventArgs e)
         {
 
+            
             int Final =0 , Passo =0;
             double MeiaVida =0 ;
             try
@@ -89,18 +90,20 @@ namespace SSID
             {
                 Calculo();
                 double SomaCompartimentos = 0;
+                str.Append(Tempo.ToString());
 
                 foreach (CompartimentalModel.Caixas C in TodosCompartimentos)
                 {
                     indice = (int)C.Tag;
+
                     SomaCompartimentos += xt[indice];
 
                     if (C.Acompanhar)
                     {
-                        str.Append(Tempo.ToString());
+                        
                         str.Append("\t");
-                        str.Append(((double)(xt[indice])).ToString("e10"));
-
+                        str.Append(xt[indice].ToString("e20"));
+                        
                         if (C.Eliminacao)
                         {
                             ((PointPairList)coisas[indice]).Add(T, xt[indice] - QuantAnt);
@@ -112,7 +115,7 @@ namespace SSID
                 }
 
                 str.Append("\t");
-                str.Append(SomaCompartimentos.ToString("e10"));
+                str.Append(SomaCompartimentos.ToString("e20"));
                 str.Append("\n");
                 Tempo = Tempo + Passo;
                 
@@ -526,6 +529,11 @@ namespace SSID
             config.AppSettings.Settings[Chave].Value = Valor;
             config.Save(ConfigurationSaveMode.Modified);
             ConfigurationManager.RefreshSection("appSettings");
+        }
+
+        private void lblTempoDecorrido_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show(Double.MaxValue.ToString());
         }
 
 
