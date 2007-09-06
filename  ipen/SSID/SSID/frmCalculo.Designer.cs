@@ -195,7 +195,6 @@ namespace SSID
             this.lblTempoDecorrido.Size = new System.Drawing.Size(70, 13);
             this.lblTempoDecorrido.TabIndex = 15;
             this.lblTempoDecorrido.Text = "00:00:00:000";
-            this.lblTempoDecorrido.Click += new System.EventHandler(this.lblTempoDecorrido_Click);
             // 
             // Form1
             // 

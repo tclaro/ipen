@@ -39,6 +39,7 @@ namespace SSID
             ZedGraphControl zgc = zg1;
             GraphPane myPane = pane;
             zgc.GraphPane = myPane;
+            zgc.IsShowCursorValues = true;
 
             // Calculate the Axis Scale Ranges
             zgc.AxisChange();
