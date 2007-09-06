@@ -47,6 +47,10 @@ namespace SSID
                 return;
             }
 
+            //Muda cursor pra ampulheta
+            this.Cursor = Cursors.WaitCursor;
+            DateTime startTime = DateTime.Now;
+
             Final = Final / Passo;
             Tempo = 0;
             
@@ -60,8 +64,6 @@ namespace SSID
 
             LerModelo(idModeloAberto);
             Init();
-
-          
 
             StringBuilder str = new StringBuilder();
 
@@ -99,9 +101,13 @@ namespace SSID
                         str.Append("\t");
                         str.Append(((double)(xt[indice])).ToString("e10"));
 
-                        QuantAnt = xt[indice]; //--> apenas em compartimentos de saída
-
-                        ((PointPairList)coisas[indice]).Add(T, xt[indice]);
+                        if (C.Eliminacao)
+                        {
+                            ((PointPairList)coisas[indice]).Add(T, xt[indice] - QuantAnt);
+                            QuantAnt = xt[indice];
+                        }
+                        else
+                            ((PointPairList)coisas[indice]).Add(T, xt[indice]);
                     }
                 }
 
@@ -111,6 +117,12 @@ namespace SSID
                 Tempo = Tempo + Passo;
                 
             }
+
+            this.Cursor = Cursors.Default;
+            DateTime stopTime = DateTime.Now;
+            TimeSpan Duration = stopTime - startTime;
+            lblTempoDecorrido.Text = Duration.Hours.ToString("00") + ":" + Duration.Minutes.ToString("00") + ":" + Duration.Seconds.ToString("00") + ":" + Duration.Milliseconds.ToString("000");
+
 
             txtSaida.Text = str.ToString();
 

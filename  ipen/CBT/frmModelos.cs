@@ -43,7 +43,7 @@ namespace CBT
             //Pega o código da linha selecionada
             int idModelo = (int)dgvModelos.CurrentRow.Cells["idModelo"].Value;
 
-            //Passa pro form ja trazer o modelo carregado
+            //Passa pro form já trazer o modelo carregado
             frmEditModelo F = new frmEditModelo(idModelo);
             F.ShowDialog();
             carregarModelos();

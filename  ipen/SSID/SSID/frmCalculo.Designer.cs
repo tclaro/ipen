@@ -45,6 +45,7 @@ namespace SSID
             this.carregarMDBToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.sairToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.sairDoSistemaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.lblTempoDecorrido = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -186,11 +187,21 @@ namespace SSID
             this.sairDoSistemaToolStripMenuItem.Text = "Sair do Sistema";
             this.sairDoSistemaToolStripMenuItem.Click += new System.EventHandler(this.sairDoSistemaToolStripMenuItem_Click);
             // 
+            // lblTempoDecorrido
+            // 
+            this.lblTempoDecorrido.AutoSize = true;
+            this.lblTempoDecorrido.Location = new System.Drawing.Point(487, 77);
+            this.lblTempoDecorrido.Name = "lblTempoDecorrido";
+            this.lblTempoDecorrido.Size = new System.Drawing.Size(70, 13);
+            this.lblTempoDecorrido.TabIndex = 15;
+            this.lblTempoDecorrido.Text = "00:00:00:000";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(569, 438);
+            this.Controls.Add(this.lblTempoDecorrido);
             this.Controls.Add(this.zedGraphControl1);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.txtMeiaVida);
@@ -229,6 +240,7 @@ namespace SSID
         private System.Windows.Forms.ToolStripMenuItem carregarMDBToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem sairToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem sairDoSistemaToolStripMenuItem;
+        private System.Windows.Forms.Label lblTempoDecorrido;
     }
 }
 
