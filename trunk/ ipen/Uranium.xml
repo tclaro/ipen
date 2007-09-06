@@ -46,7 +46,7 @@
     <PosTop>7</PosTop>
     <PosWidth>155</PosWidth>
     <PosHeight>50</PosHeight>
-    <CorR>255</CorR>
+    <CorR>128</CorR>
     <CorG>0</CorG>
     <CorB>0</CorB>
     <Acompanhar>true</Acompanhar>
@@ -60,7 +60,7 @@
     <PosWidth>120</PosWidth>
     <PosHeight>50</PosHeight>
     <CorR>0</CorR>
-    <CorG>255</CorG>
+    <CorG>0</CorG>
     <CorB>64</CorB>
     <Acompanhar>false</Acompanhar>
     <Eliminacao>false</Eliminacao>
@@ -72,8 +72,8 @@
     <PosTop>24</PosTop>
     <PosWidth>115</PosWidth>
     <PosHeight>50</PosHeight>
-    <CorR>255</CorR>
-    <CorG>255</CorG>
+    <CorR>128</CorR>
+    <CorG>0</CorG>
     <CorB>0</CorB>
     <Acompanhar>false</Acompanhar>
     <Eliminacao>false</Eliminacao>
@@ -85,7 +85,7 @@
     <PosTop>196</PosTop>
     <PosWidth>60</PosWidth>
     <PosHeight>50</PosHeight>
-    <CorR>255</CorR>
+    <CorR>128</CorR>
     <CorG>128</CorG>
     <CorB>0</CorB>
     <Acompanhar>true</Acompanhar>
@@ -216,8 +216,8 @@
     <PosWidth>103</PosWidth>
     <PosHeight>50</PosHeight>
     <CorR>128</CorR>
-    <CorG>255</CorG>
-    <CorB>255</CorB>
+    <CorG>0</CorG>
+    <CorB>0</CorB>
     <Acompanhar>false</Acompanhar>
     <Eliminacao>false</Eliminacao>
   </TableCaixas>
@@ -267,9 +267,9 @@
     <PosTop>562</PosTop>
     <PosWidth>138</PosWidth>
     <PosHeight>50</PosHeight>
-    <CorR>255</CorR>
+    <CorR>128</CorR>
     <CorG>0</CorG>
-    <CorB>255</CorB>
+    <CorB>0</CorB>
     <Acompanhar>true</Acompanhar>
     <Eliminacao>false</Eliminacao>
   </TableCaixas>
@@ -289,9 +289,9 @@
   <TableLinhas>
     <CaixaInicio>3</CaixaInicio>
     <CaixaFim>4</CaixaFim>
-    <CorR>255</CorR>
-    <CorG>255</CorG>
-    <CorB>255</CorB>
+    <CorR>128</CorR>
+    <CorG>0</CorG>
+    <CorB>0</CorB>
     <Direcao>3</Direcao>
     <ValorAB>1.9E-05</ValorAB>
     <ValorBA>0.0735</ValorBA>
@@ -299,9 +299,9 @@
   <TableLinhas>
     <CaixaInicio>2</CaixaInicio>
     <CaixaFim>4</CaixaFim>
-    <CorR>255</CorR>
-    <CorG>255</CorG>
-    <CorB>255</CorB>
+    <CorR>128</CorR>
+    <CorG>0</CorG>
+    <CorB>0</CorB>
     <Direcao>3</Direcao>
     <ValorAB>8.32</ValorAB>
     <ValorBA>10.5</ValorBA>
@@ -309,9 +309,9 @@
   <TableLinhas>
     <CaixaInicio>4</CaixaInicio>
     <CaixaFim>5</CaixaFim>
-    <CorR>255</CorR>
-    <CorG>255</CorG>
-    <CorB>255</CorB>
+    <CorR>128</CorR>
+    <CorG>0</CorG>
+    <CorB>0</CorB>
     <Direcao>3</Direcao>
     <ValorAB>1.63</ValorAB>
     <ValorBA>0.0693</ValorBA>
@@ -319,9 +319,9 @@
   <TableLinhas>
     <CaixaInicio>6</CaixaInicio>
     <CaixaFim>5</CaixaFim>
-    <CorR>255</CorR>
-    <CorG>255</CorG>
-    <CorB>255</CorB>
+    <CorR>128</CorR>
+    <CorG>0</CorG>
+    <CorB>0</CorB>
     <Direcao>3</Direcao>
     <ValorAB>0.0173</ValorAB>
     <ValorBA>0.0693</ValorBA>
@@ -329,9 +329,9 @@
   <TableLinhas>
     <CaixaInicio>6</CaixaInicio>
     <CaixaFim>7</CaixaFim>
-    <CorR>255</CorR>
-    <CorG>255</CorG>
-    <CorB>255</CorB>
+    <CorR>128</CorR>
+    <CorG>0</CorG>
+    <CorB>0</CorB>
     <Direcao>1</Direcao>
     <ValorAB>0.00578</ValorAB>
     <ValorBA>0</ValorBA>
@@ -339,9 +339,9 @@
   <TableLinhas>
     <CaixaInicio>8</CaixaInicio>
     <CaixaFim>4</CaixaFim>
-    <CorR>255</CorR>
-    <CorG>255</CorG>
-    <CorB>255</CorB>
+    <CorR>128</CorR>
+    <CorG>0</CorG>
+    <CorB>0</CorB>
     <Direcao>3</Direcao>
     <ValorAB>0.0693</ValorAB>
     <ValorBA>2.04</ValorBA>
@@ -349,9 +349,9 @@
   <TableLinhas>
     <CaixaInicio>9</CaixaInicio>
     <CaixaFim>10</CaixaFim>
-    <CorR>255</CorR>
-    <CorG>255</CorG>
-    <CorB>255</CorB>
+    <CorR>128</CorR>
+    <CorG>0</CorG>
+    <CorB>0</CorB>
     <Direcao>1</Direcao>
     <ValorAB>0.00578</ValorAB>
     <ValorBA>0</ValorBA>
@@ -359,9 +359,9 @@
   <TableLinhas>
     <CaixaInicio>9</CaixaInicio>
     <CaixaFim>8</CaixaFim>
-    <CorR>255</CorR>
-    <CorG>255</CorG>
-    <CorB>255</CorB>
+    <CorR>128</CorR>
+    <CorG>0</CorG>
+    <CorB>0</CorB>
     <Direcao>3</Direcao>
     <ValorAB>0.0173</ValorAB>
     <ValorBA>0.0693</ValorBA>
@@ -369,9 +369,9 @@
   <TableLinhas>
     <CaixaInicio>4</CaixaInicio>
     <CaixaFim>11</CaixaFim>
-    <CorR>255</CorR>
-    <CorG>255</CorG>
-    <CorB>255</CorB>
+    <CorR>128</CorR>
+    <CorG>0</CorG>
+    <CorB>0</CorB>
     <Direcao>3</Direcao>
     <ValorAB>0.245</ValorAB>
     <ValorBA>0.347</ValorBA>
@@ -379,9 +379,9 @@
   <TableLinhas>
     <CaixaInicio>13</CaixaInicio>
     <CaixaFim>12</CaixaFim>
-    <CorR>255</CorR>
-    <CorG>255</CorG>
-    <CorB>255</CorB>
+    <CorR>128</CorR>
+    <CorG>0</CorG>
+    <CorB>0</CorB>
     <Direcao>1</Direcao>
     <ValorAB>0.00693</ValorAB>
     <ValorBA>0</ValorBA>
@@ -389,9 +389,9 @@
   <TableLinhas>
     <CaixaInicio>12</CaixaInicio>
     <CaixaFim>4</CaixaFim>
-    <CorR>255</CorR>
-    <CorG>255</CorG>
-    <CorB>255</CorB>
+    <CorR>128</CorR>
+    <CorG>0</CorG>
+    <CorB>0</CorB>
     <Direcao>1</Direcao>
     <ValorAB>0.00019</ValorAB>
     <ValorBA>0</ValorBA>
@@ -399,9 +399,9 @@
   <TableLinhas>
     <CaixaInicio>14</CaixaInicio>
     <CaixaFim>15</CaixaFim>
-    <CorR>255</CorR>
-    <CorG>255</CorG>
-    <CorB>255</CorB>
+    <CorR>128</CorR>
+    <CorG>0</CorG>
+    <CorB>0</CorB>
     <Direcao>1</Direcao>
     <ValorAB>0</ValorAB>
     <ValorBA>0</ValorBA>
@@ -409,9 +409,9 @@
   <TableLinhas>
     <CaixaInicio>4</CaixaInicio>
     <CaixaFim>14</CaixaFim>
-    <CorR>255</CorR>
-    <CorG>255</CorG>
-    <CorB>255</CorB>
+    <CorR>128</CorR>
+    <CorG>0</CorG>
+    <CorB>0</CorB>
     <Direcao>1</Direcao>
     <ValorAB>0.122</ValorAB>
     <ValorBA>0</ValorBA>
@@ -419,9 +419,9 @@
   <TableLinhas>
     <CaixaInicio>4</CaixaInicio>
     <CaixaFim>16</CaixaFim>
-    <CorR>255</CorR>
-    <CorG>255</CorG>
-    <CorB>255</CorB>
+    <CorR>128</CorR>
+    <CorG>0</CorG>
+    <CorB>0</CorB>
     <Direcao>3</Direcao>
     <ValorAB>0.0122</ValorAB>
     <ValorBA>0.00038</ValorBA>
@@ -429,9 +429,9 @@
   <TableLinhas>
     <CaixaInicio>4</CaixaInicio>
     <CaixaFim>17</CaixaFim>
-    <CorR>255</CorR>
-    <CorG>255</CorG>
-    <CorB>255</CorB>
+    <CorR>128</CorR>
+    <CorG>0</CorG>
+    <CorB>0</CorB>
     <Direcao>1</Direcao>
     <ValorAB>2.94</ValorAB>
     <ValorBA>0</ValorBA>
@@ -439,9 +439,9 @@
   <TableLinhas>
     <CaixaInicio>17</CaixaInicio>
     <CaixaFim>18</CaixaFim>
-    <CorR>255</CorR>
-    <CorG>255</CorG>
-    <CorB>255</CorB>
+    <CorR>128</CorR>
+    <CorG>0</CorG>
+    <CorB>0</CorB>
     <Direcao>1</Direcao>
     <ValorAB>0.099</ValorAB>
     <ValorBA>0</ValorBA>
@@ -449,9 +449,9 @@
   <TableLinhas>
     <CaixaInicio>4</CaixaInicio>
     <CaixaFim>18</CaixaFim>
-    <CorR>255</CorR>
-    <CorG>255</CorG>
-    <CorB>255</CorB>
+    <CorR>128</CorR>
+    <CorG>0</CorG>
+    <CorB>0</CorB>
     <Direcao>1</Direcao>
     <ValorAB>15.43</ValorAB>
     <ValorBA>0</ValorBA>
@@ -459,9 +459,9 @@
   <TableLinhas>
     <CaixaInicio>18</CaixaInicio>
     <CaixaFim>19</CaixaFim>
-    <CorR>255</CorR>
-    <CorG>255</CorG>
-    <CorB>255</CorB>
+    <CorR>128</CorR>
+    <CorG>0</CorG>
+    <CorB>0</CorB>
     <Direcao>1</Direcao>
     <ValorAB>0</ValorAB>
     <ValorBA>0</ValorBA>
@@ -469,9 +469,9 @@
   <TableLinhas>
     <CaixaInicio>4</CaixaInicio>
     <CaixaFim>13</CaixaFim>
-    <CorR>255</CorR>
-    <CorG>255</CorG>
-    <CorB>255</CorB>
+    <CorR>128</CorR>
+    <CorG>0</CorG>
+    <CorB>0</CorB>
     <Direcao>3</Direcao>
     <ValorAB>0.367</ValorAB>
     <ValorBA>0.092</ValorBA>
@@ -479,9 +479,9 @@
   <TableLinhas>
     <CaixaInicio>4</CaixaInicio>
     <CaixaFim>1</CaixaFim>
-    <CorR>255</CorR>
-    <CorG>255</CorG>
-    <CorB>255</CorB>
+    <CorR>128</CorR>
+    <CorG>0</CorG>
+    <CorB>0</CorB>
     <Direcao>3</Direcao>
     <ValorAB>1.63</ValorAB>
     <ValorBA>0.0347</ValorBA>
@@ -489,9 +489,9 @@
   <TableLinhas>
     <CaixaInicio>7</CaixaInicio>
     <CaixaFim>4</CaixaFim>
-    <CorR>255</CorR>
-    <CorG>255</CorG>
-    <CorB>255</CorB>
+    <CorR>128</CorR>
+    <CorG>0</CorG>
+    <CorB>0</CorB>
     <Direcao>1</Direcao>
     <ValorAB>8.21E-05</ValorAB>
     <ValorBA>0</ValorBA>
@@ -499,9 +499,9 @@
   <TableLinhas>
     <CaixaInicio>10</CaixaInicio>
     <CaixaFim>4</CaixaFim>
-    <CorR>255</CorR>
-    <CorG>255</CorG>
-    <CorB>255</CorB>
+    <CorR>128</CorR>
+    <CorG>0</CorG>
+    <CorB>0</CorB>
     <Direcao>1</Direcao>
     <ValorAB>0.493</ValorAB>
     <ValorBA>0</ValorBA>
