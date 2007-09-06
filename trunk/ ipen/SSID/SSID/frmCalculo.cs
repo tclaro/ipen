@@ -102,7 +102,7 @@ namespace SSID
                     {
                         
                         str.Append("\t");
-                        str.Append(xt[indice].ToString("e20"));
+                        str.Append(xt[indice].ToString("e10"));
                         
                         if (C.Eliminacao)
                         {
@@ -115,7 +115,7 @@ namespace SSID
                 }
 
                 str.Append("\t");
-                str.Append(SomaCompartimentos.ToString("e20"));
+                str.Append(SomaCompartimentos.ToString("e10"));
                 str.Append("\n");
                 Tempo = Tempo + Passo;
                 
@@ -140,6 +140,7 @@ namespace SSID
 
         private GraphPane CreateChart(Object[] coisas, ZedGraphControl zgc)
         {
+            
             GraphPane myPane = zgc.GraphPane;
             myPane.CurveList.Clear();
 
@@ -530,13 +531,5 @@ namespace SSID
             config.Save(ConfigurationSaveMode.Modified);
             ConfigurationManager.RefreshSection("appSettings");
         }
-
-        private void lblTempoDecorrido_Click(object sender, EventArgs e)
-        {
-            MessageBox.Show(Double.MaxValue.ToString());
-        }
-
-
-
     }
 }
