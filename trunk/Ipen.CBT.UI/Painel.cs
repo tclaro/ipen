@@ -4,9 +4,9 @@ using System.Text;
 using System.Windows.Forms;
 using System.Drawing;
 using System.Drawing.Drawing2D;
-using CompartimentalModel;
+using Ipen.CompartimentalModel;
 
-namespace CBT
+namespace Ipen.CBT.UI
 {
     public class Painel : Panel
     {

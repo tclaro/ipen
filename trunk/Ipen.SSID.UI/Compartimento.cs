@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace SSID
+namespace Ipen.SSID.UI
 {
     class Compartimento
     {

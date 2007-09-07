@@ -3,9 +3,9 @@ using System.Drawing;
 using System.Collections;
 using System.ComponentModel;
 using System.Windows.Forms;
-using CompartimentalModel;
+using Ipen.CompartimentalModel;
 
-namespace CBT
+namespace Ipen.CBT.UI
 {
 	/// <summary>
 	/// Summary description for CaixaProp.

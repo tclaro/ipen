@@ -5,9 +5,9 @@ using System.Data;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
-using CompartimentalModel;
+using Ipen.CompartimentalModel;
 
-namespace CBT
+namespace Ipen.CBT.UI
 {
     public partial class frmEditModelo : Form
     {

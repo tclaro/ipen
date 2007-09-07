@@ -9,7 +9,7 @@ using System.Collections;
 using ZedGraph;
 using System.Configuration;
 
-namespace SSID
+namespace Ipen.SSID.UI
 {
     public partial class Form1 : Form
     {

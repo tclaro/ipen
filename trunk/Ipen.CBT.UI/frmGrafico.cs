@@ -4,8 +4,9 @@ using System.Collections;
 using System.ComponentModel;
 using System.Windows.Forms;
 using System.Data;
+using Ipen.CompartimentalModel;
 
-namespace CBT
+namespace Ipen.CBT.UI
 {
     /// <summary>
     /// Summary description for Form1.
@@ -102,7 +103,7 @@ namespace CBT
             this.mnuContextual = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.mnuContextualPropriedades = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuContextualExcluir = new System.Windows.Forms.ToolStripMenuItem();
-            this.canvas = new CBT.Desktop();
+            this.canvas = new Ipen.CBT.UI.Desktop();
             this.mnu.SuspendLayout();
             this.mnuContextual.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.canvas)).BeginInit();

@@ -4,7 +4,7 @@ using System.Text;
 using System.Data.OleDb;
 // teste 22-05-2007
 
-namespace SSID
+namespace Ipen.SSID.UI
 {
     class Conexao
     {

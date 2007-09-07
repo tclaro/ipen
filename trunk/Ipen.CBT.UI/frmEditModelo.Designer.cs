@@ -1,4 +1,4 @@
-namespace CBT
+namespace Ipen.CBT.UI
 {
     partial class frmEditModelo
     {

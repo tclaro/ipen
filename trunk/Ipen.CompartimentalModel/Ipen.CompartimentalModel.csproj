@@ -4,11 +4,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.50727</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{F471FD47-CA81-49DD-B1DA-298BD78D69ED}</ProjectGuid>
+    <ProjectGuid>{E45650F2-C522-47DB-87F2-F97DA67E22F4}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>CompartimentalModel</RootNamespace>
-    <AssemblyName>CompartimentalModel</AssemblyName>
+    <RootNamespace>Ipen.CompartimentalModel</RootNamespace>
+    <AssemblyName>Ipen.CompartimentalModel</AssemblyName>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>

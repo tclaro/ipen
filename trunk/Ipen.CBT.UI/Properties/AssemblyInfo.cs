@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Ipen.SSID.UI")]
+[assembly: AssemblyTitle("Ipen.CBT.UI")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Ipen.SSID.UI")]
+[assembly: AssemblyProduct("Ipen.CBT.UI")]
 [assembly: AssemblyCopyright("Copyright ©  2007")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("8c173ee3-bbb7-4fc8-9a73-3fb72e8a8b29")]
+[assembly: Guid("02073ecb-6a27-49ee-9f62-793fee12e2ad")]
 
 // Version information for an assembly consists of the following four values:
 //

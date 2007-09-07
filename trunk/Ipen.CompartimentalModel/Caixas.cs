@@ -4,7 +4,7 @@ using System.Drawing.Drawing2D;
 using System.Windows.Forms;
 using System.ComponentModel;
 
-namespace CompartimentalModel
+namespace Ipen.CompartimentalModel
 {
 	/// <summary>
 	/// Summary description for Caixas.

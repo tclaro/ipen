@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace CompartimentalModel
+namespace Ipen.CompartimentalModel
 {
     class Reservatorio : System.Data.DataSet
     {

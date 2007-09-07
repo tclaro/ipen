@@ -1,4 +1,4 @@
-namespace SSID
+namespace Ipen.SSID.UI
 {
     partial class frmGrafico
     {

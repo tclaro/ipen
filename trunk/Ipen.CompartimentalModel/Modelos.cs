@@ -4,7 +4,7 @@ using System.Text;
 using System.Data.OleDb;
 using System.Data;
 
-namespace CompartimentalModel
+namespace Ipen.CompartimentalModel
 {
     public class Modelos
     {
