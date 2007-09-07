@@ -61,6 +61,20 @@ namespace CompartimentalModel
             get { return base.Size; }
             set { base.Size = value; VerificarTamanho(); }
         }
+        public override Color BackColor
+        {
+            get { return base.BackColor; }
+            set
+            {
+                if (base.BackColor == value)
+                    return;
+                base.BackColor = value;
+                BoxEventArgs be = new BoxEventArgs();
+                be.Box = this;
+                be.EventType = BoxEventArgs.BoxEventTypes.PropertyChanged;
+                OnPropertyChanged(be);
+            }
+        }
         public new Size DefaultSize
         {
             get { return new Size(60, 50); }
