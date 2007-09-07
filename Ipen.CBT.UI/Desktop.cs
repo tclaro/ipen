@@ -2,8 +2,9 @@ using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
+using Ipen.CompartimentalModel;
 
-namespace CBT
+namespace Ipen.CBT.UI
 {
 	/// <summary>
 	/// Summary description for Desktop.

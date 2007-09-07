@@ -7,7 +7,7 @@ using System.Text;
 using System.Windows.Forms;
 using ZedGraph;
 
-namespace SSID
+namespace Ipen.SSID.UI
 {
     public partial class frmGrafico : Form
     {

@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 
-namespace Ipen.SSID.UI
+namespace Ipen.CBT.UI
 {
     static class Program
     {
@@ -14,7 +14,7 @@ namespace Ipen.SSID.UI
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());
+            Application.Run(new frmPrincipal());
         }
     }
 }

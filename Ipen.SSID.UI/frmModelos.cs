@@ -5,10 +5,10 @@ using System.Data;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
-using CompartimentalModel;
+using Ipen.CompartimentalModel;
 
 
-namespace SSID
+namespace Ipen.SSID.UI
 {
     public partial class frmModelos : Form
     {
@@ -25,7 +25,7 @@ namespace SSID
         private void carregarModelos(string Arquivo)
         {
             Modelos modelo = new Modelos();
-            Conexao.Arquivo = Arquivo;
+//            Conexao.Arquivo = Arquivo;
             DataTable dt = DataBD.SelecionarModelos();
             dgvModelos.DataSource = null;
             dgvModelos.DataSource = dt;

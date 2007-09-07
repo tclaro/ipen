@@ -6,9 +6,9 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using System.Configuration;
-using CompartimentalModel;
+using Ipen.CompartimentalModel;
 
-namespace CBT
+namespace Ipen.CBT.UI
 {
     public partial class frmPrincipal : Form
     {
@@ -16,7 +16,7 @@ namespace CBT
         private StatusPossiveis statusAtual;
         private Caixas criaLinha1;
         private Caixas criaLinha2;
-
+        
         private string _ArquivoAberto = "";
 
         private enum StatusPossiveis
@@ -138,8 +138,8 @@ namespace CBT
             saveFile.RestoreDirectory = true;
             if (saveFile.ShowDialog() == DialogResult.OK)
             {
-                return saveFile.FileName;
                 GravarSettings("XMLPath", saveFile.FileName);
+                return saveFile.FileName;
             }
             else
                 return "";
@@ -332,7 +332,7 @@ namespace CBT
 
         private string LerSettings(string Chave)
         {
-            return ConfigurationManager.AppSettings[Chave];
+            return System.Configuration.ConfigurationManager.AppSettings[Chave];
         }
 
         private void GravarSettings(string Chave, string Valor)

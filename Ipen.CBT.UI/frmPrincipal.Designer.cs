@@ -1,5 +1,5 @@
 using System.Windows.Forms;
-namespace CBT
+namespace Ipen.CBT.UI
 {
     partial class frmPrincipal
     {

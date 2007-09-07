@@ -4,12 +4,13 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.50727</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{33846C07-B5BC-4744-A3CF-A112CB507EDF}</ProjectGuid>
+    <ProjectGuid>{850662FA-1CF9-4AFE-B3D0-5D2D8D3C349D}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SSID</RootNamespace>
-    <AssemblyName>SSID</AssemblyName>
-    <ApplicationIcon>kalzium.ico</ApplicationIcon>
+    <RootNamespace>Ipen.CBT.UI</RootNamespace>
+    <AssemblyName>CBT</AssemblyName>
+    <StartupObject>Ipen.CBT.UI.Program</StartupObject>
+    <ApplicationIcon>LimeWire.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -19,7 +20,6 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -37,43 +37,69 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
-    <Reference Include="ZedGraph, Version=5.0.4.13542, Culture=neutral, PublicKeyToken=02a83cbd123fcd60, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\ZedGraph\zedgraph_dll_5.0.4\ZedGraph.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Compartimento.cs" />
-    <Compile Include="frmCalculo.cs">
+    <Compile Include="CaixaProp.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmCalculo.Designer.cs">
-      <DependentUpon>frmCalculo.cs</DependentUpon>
+    <Compile Include="Desktop.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="frmEditModelo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmEditModelo.Designer.cs">
+      <DependentUpon>frmEditModelo.cs</DependentUpon>
     </Compile>
     <Compile Include="frmGrafico.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmGrafico.Designer.cs">
-      <DependentUpon>frmGrafico.cs</DependentUpon>
-    </Compile>
     <Compile Include="frmModelos.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmModelos.designer.cs">
+    <Compile Include="frmModelos.Designer.cs">
       <DependentUpon>frmModelos.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmPrincipal.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmPrincipal.Designer.cs">
+      <DependentUpon>frmPrincipal.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LinhaProp.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Painel.cs">
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="frmCalculo.resx">
-      <DependentUpon>frmCalculo.cs</DependentUpon>
+    <EmbeddedResource Include="CaixaProp.resx">
+      <DependentUpon>CaixaProp.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Desktop.resx">
+      <DependentUpon>Desktop.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmEditModelo.resx">
+      <DependentUpon>frmEditModelo.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="frmGrafico.resx">
-      <SubType>Designer</SubType>
       <DependentUpon>frmGrafico.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="frmModelos.resx">
       <DependentUpon>frmModelos.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmPrincipal.resx">
+      <DependentUpon>frmPrincipal.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LinhaProp.resx">
+      <DependentUpon>LinhaProp.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -84,10 +110,8 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
     </Compile>
-    <None Include="App.config">
-    </None>
+    <None Include="app.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -99,15 +123,12 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="kalzium.ico" />
-    <Content Include="ZedGraph.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
+    <Content Include="LimeWire.ico" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\CompartimentalModel\CompartimentalModel\CompartimentalModel.csproj">
-      <Project>{F471FD47-CA81-49DD-B1DA-298BD78D69ED}</Project>
-      <Name>CompartimentalModel</Name>
+    <ProjectReference Include="..\Ipen.CompartimentalModel\Ipen.CompartimentalModel.csproj">
+      <Project>{E45650F2-C522-47DB-87F2-F97DA67E22F4}</Project>
+      <Name>Ipen.CompartimentalModel</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
