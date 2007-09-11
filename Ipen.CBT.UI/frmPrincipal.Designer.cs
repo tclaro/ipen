@@ -57,6 +57,7 @@ namespace Ipen.CBT.UI
             this.cadastrarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.modelosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.exibirRótuloDeTransferênciasToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mnu.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -255,9 +256,11 @@ namespace Ipen.CBT.UI
             // 
             // mnuFerramentasOpcoes
             // 
+            this.mnuFerramentasOpcoes.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.exibirRótuloDeTransferênciasToolStripMenuItem});
             this.mnuFerramentasOpcoes.Name = "mnuFerramentasOpcoes";
             this.mnuFerramentasOpcoes.Size = new System.Drawing.Size(228, 22);
-            this.mnuFerramentasOpcoes.Text = "&Opções...";
+            this.mnuFerramentasOpcoes.Text = "&Opções";
             this.mnuFerramentasOpcoes.Click += new System.EventHandler(this.mnuFerramentasOpcoes_Click);
             // 
             // configurarBancoDeDadosToolStripMenuItem
@@ -289,6 +292,15 @@ namespace Ipen.CBT.UI
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(851, 590);
             this.panel1.TabIndex = 2;
+            // 
+            // exibirRótuloDeTransferênciasToolStripMenuItem
+            // 
+            this.exibirRótuloDeTransferênciasToolStripMenuItem.Checked = true;
+            this.exibirRótuloDeTransferênciasToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.exibirRótuloDeTransferênciasToolStripMenuItem.Name = "exibirRótuloDeTransferênciasToolStripMenuItem";
+            this.exibirRótuloDeTransferênciasToolStripMenuItem.Size = new System.Drawing.Size(234, 22);
+            this.exibirRótuloDeTransferênciasToolStripMenuItem.Text = "Exibir Rótulo de Transferências";
+            this.exibirRótuloDeTransferênciasToolStripMenuItem.Click += new System.EventHandler(this.exibirRótuloDeTransferênciasToolStripMenuItem_Click);
             // 
             // frmPrincipal
             // 
@@ -337,5 +349,6 @@ namespace Ipen.CBT.UI
         private System.Windows.Forms.ToolStripMenuItem modelosToolStripMenuItem;
         private Panel panel1;
         private ToolStripMenuItem configurarBancoDeDadosToolStripMenuItem;
+        private ToolStripMenuItem exibirRótuloDeTransferênciasToolStripMenuItem;
     }
 }

@@ -39,7 +39,7 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="CaixasCollection.cs" />
-    <Compile Include="Conexao.cs" />
+    <Compile Include="Configuracoes.cs" />
     <Compile Include="DataBD.cs" />
     <Compile Include="DataXML.cs" />
     <Compile Include="DrawingUtils.cs" />

@@ -176,6 +176,9 @@ namespace Ipen.CBT.UI
             #region Desenhar Linhas
             foreach (Linhas ln in this.SistemaCompartimental.Linhas)
             {
+                if (!ln.Redesenhar)
+                    //continue;
+
                 //Desenha a seta
                 if (ln.DirecaoDaLinha == Linhas.Direcao.InicioParaFim || ln.DirecaoDaLinha == Linhas.Direcao.Ambos)
                     DesenharSetaDirecao(ln.CaixaFim, ln, ln.CaixaInicio, e.Graphics);
@@ -186,24 +189,27 @@ namespace Ipen.CBT.UI
                 e.Graphics.DrawLine(new Pen(ln.ForeColor), ln.PontoInicio, ln.PontoFim);
 
                 //Label da Linha
-                if (ln.DirecaoDaLinha != Linhas.Direcao.Ambos)
+                if (Configuracoes.ExibirRotulos)
                 {
-                    System.Drawing.SizeF tamanho = e.Graphics.MeasureString(ln.Nome, ln.Font);
-                    e.Graphics.FillRectangle(System.Drawing.Brushes.White, (ln.PontoCentral.X - tamanho.Width / 2) - 1, (ln.PontoCentral.Y - tamanho.Height / 2) - 1, tamanho.Width + 2, tamanho.Height + 2);
-                    e.Graphics.DrawString(ln.Nome, ln.Font, new System.Drawing.SolidBrush(ln.ForeColor), ln.PontoCentral.X - tamanho.Width / 2, ln.PontoCentral.Y - tamanho.Height / 2);
-                    e.Graphics.DrawRectangle(new Pen(ln.ForeColor), (ln.PontoCentral.X - tamanho.Width / 2) - 1, (ln.PontoCentral.Y - tamanho.Height / 2) - 1, tamanho.Width + 2, tamanho.Height + 2);
-                }
-                else
-                {
-                    System.Drawing.SizeF tamanho = e.Graphics.MeasureString(ln.NomeAB, ln.Font);
-                    e.Graphics.FillRectangle(System.Drawing.Brushes.White, (ln.PontoTercoInicio.X - tamanho.Width / 2) - 1, (ln.PontoTercoInicio.Y - tamanho.Height / 2) - 1, tamanho.Width + 2, tamanho.Height + 2);
-                    e.Graphics.DrawString(ln.NomeAB, ln.Font, new System.Drawing.SolidBrush(ln.ForeColor), ln.PontoTercoInicio.X - tamanho.Width / 2, ln.PontoTercoInicio.Y - tamanho.Height / 2);
-                    e.Graphics.DrawRectangle(new Pen(ln.ForeColor), (ln.PontoTercoInicio.X - tamanho.Width / 2) - 1, (ln.PontoTercoInicio.Y - tamanho.Height / 2) - 1, tamanho.Width + 2, tamanho.Height + 2);
-                    
-                    System.Drawing.SizeF tamanho2 = e.Graphics.MeasureString(ln.NomeBA, ln.Font);
-                    e.Graphics.FillRectangle(System.Drawing.Brushes.White, (ln.PontoTercoFim.X - tamanho2.Width / 2) - 1, (ln.PontoTercoFim.Y - tamanho2.Height / 2) - 1, tamanho2.Width + 2, tamanho2.Height + 2);
-                    e.Graphics.DrawString(ln.NomeBA, ln.Font, new System.Drawing.SolidBrush(ln.ForeColor), ln.PontoTercoFim.X - tamanho2.Width / 2, ln.PontoTercoFim.Y - tamanho2.Height / 2);
-                    e.Graphics.DrawRectangle(new Pen(ln.ForeColor), (ln.PontoTercoFim.X - tamanho2.Width / 2) - 1, (ln.PontoTercoFim.Y - tamanho2.Height / 2) - 1, tamanho2.Width + 2, tamanho2.Height + 2);
+                    if (ln.DirecaoDaLinha != Linhas.Direcao.Ambos)
+                    {
+                        System.Drawing.SizeF tamanho = e.Graphics.MeasureString(ln.Nome, ln.Font);
+                        e.Graphics.FillRectangle(System.Drawing.Brushes.White, (ln.PontoCentral.X - tamanho.Width / 2) - 1, (ln.PontoCentral.Y - tamanho.Height / 2) - 1, tamanho.Width + 2, tamanho.Height + 2);
+                        e.Graphics.DrawString(ln.Nome, ln.Font, new System.Drawing.SolidBrush(ln.ForeColor), ln.PontoCentral.X - tamanho.Width / 2, ln.PontoCentral.Y - tamanho.Height / 2);
+                        e.Graphics.DrawRectangle(new Pen(ln.ForeColor), (ln.PontoCentral.X - tamanho.Width / 2) - 1, (ln.PontoCentral.Y - tamanho.Height / 2) - 1, tamanho.Width + 2, tamanho.Height + 2);
+                    }
+                    else
+                    {
+                        System.Drawing.SizeF tamanho = e.Graphics.MeasureString(ln.NomeAB, ln.Font);
+                        e.Graphics.FillRectangle(System.Drawing.Brushes.White, (ln.PontoTercoInicio.X - tamanho.Width / 2) - 1, (ln.PontoTercoInicio.Y - tamanho.Height / 2) - 1, tamanho.Width + 2, tamanho.Height + 2);
+                        e.Graphics.DrawString(ln.NomeAB, ln.Font, new System.Drawing.SolidBrush(ln.ForeColor), ln.PontoTercoInicio.X - tamanho.Width / 2, ln.PontoTercoInicio.Y - tamanho.Height / 2);
+                        e.Graphics.DrawRectangle(new Pen(ln.ForeColor), (ln.PontoTercoInicio.X - tamanho.Width / 2) - 1, (ln.PontoTercoInicio.Y - tamanho.Height / 2) - 1, tamanho.Width + 2, tamanho.Height + 2);
+
+                        System.Drawing.SizeF tamanho2 = e.Graphics.MeasureString(ln.NomeBA, ln.Font);
+                        e.Graphics.FillRectangle(System.Drawing.Brushes.White, (ln.PontoTercoFim.X - tamanho2.Width / 2) - 1, (ln.PontoTercoFim.Y - tamanho2.Height / 2) - 1, tamanho2.Width + 2, tamanho2.Height + 2);
+                        e.Graphics.DrawString(ln.NomeBA, ln.Font, new System.Drawing.SolidBrush(ln.ForeColor), ln.PontoTercoFim.X - tamanho2.Width / 2, ln.PontoTercoFim.Y - tamanho2.Height / 2);
+                        e.Graphics.DrawRectangle(new Pen(ln.ForeColor), (ln.PontoTercoFim.X - tamanho2.Width / 2) - 1, (ln.PontoTercoFim.Y - tamanho2.Height / 2) - 1, tamanho2.Width + 2, tamanho2.Height + 2);
+                    }
                 }
             }
             #endregion

@@ -25,6 +25,7 @@ namespace Ipen.CBT.UI
             SolicitandoLinhaA,
             SolicitandoLinhaB
         }
+
         public frmPrincipal()
         {
             InitializeComponent();
@@ -36,6 +37,14 @@ namespace Ipen.CBT.UI
             PnlCanvas.BoxModifyRequest += new Painel.BoxModifyRequestHandle(pnlCanvas_BoxModifyRequest);
             PnlCanvas.SistemaCompartimental.BoxClick += new EventHandler(SistemaCompartimental_BoxClick);
             this.panel1.Controls.Add(this.PnlCanvas);
+            AjustarRotulos();
+        }
+
+        private void AjustarRotulos()
+        {
+            bool Exibir = Convert.ToBoolean(LerSettings("Rotulos"));
+            exibirRótuloDeTransferênciasToolStripMenuItem.Checked = Exibir;
+            Configuracoes.ExibirRotulos = Exibir;
         }
 
         #region Métodos de eventos
@@ -73,16 +82,7 @@ namespace Ipen.CBT.UI
             }
         }
 
-        /// <summary>
-        /// Limpa a coleção e a tela
-        /// </summary>
-        private void LimparColecao()
-        {   
-            //Limpa a colecao e a tela?
-            this.PnlCanvas.SistemaCompartimental.Clear();
-            this.PnlCanvas.Controls.Clear();
-            this.PnlCanvas.Refresh();
-        }
+
 
         private void mnuArquivoAbrir_Click(object sender, EventArgs e)
         {
@@ -164,6 +164,35 @@ namespace Ipen.CBT.UI
             Salvar(nomeArquivo);
         }
 
+        private void configurarBancoDeDadosToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            string caminhoInicial = LerSettings("MDBPath");
+
+            if (caminhoInicial == "")
+                caminhoInicial = "c:\\";
+
+            OpenFileDialog openFile = new OpenFileDialog();
+            openFile.InitialDirectory = caminhoInicial;
+            openFile.DefaultExt = "mdb";
+            openFile.Filter = "Microsoft Office Access (*.mdb)|*.mdb";
+            openFile.RestoreDirectory = true;
+            openFile.Multiselect = false;
+            if (openFile.ShowDialog() == DialogResult.OK)
+            {
+                Configuracoes.Arquivo = openFile.FileName;
+                if (openFile.FileName != caminhoInicial)
+                    GravarSettings("MDBPath", openFile.FileName);
+            }
+        }
+
+        private void exibirRótuloDeTransferênciasToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            bool Exibir = !exibirRótuloDeTransferênciasToolStripMenuItem.Checked;
+            exibirRótuloDeTransferênciasToolStripMenuItem.Checked = Exibir;
+            CompartimentalModel.Configuracoes.ExibirRotulos = Exibir;
+            GravarSettings("Rotulos", Exibir.ToString());
+        }
+
         private void mnuArquivoVisualizarImpressao_Click(object sender, EventArgs e)
         {
 
@@ -216,7 +245,7 @@ namespace Ipen.CBT.UI
 
         private void modelosToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (Conexao.Arquivo == null)
+            if (Configuracoes.Arquivo == null)
             {
                 MessageBox.Show("Antes, use a opção \"Configurar banco de dados\" no menu ferramentas", "Atenção", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 return;
@@ -225,6 +254,17 @@ namespace Ipen.CBT.UI
             F.Show();
         }
         #endregion
+
+        /// <summary>
+        /// Limpa a coleção e a tela
+        /// </summary>
+        private void LimparColecao()
+        {
+            //Limpa a colecao e a tela?
+            this.PnlCanvas.SistemaCompartimental.Clear();
+            this.PnlCanvas.Controls.Clear();
+            this.PnlCanvas.Refresh();
+        }
         
         private void SolicitarNovaCaixa()
         {
@@ -309,26 +349,7 @@ namespace Ipen.CBT.UI
             }
         }
 
-        private void configurarBancoDeDadosToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            string caminhoInicial = LerSettings("MDBPath");
 
-            if (caminhoInicial == "") 
-                caminhoInicial = "c:\\";
-
-            OpenFileDialog openFile = new OpenFileDialog();
-            openFile.InitialDirectory = caminhoInicial;
-            openFile.DefaultExt = "mdb";
-            openFile.Filter = "Microsoft Office Access (*.mdb)|*.mdb";
-            openFile.RestoreDirectory = true;
-            openFile.Multiselect = false;
-            if (openFile.ShowDialog() == DialogResult.OK)
-            {
-                Conexao.Arquivo = openFile.FileName;
-                if (openFile.FileName != caminhoInicial)
-                    GravarSettings("MDBPath", openFile.FileName);
-            }
-        }
 
         private string LerSettings(string Chave)
         {
@@ -342,6 +363,8 @@ namespace Ipen.CBT.UI
             config.Save(ConfigurationSaveMode.Modified);
             ConfigurationManager.RefreshSection("appSettings");
         }
+
+
 
     }
 }

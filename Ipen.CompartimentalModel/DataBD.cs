@@ -23,7 +23,7 @@ namespace Ipen.CompartimentalModel
             //ExcluirColecao(idModelo);
 
             OleDbConnection cn;
-            cn = Conexao.Conectar();
+            cn = Configuracoes.Conectar();
             OleDbCommand cmd = cn.CreateCommand();
             string textoSql = "DELETE FROM MODELO where idModelo = " + idModelo.ToString();
             cmd.CommandText = textoSql;
@@ -35,7 +35,7 @@ namespace Ipen.CompartimentalModel
         private static void IncluirModelo(Modelos M)
         {
             OleDbConnection cn;
-            cn = Conexao.Conectar();
+            cn = Configuracoes.Conectar();
             OleDbCommand cmd = cn.CreateCommand();
             string textoSql = "INSERT INTO MODELO (nmModelo, dtCriacao, dtAlteracao, Descricao) VALUES (@nmModelo, @dtCriacao, @dtAlteracao, @Descricao);";
                 
@@ -58,7 +58,7 @@ namespace Ipen.CompartimentalModel
         private static void AlterarModelo(Modelos M)
         {
             OleDbConnection cn;
-            cn = Conexao.Conectar();
+            cn = Configuracoes.Conectar();
             OleDbCommand cmd = cn.CreateCommand();
             string textoSql = "UPDATE MODELO " +
                         "set nmModelo = @nmModelo, " +
@@ -96,7 +96,7 @@ namespace Ipen.CompartimentalModel
         private static void ExcluirLinhas(int idModelo)
         {
             OleDbConnection cn;
-            cn = Conexao.Conectar();
+            cn = Configuracoes.Conectar();
             OleDbCommand cmd = cn.CreateCommand();
             string textoSql = "DELETE FROM TableLinhas WHERE idModelo = " + idModelo;
             cmd.CommandText = textoSql;
@@ -108,7 +108,7 @@ namespace Ipen.CompartimentalModel
         private static void ExcluirCaixas(int idModelo)
         {
             OleDbConnection cn;
-            cn = Conexao.Conectar();
+            cn = Configuracoes.Conectar();
             OleDbCommand cmd = cn.CreateCommand();
             string textoSql = "DELETE FROM TableCaixas WHERE idModelo = " + idModelo;
             cmd.CommandText = textoSql;
@@ -121,7 +121,7 @@ namespace Ipen.CompartimentalModel
         private static void IncluirCaixa(Caixas C, int idModelo)
         {
             OleDbConnection cn;
-            cn = Conexao.Conectar();
+            cn = Configuracoes.Conectar();
             OleDbCommand cmd = cn.CreateCommand();
             string textoSql = "INSERT INTO TableCaixas ( idModelo, Numero, Nome, [Left], [Top], Width, Height, CorR, CorG, CorB, Acompanhar, Eliminacao, Incorporacao, Fracao )" +
                 "VALUES (@idModelo, @Numero, @Nome, @Left, @Top, @Width, @Height, @CorR, @CorG, @CorB, @Acompanhar, @Eliminacao, @Incorporacao, @Fracao) ";
@@ -148,7 +148,7 @@ namespace Ipen.CompartimentalModel
         private static void IncluirLinha(Linhas L, int idModelo)
         {
             OleDbConnection cn;
-            cn = Conexao.Conectar();
+            cn = Configuracoes.Conectar();
             OleDbCommand cmd = cn.CreateCommand();
             string textoSql = "INSERT INTO TableLinhas ( idModelo, CaixaInicio, CaixaFim, CorR, CorG, CorB, Direcao, ValorAB, ValorBA )" +
                     "VALUES (@idModelo, @CaixaInicio, @CaixaFim, @CorR, @CorG, @CorB, @Direcao, @ValorAB, @ValorBA )";
@@ -170,7 +170,7 @@ namespace Ipen.CompartimentalModel
         public static DataTable SelecionarModelos()
         {
             OleDbConnection cn;
-            cn = Conexao.Conectar();
+            cn = Configuracoes.Conectar();
             string textoSql = "select idModelo, nmModelo, dtCriacao, Descricao " +
                                 "from Modelo order by idModelo";
             
@@ -189,7 +189,7 @@ namespace Ipen.CompartimentalModel
             OleDbConnection cn;
             Modelos Modelo = new Modelos();
 
-            cn = Conexao.Conectar();
+            cn = Configuracoes.Conectar();
             string textoSql = "select idModelo, nmModelo, dtCriacao, Descricao " +
                                 "from modelo M " +
                                 "where idModelo = " + cod.ToString();
@@ -220,7 +220,7 @@ namespace Ipen.CompartimentalModel
                         "WHERE idModelo = " + codModelo.ToString();
                         
             OleDbConnection cn;
-            cn = Conexao.Conectar();
+            cn = Configuracoes.Conectar();
             OleDbCommand cmd = cn.CreateCommand();
             cmd.CommandText = textoSQL;
             OleDbDataReader dr = cmd.ExecuteReader(CommandBehavior.CloseConnection);
@@ -264,7 +264,7 @@ namespace Ipen.CompartimentalModel
                 "Eliminacao, Incorporacao, Fracao FROM TableCaixas WHERE idModelo = " + codModelo.ToString() + 
             " ORDER BY Numero";
             OleDbConnection cn;
-            cn = Conexao.Conectar();
+            cn = Configuracoes.Conectar();
             OleDbCommand cmd = cn.CreateCommand();
             cmd.CommandText = textoSql;
             OleDbDataReader dr = cmd.ExecuteReader(CommandBehavior.CloseConnection);
