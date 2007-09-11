@@ -22,6 +22,7 @@ namespace Ipen.CompartimentalModel
         private Color backColor;
         private Color foreColor;
         private Font font;
+        private bool _Redesenhar; //teste maluco :)
         #endregion
 
 		#region Construtor
@@ -37,6 +38,7 @@ namespace Ipen.CompartimentalModel
             this.CaixaInicio = CaixaInicio;
             this.CaixaFim = CaixaFim;
             _Direcao = Fluxo;
+            _Redesenhar = false; //--> será?
             switch (_Direcao)
             {
                 case Direcao.InicioParaFim:
@@ -189,6 +191,19 @@ namespace Ipen.CompartimentalModel
 				this._EstaSelecionado = value;
 			}
 		}
+
+        public bool Redesenhar
+        {
+            get
+            {
+                return this._Redesenhar;
+            }
+            set
+            {
+                this._Redesenhar = value;
+            }
+        }
+
 		public float CoeficienteAngular
 		{
             get {
