@@ -51,6 +51,7 @@ namespace Ipen.CBT.UI
         }
         public void IncluirLinha(Linhas ln)
         {
+            //ln.Redesenhar = true;
             this._sistemaCompartimental.Linhas.Add(ln);
             this.Refresh();
         }
@@ -177,7 +178,7 @@ namespace Ipen.CBT.UI
             foreach (Linhas ln in this.SistemaCompartimental.Linhas)
             {
                 if (!ln.Redesenhar)
-                    //continue;
+                   //continue;
 
                 //Desenha a seta
                 if (ln.DirecaoDaLinha == Linhas.Direcao.InicioParaFim || ln.DirecaoDaLinha == Linhas.Direcao.Ambos)
