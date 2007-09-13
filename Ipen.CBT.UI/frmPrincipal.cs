@@ -104,14 +104,17 @@ namespace Ipen.CBT.UI
                 
                 interfaceXML.ImportarXML();
 
-                //Não funciona... 
+                //Não funciona... pq precisa passar pelo método "IncluirCaixa()"
                 //this.PnlCanvas.SistemaCompartimental.Caixas = interfaceXML.Caixas;
                 
                 foreach (Caixas cx in interfaceXML.Caixas)
                     this.PnlCanvas.IncluirCaixa(cx);
 
                 //aqui funciona
-                this.PnlCanvas.SistemaCompartimental.Linhas = interfaceXML.Linhas;
+                //this.PnlCanvas.SistemaCompartimental.Linhas = interfaceXML.Linhas;
+
+                foreach (Linhas ln in interfaceXML.Linhas)
+                    this.PnlCanvas.IncluirLinha(ln);
 
                 this.PnlCanvas.Refresh();
             }
@@ -190,6 +193,7 @@ namespace Ipen.CBT.UI
             bool Exibir = !exibirRótuloDeTransferênciasToolStripMenuItem.Checked;
             exibirRótuloDeTransferênciasToolStripMenuItem.Checked = Exibir;
             CompartimentalModel.Configuracoes.ExibirRotulos = Exibir;
+            this.PnlCanvas.Refresh();
             GravarSettings("Rotulos", Exibir.ToString());
         }
 

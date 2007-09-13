@@ -4,6 +4,7 @@ using System.Drawing.Drawing2D;
 using System.Windows.Forms;
 using System.ComponentModel;
 
+
 namespace Ipen.CompartimentalModel
 {
 	/// <summary>
@@ -23,6 +24,8 @@ namespace Ipen.CompartimentalModel
         private bool _Incorporacao;
         private double _Fracao;
         private System.Drawing.Point _PontoCentral;
+        public  System.Collections.Generic.List<Linhas> minhasLinhas;
+
 		#endregion
 
 		#region Construtor
@@ -49,6 +52,8 @@ namespace Ipen.CompartimentalModel
             this.Size = this.DefaultSize;
             VerificarTamanho();
             RecalcularValoresPosicao();
+
+            minhasLinhas = new System.Collections.Generic.List<Linhas>();
         }
         #endregion
 
