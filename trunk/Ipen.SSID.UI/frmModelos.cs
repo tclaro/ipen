@@ -25,7 +25,7 @@ namespace Ipen.SSID.UI
         private void carregarModelos(string Arquivo)
         {
             Modelos modelo = new Modelos();
-//            Conexao.Arquivo = Arquivo;
+            Configuracoes.Arquivo = Arquivo;
             DataTable dt = DataBD.SelecionarModelos();
             dgvModelos.DataSource = null;
             dgvModelos.DataSource = dt;
