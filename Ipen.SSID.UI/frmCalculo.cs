@@ -88,7 +88,16 @@ namespace Ipen.SSID.UI
 
             for (int T = 0; T <= Final + 1; T++)
             {
-                Calculo();
+
+
+
+
+
+                if (T == 50)
+                    Calculo(true);
+                else
+                    Calculo(false);
+
                 double SomaCompartimentos = 0;
                 str.Append(Tempo.ToString());
 
@@ -100,7 +109,6 @@ namespace Ipen.SSID.UI
 
                     if (C.Acompanhar)
                     {
-                        
                         str.Append("\t");
                         str.Append(xt[indice].ToString("e10"));
                         
@@ -136,8 +144,7 @@ namespace Ipen.SSID.UI
             FormGrafico.Show();
 
         }
-
-
+        
         private GraphPane CreateChart(Object[] coisas, ZedGraphControl zgc)
         {
             
@@ -216,9 +223,11 @@ namespace Ipen.SSID.UI
             qi = new double[2 * n, 2 * n];
         }
 
-        private void Calculo()
+        private void Calculo(bool reinjetar)
         {
-
+            if (reinjetar)
+                sum[1,1] += 1;
+            
             for (int i = 1; i < n; i++)
             {
                 for (int j = 1; j < n; j++)
@@ -239,6 +248,10 @@ namespace Ipen.SSID.UI
             for (int i = 1; i < n; i++)
             {
                 xo[i] = R[i, i];
+                //Recarga
+                if (Tempo >= 10)
+                    xo[1] = R[1, 1] + 1; 
+
                 sum[i, i] = 1;
                 term[i, i] = 1;
             }
@@ -249,8 +262,6 @@ namespace Ipen.SSID.UI
                     q[i, j] = a[i, j];
                     a[i, j] = a[i, j] * Tempo;
                 }
-
-
 
             max = 0;
 
@@ -357,7 +368,6 @@ namespace Ipen.SSID.UI
                 q[i1, i1 + (n - 1)] = 1;
             }
 
-
             for (int ip1 = 1; ip1 < n; ip1++)
             {
                 for (int k1 = 1; k1 < n; k1++)
@@ -383,8 +393,7 @@ namespace Ipen.SSID.UI
                         q[j1, k1 + ip1] = qi[j1, k1];
             }
         }
-
-
+        
         public void ImportarArquivo(string Arquivo)
         {
             System.Data.DataSet ds = new System.Data.DataSet();
@@ -402,8 +411,6 @@ namespace Ipen.SSID.UI
 
             n = Tamanho;
             R = new double[n, n];
-
-            //R[2, 2] = 1; //Plasma é o 4
 
             TodosCompartimentos.Clear();
             int Contador = 1;
@@ -426,7 +433,6 @@ namespace Ipen.SSID.UI
                 if (Linha.ValorBA != 0)
                     R[RetornarID(Linha.CaixaFim.Numero, TodosCompartimentos), RetornarID(Linha.CaixaInicio.Numero, TodosCompartimentos)] = Linha.ValorBA;
             }
-
         }
 
         /*
