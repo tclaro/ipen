@@ -34,7 +34,6 @@ namespace Ipen.CBT.UI
             this.btnAlterar = new System.Windows.Forms.Button();
             this.btnExcluir = new System.Windows.Forms.Button();
             this.btnFechar = new System.Windows.Forms.Button();
-            this.chkModoGrafico = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.dgvModelos)).BeginInit();
             this.SuspendLayout();
             // 
@@ -59,6 +58,7 @@ namespace Ipen.CBT.UI
             // btnNovo
             // 
             this.btnNovo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnNovo.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.btnNovo.Location = new System.Drawing.Point(14, 318);
             this.btnNovo.Name = "btnNovo";
             this.btnNovo.Size = new System.Drawing.Size(75, 23);
@@ -70,6 +70,7 @@ namespace Ipen.CBT.UI
             // btnAlterar
             // 
             this.btnAlterar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnAlterar.DialogResult = System.Windows.Forms.DialogResult.Yes;
             this.btnAlterar.Location = new System.Drawing.Point(95, 318);
             this.btnAlterar.Name = "btnAlterar";
             this.btnAlterar.Size = new System.Drawing.Size(75, 23);
@@ -92,6 +93,7 @@ namespace Ipen.CBT.UI
             // btnFechar
             // 
             this.btnFechar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnFechar.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.btnFechar.Location = new System.Drawing.Point(528, 318);
             this.btnFechar.Name = "btnFechar";
             this.btnFechar.Size = new System.Drawing.Size(75, 23);
@@ -100,23 +102,11 @@ namespace Ipen.CBT.UI
             this.btnFechar.UseVisualStyleBackColor = true;
             this.btnFechar.Click += new System.EventHandler(this.btnFechar_Click);
             // 
-            // chkModoGrafico
-            // 
-            this.chkModoGrafico.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.chkModoGrafico.AutoSize = true;
-            this.chkModoGrafico.Location = new System.Drawing.Point(14, 295);
-            this.chkModoGrafico.Name = "chkModoGrafico";
-            this.chkModoGrafico.Size = new System.Drawing.Size(152, 17);
-            this.chkModoGrafico.TabIndex = 6;
-            this.chkModoGrafico.Text = "Trabalhar em modo gráfico";
-            this.chkModoGrafico.UseVisualStyleBackColor = true;
-            // 
             // frmModelos
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(615, 353);
-            this.Controls.Add(this.chkModoGrafico);
             this.Controls.Add(this.btnFechar);
             this.Controls.Add(this.btnExcluir);
             this.Controls.Add(this.btnAlterar);
@@ -127,7 +117,6 @@ namespace Ipen.CBT.UI
             this.Text = "frmModelos";
             ((System.ComponentModel.ISupportInitialize)(this.dgvModelos)).EndInit();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -138,6 +127,5 @@ namespace Ipen.CBT.UI
         private System.Windows.Forms.Button btnAlterar;
         private System.Windows.Forms.Button btnExcluir;
         private System.Windows.Forms.Button btnFechar;
-        private System.Windows.Forms.CheckBox chkModoGrafico;
     }
 }

@@ -12,10 +12,20 @@ namespace Ipen.CBT.UI
 {
     public partial class frmModelos : Form
     {
+        int _idModelo = 0;
+
         public frmModelos()
         {
             InitializeComponent();
             carregarModelos();
+        }
+
+        public int idModelo
+        {
+            get
+            {
+                return _idModelo;
+            }
         }
 
         
@@ -29,24 +39,12 @@ namespace Ipen.CBT.UI
 
         private void btnNovo_Click(object sender, EventArgs e)
         {
-            bool modoGrafico = chkModoGrafico.Checked;
-            if (!modoGrafico)
-            {
-                frmEditModelo F = new frmEditModelo();
-                F.ShowDialog();
-                carregarModelos();
-            }
         }
 
         private void btnAlterar_Click(object sender, EventArgs e)
         {
             //Pega o código da linha selecionada
-            int idModelo = (int)dgvModelos.CurrentRow.Cells["idModelo"].Value;
-
-            //Passa pro form já trazer o modelo carregado
-            frmEditModelo F = new frmEditModelo(idModelo);
-            F.ShowDialog();
-            carregarModelos();
+            _idModelo = (int)dgvModelos.CurrentRow.Cells["idModelo"].Value;
         }
 
         private void btnFechar_Click(object sender, EventArgs e)
