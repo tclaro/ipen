@@ -12,6 +12,7 @@ namespace Ipen.CBT.UI
     {
         #region Campos
         Sistema _sistemaCompartimental;
+        
         #endregion
 
         #region Construtor
@@ -43,6 +44,7 @@ namespace Ipen.CBT.UI
         #region Métodos públicos
         public void IncluirCaixa(Caixas cx)
         {
+            
             this._sistemaCompartimental.Caixas.Add(cx);
             this.Controls.Add(cx);
             cx.BringToFront();
@@ -129,7 +131,7 @@ namespace Ipen.CBT.UI
         #endregion
 
         #region Métodos internos
-        private void VerificarCaixasSobrepostas(Caixas cx)
+        public void VerificarCaixasSobrepostas(Caixas cx)
         {
             while (ObterCaixaPorClique(cx.PontosExtremos, cx) != null)
                 cx.Left += 5;

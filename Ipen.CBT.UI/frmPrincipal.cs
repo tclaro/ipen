@@ -36,7 +36,6 @@ namespace Ipen.CBT.UI
             PnlCanvas.Dock = System.Windows.Forms.DockStyle.Fill;
             PnlCanvas.BoxModifyRequest += new Painel.BoxModifyRequestHandle(pnlCanvas_BoxModifyRequest);
             PnlCanvas.SistemaCompartimental.BoxClick += new EventHandler(SistemaCompartimental_BoxClick);
-            //this.panel1.Controls.Add(this.PnlCanvas);
             this.splitContainer1.Panel2.Controls.Add(this.PnlCanvas);
             this.splitContainer1.Panel1.Enabled = false;
             AjustarRotulos();
@@ -327,6 +326,7 @@ namespace Ipen.CBT.UI
             novacaixaForm.Dispose();
             novacaixaForm = null;
         }
+
         private void AlterarCaixa(Caixas cx)
         {
             this.PnlCanvas.DesmarcarTudo();
@@ -344,6 +344,7 @@ namespace Ipen.CBT.UI
             statusAtual = StatusPossiveis.Normal;
             System.Windows.Forms.Cursor.Current = Cursors.Default;
         }
+
         private void SolicitarNovaLinha(Caixas cx)
         {
             switch (statusAtual)
@@ -394,9 +395,7 @@ namespace Ipen.CBT.UI
                     break;
             }
         }
-
-
-
+        
         private string LerSettings(string Chave)
         {
             return System.Configuration.ConfigurationManager.AppSettings[Chave];
@@ -442,6 +441,7 @@ namespace Ipen.CBT.UI
         #region Código do form editar modelo
 
         private Modelos Modelo;
+
         private Caixas CaixaAlterando;
 
         private CaixasCollection colCaixasA = new CaixasCollection();
@@ -468,6 +468,7 @@ namespace Ipen.CBT.UI
 
         private void cmdLimparComp_Click(object sender, EventArgs e)
         {
+
             LimparTelaCompartimento();
         }
 
@@ -917,9 +918,52 @@ namespace Ipen.CBT.UI
 
         #endregion
 
+     
+
         #endregion
 
+        private void salvarToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Salvar();
+        }
 
+        private void salvarComoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (txtNome.Text == this.Modelo.nmModelo)
+            {
+                MessageBox.Show("Altere o nome do modelo para criar uma cópia dele", "Atenção", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                return;
+            }
+            
+            this.Modelo.idModelo = 0;
+            this.Modelo.dtCriacao = System.DateTime.Now;
+            Salvar();
+        }
 
+        private void Salvar()
+        {
+            if (txtNome.Text == "")
+            {
+                MessageBox.Show("Digite um nome para este modelo", "Atenção", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                return;
+            }
+
+            this.Modelo.nmModelo = txtNome.Text;
+            this.Modelo.Descricao = txtDescricao.Text;
+            DataBD.GravarModelo(this.Modelo);
+        }
+
+        private void btnSync_Click(object sender, EventArgs e)
+        {
+            this.PnlCanvas.SistemaCompartimental = this.Modelo.Colecao;
+            foreach (Caixas cx in this.Modelo.Colecao.Caixas)
+            {
+                this.PnlCanvas.Controls.Add(cx);
+                cx.BringToFront();
+                this.PnlCanvas.VerificarCaixasSobrepostas(cx);
+                this.PnlCanvas.Refresh();
+            }
+            
+        }
     }
 }

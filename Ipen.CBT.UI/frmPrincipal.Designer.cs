@@ -102,6 +102,7 @@ namespace Ipen.CBT.UI
             this.cboCompartB = new System.Windows.Forms.ComboBox();
             this.cboCompartA = new System.Windows.Forms.ComboBox();
             this.btnGamb = new System.Windows.Forms.Button();
+            this.btnSync = new System.Windows.Forms.Button();
             this.mnu.SuspendLayout();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.SuspendLayout();
@@ -253,12 +254,14 @@ namespace Ipen.CBT.UI
             this.salvarToolStripMenuItem.Name = "salvarToolStripMenuItem";
             this.salvarToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
             this.salvarToolStripMenuItem.Text = "Salvar";
+            this.salvarToolStripMenuItem.Click += new System.EventHandler(this.salvarToolStripMenuItem_Click);
             // 
             // salvarComoToolStripMenuItem
             // 
             this.salvarComoToolStripMenuItem.Name = "salvarComoToolStripMenuItem";
             this.salvarComoToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
             this.salvarComoToolStripMenuItem.Text = "Salvar Como";
+            this.salvarComoToolStripMenuItem.Click += new System.EventHandler(this.salvarComoToolStripMenuItem_Click);
             // 
             // exportarToolStripMenuItem
             // 
@@ -498,11 +501,12 @@ namespace Ipen.CBT.UI
             this.tabControlModelo.Location = new System.Drawing.Point(1, 30);
             this.tabControlModelo.Name = "tabControlModelo";
             this.tabControlModelo.SelectedIndex = 0;
-            this.tabControlModelo.Size = new System.Drawing.Size(847, 142);
+            this.tabControlModelo.Size = new System.Drawing.Size(847, 139);
             this.tabControlModelo.TabIndex = 38;
             // 
             // tabPageCompart
             // 
+            this.tabPageCompart.Controls.Add(this.btnSync);
             this.tabPageCompart.Controls.Add(this.lblFracao);
             this.tabPageCompart.Controls.Add(this.txtFracao);
             this.tabPageCompart.Controls.Add(this.chkIncorporacao);
@@ -520,7 +524,7 @@ namespace Ipen.CBT.UI
             this.tabPageCompart.Location = new System.Drawing.Point(4, 22);
             this.tabPageCompart.Name = "tabPageCompart";
             this.tabPageCompart.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageCompart.Size = new System.Drawing.Size(839, 116);
+            this.tabPageCompart.Size = new System.Drawing.Size(839, 113);
             this.tabPageCompart.TabIndex = 0;
             this.tabPageCompart.Text = "Compartimentos";
             this.tabPageCompart.UseVisualStyleBackColor = true;
@@ -575,7 +579,7 @@ namespace Ipen.CBT.UI
             this.lstCompartimentos.FormattingEnabled = true;
             this.lstCompartimentos.Location = new System.Drawing.Point(410, 19);
             this.lstCompartimentos.Name = "lstCompartimentos";
-            this.lstCompartimentos.Size = new System.Drawing.Size(423, 95);
+            this.lstCompartimentos.Size = new System.Drawing.Size(423, 82);
             this.lstCompartimentos.TabIndex = 38;
             this.lstCompartimentos.DoubleClick += new System.EventHandler(this.lstCompartimentos_DoubleClick);
             // 
@@ -679,7 +683,7 @@ namespace Ipen.CBT.UI
             this.tabPageLigacoes.Location = new System.Drawing.Point(4, 22);
             this.tabPageLigacoes.Name = "tabPageLigacoes";
             this.tabPageLigacoes.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageLigacoes.Size = new System.Drawing.Size(839, 116);
+            this.tabPageLigacoes.Size = new System.Drawing.Size(839, 113);
             this.tabPageLigacoes.TabIndex = 1;
             this.tabPageLigacoes.Text = "Ligações";
             this.tabPageLigacoes.UseVisualStyleBackColor = true;
@@ -758,7 +762,7 @@ namespace Ipen.CBT.UI
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.lvwLigacoes.Location = new System.Drawing.Point(269, 6);
             this.lvwLigacoes.Name = "lvwLigacoes";
-            this.lvwLigacoes.Size = new System.Drawing.Size(562, 103);
+            this.lvwLigacoes.Size = new System.Drawing.Size(562, 100);
             this.lvwLigacoes.TabIndex = 11;
             this.lvwLigacoes.UseCompatibleStateImageBehavior = false;
             this.lvwLigacoes.Click += new System.EventHandler(this.lvwLigacoes_DoubleClick);
@@ -800,6 +804,16 @@ namespace Ipen.CBT.UI
             this.btnGamb.Text = "Gambiarra Oculta";
             this.btnGamb.UseVisualStyleBackColor = true;
             this.btnGamb.Click += new System.EventHandler(this.btnGamb_Click);
+            // 
+            // btnSync
+            // 
+            this.btnSync.Location = new System.Drawing.Point(262, 59);
+            this.btnSync.Name = "btnSync";
+            this.btnSync.Size = new System.Drawing.Size(49, 30);
+            this.btnSync.TabIndex = 43;
+            this.btnSync.Text = "Sync";
+            this.btnSync.UseVisualStyleBackColor = true;
+            this.btnSync.Click += new System.EventHandler(this.btnSync_Click);
             // 
             // frmPrincipal
             // 
@@ -904,5 +918,6 @@ namespace Ipen.CBT.UI
         private ComboBox cboCompartB;
         private ComboBox cboCompartA;
         private Button btnGamb;
+        private Button btnSync;
     }
 }
