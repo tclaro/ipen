@@ -59,6 +59,7 @@ namespace Ipen.CBT.UI
             // 
             this.btnNovo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnNovo.DialogResult = System.Windows.Forms.DialogResult.OK;
+            this.btnNovo.Enabled = false;
             this.btnNovo.Location = new System.Drawing.Point(14, 318);
             this.btnNovo.Name = "btnNovo";
             this.btnNovo.Size = new System.Drawing.Size(75, 23);

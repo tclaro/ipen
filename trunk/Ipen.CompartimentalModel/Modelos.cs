@@ -9,12 +9,13 @@ namespace Ipen.CompartimentalModel
     public class Modelos
     {
         public Sistema Colecao = new Sistema();
+        public TipoModelos Tipo = new TipoModelos();
 
         private int _idModelo;
         private string _nmModelo;
         private DateTime _dtCriacao;
         private string _Descricao;
-
+        
         #region Acesso aos Campos
         public int idModelo
         {
@@ -67,6 +68,7 @@ namespace Ipen.CompartimentalModel
         {
             this.idModelo = 0;
             this.dtCriacao = System.DateTime.Now;
+            this.Tipo = new TipoModelos();
         }
 
         public void PreencherCaixasLinhas()

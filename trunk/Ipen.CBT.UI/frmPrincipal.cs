@@ -191,6 +191,18 @@ namespace Ipen.CBT.UI
                 if (openFile.FileName != caminhoInicial)
                     GravarSettings("MDBPath", openFile.FileName);
             }
+            LerTipoModelosMdb();
+
+        }
+
+        private void LerTipoModelosMdb()
+        {
+            DataTable dt = DataBD.SelecionarTipos();
+
+            cboTipo.DataSource = dt;
+            cboTipo.DisplayMember = "nmTipoModelo";
+            cboTipo.ValueMember = "idTipoModelo";
+            
         }
 
         private void exibirRótuloDeTransferênciasToolStripMenuItem_Click(object sender, EventArgs e)
@@ -963,7 +975,6 @@ namespace Ipen.CBT.UI
                 this.PnlCanvas.VerificarCaixasSobrepostas(cx);
                 this.PnlCanvas.Refresh();
             }
-            
         }
     }
 }

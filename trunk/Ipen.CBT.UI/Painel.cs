@@ -70,6 +70,7 @@ namespace Ipen.CBT.UI
         #region Novos Eventos
         public delegate void BoxModifyRequestHandle(Caixas cx);
         public event BoxModifyRequestHandle BoxModifyRequest;
+
         protected void OnBoxModifyRequest(Caixas cx)
         {
             if (BoxModifyRequest != null)

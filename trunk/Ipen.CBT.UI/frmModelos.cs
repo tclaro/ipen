@@ -64,7 +64,6 @@ namespace Ipen.CBT.UI
 
             DataBD.RemoverModelo(idModelo);
             carregarModelos();
-
         }
     }
 }
