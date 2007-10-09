@@ -75,6 +75,7 @@ namespace Ipen.CBT.UI
             this.txtNome = new System.Windows.Forms.TextBox();
             this.tabControlModelo = new System.Windows.Forms.TabControl();
             this.tabPageCompart = new System.Windows.Forms.TabPage();
+            this.btnSync = new System.Windows.Forms.Button();
             this.lblFracao = new System.Windows.Forms.Label();
             this.txtFracao = new System.Windows.Forms.TextBox();
             this.chkIncorporacao = new System.Windows.Forms.CheckBox();
@@ -102,7 +103,6 @@ namespace Ipen.CBT.UI
             this.cboCompartB = new System.Windows.Forms.ComboBox();
             this.cboCompartA = new System.Windows.Forms.ComboBox();
             this.btnGamb = new System.Windows.Forms.Button();
-            this.btnSync = new System.Windows.Forms.Button();
             this.mnu.SuspendLayout();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.SuspendLayout();
@@ -440,6 +440,7 @@ namespace Ipen.CBT.UI
             // 
             // cboTipo
             // 
+            this.cboTipo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboTipo.FormattingEnabled = true;
             this.cboTipo.Location = new System.Drawing.Point(245, 3);
             this.cboTipo.Name = "cboTipo";
@@ -528,6 +529,16 @@ namespace Ipen.CBT.UI
             this.tabPageCompart.TabIndex = 0;
             this.tabPageCompart.Text = "Compartimentos";
             this.tabPageCompart.UseVisualStyleBackColor = true;
+            // 
+            // btnSync
+            // 
+            this.btnSync.Location = new System.Drawing.Point(262, 59);
+            this.btnSync.Name = "btnSync";
+            this.btnSync.Size = new System.Drawing.Size(49, 30);
+            this.btnSync.TabIndex = 43;
+            this.btnSync.Text = "Sync";
+            this.btnSync.UseVisualStyleBackColor = true;
+            this.btnSync.Click += new System.EventHandler(this.btnSync_Click);
             // 
             // lblFracao
             // 
@@ -804,16 +815,6 @@ namespace Ipen.CBT.UI
             this.btnGamb.Text = "Gambiarra Oculta";
             this.btnGamb.UseVisualStyleBackColor = true;
             this.btnGamb.Click += new System.EventHandler(this.btnGamb_Click);
-            // 
-            // btnSync
-            // 
-            this.btnSync.Location = new System.Drawing.Point(262, 59);
-            this.btnSync.Name = "btnSync";
-            this.btnSync.Size = new System.Drawing.Size(49, 30);
-            this.btnSync.TabIndex = 43;
-            this.btnSync.Text = "Sync";
-            this.btnSync.UseVisualStyleBackColor = true;
-            this.btnSync.Click += new System.EventHandler(this.btnSync_Click);
             // 
             // frmPrincipal
             // 

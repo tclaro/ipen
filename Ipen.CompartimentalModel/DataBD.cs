@@ -37,13 +37,14 @@ namespace Ipen.CompartimentalModel
             OleDbConnection cn;
             cn = Configuracoes.Conectar();
             OleDbCommand cmd = cn.CreateCommand();
-            string textoSql = "INSERT INTO MODELO (nmModelo, dtCriacao, dtAlteracao, Descricao) VALUES (@nmModelo, @dtCriacao, @dtAlteracao, @Descricao);";
+            string textoSql = "INSERT INTO MODELO (nmModelo, dtCriacao, dtAlteracao, Descricao, idTipoModelo) VALUES (@nmModelo, @dtCriacao, @dtAlteracao, @Descricao, @idTipoModelo);";
                 
             cmd.CommandText = textoSql;
             cmd.Parameters.Add("@nmModelo", OleDbType.VarChar, 50).Value = M.nmModelo;
             cmd.Parameters.Add("@dtCriacao", OleDbType.Date).Value = System.DateTime.Now;
             cmd.Parameters.Add("@dtAlteracao", OleDbType.Date).Value = System.DateTime.Now;
             cmd.Parameters.Add("@Descricao", OleDbType.VarChar, 200).Value = M.Descricao;
+            cmd.Parameters.Add("@idTipoModelo", OleDbType.Integer).Value = M.Tipo.idTipoModelo;
             cmd.ExecuteNonQuery();
 
             cmd = cn.CreateCommand();
@@ -61,14 +62,16 @@ namespace Ipen.CompartimentalModel
             cn = Configuracoes.Conectar();
             OleDbCommand cmd = cn.CreateCommand();
             string textoSql = "UPDATE MODELO " +
-                        "set nmModelo = @nmModelo, " +
+                            "set nmModelo = @nmModelo, " +
                             "dtAlteracao = @dtAlteracao, " + 
                             "Descricao = @Descricao " +
+                            "idTipoModelo = @idTipoModelo " +
                             "WHERE idModelo = " + M.idModelo;
             cmd.CommandText = textoSql;
             cmd.Parameters.Add("@nmModelo", OleDbType.VarChar, 50).Value = M.nmModelo;
             cmd.Parameters.Add("@dtAlteracao", OleDbType.Date).Value = System.DateTime.Now;
             cmd.Parameters.Add("@Descricao", OleDbType.VarChar, 200).Value = M.Descricao;
+            cmd.Parameters.Add("@idTipoModelo", OleDbType.Integer).Value = M.Tipo.idTipoModelo;
             cmd.ExecuteNonQuery();
             cn.Close();
             cn.Dispose();
@@ -171,9 +174,27 @@ namespace Ipen.CompartimentalModel
         {
             OleDbConnection cn;
             cn = Configuracoes.Conectar();
-            string textoSql = "select idModelo, nmModelo, dtCriacao, Descricao " +
-                                "from Modelo order by idModelo";
+            string textoSql = "select idModelo, nmModelo, dtCriacao, Descricao, nmTipoModelo " +
+                                "from Modelo M inner join TipoModelo TM on (M.idTipoModelo = TM.idTipoModelo) " +
+                                "order by idModelo";
             
+            OleDbCommand cmd = cn.CreateCommand();
+            cmd.CommandText = textoSql;
+            OleDbDataAdapter da = new OleDbDataAdapter(cmd);
+            DataTable resultado = new DataTable();
+            da.Fill(resultado);
+            cn.Close();
+            cn.Dispose();
+            return resultado;
+        }
+
+        public static DataTable SelecionarTipos()
+        {
+            OleDbConnection cn;
+            cn = Configuracoes.Conectar();
+            string textoSql = "select idTipoModelo, nmTipoModelo " +
+                                "from TipoModelo ";
+
             OleDbCommand cmd = cn.CreateCommand();
             cmd.CommandText = textoSql;
             OleDbDataAdapter da = new OleDbDataAdapter(cmd);
@@ -190,10 +211,9 @@ namespace Ipen.CompartimentalModel
             Modelos Modelo = new Modelos();
 
             cn = Configuracoes.Conectar();
-            string textoSql = "select idModelo, nmModelo, dtCriacao, Descricao " +
+            string textoSql = "select idModelo, nmModelo, dtCriacao, Descricao, idTipoModelo " +
                                 "from modelo M " +
                                 "where idModelo = " + cod.ToString();
-                                
             
             OleDbCommand cmd = cn.CreateCommand();
             cmd.CommandText = textoSql;
@@ -208,6 +228,7 @@ namespace Ipen.CompartimentalModel
             Modelo.nmModelo = drow["nmModelo"].ToString();
             Modelo.dtCriacao = (DateTime)drow["dtCriacao"];
             Modelo.Descricao = drow["Descricao"].ToString();
+            Modelo.Tipo.idTipoModelo = (int)drow["idTipoModelo"];
             return Modelo;
         }
 
