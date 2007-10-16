@@ -64,7 +64,7 @@ namespace Ipen.CompartimentalModel
             string textoSql = "UPDATE MODELO " +
                             "set nmModelo = @nmModelo, " +
                             "dtAlteracao = @dtAlteracao, " + 
-                            "Descricao = @Descricao " +
+                            "Descricao = @Descricao, " +
                             "idTipoModelo = @idTipoModelo " +
                             "WHERE idModelo = " + M.idModelo;
             cmd.CommandText = textoSql;

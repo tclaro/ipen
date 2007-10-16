@@ -202,7 +202,6 @@ namespace Ipen.CBT.UI
             cboTipo.DataSource = dt;
             cboTipo.DisplayMember = "nmTipoModelo";
             cboTipo.ValueMember = "idTipoModelo";
-            
         }
 
         private void exibirRótuloDeTransferênciasToolStripMenuItem_Click(object sender, EventArgs e)
@@ -831,7 +830,8 @@ namespace Ipen.CBT.UI
             //Nome do modelo no alto da tela por favor...
             txtNome.Text = Modelo.nmModelo;
             txtDescricao.Text = Modelo.Descricao;
-
+            cboTipo.DataBindings.Clear();
+            cboTipo.DataBindings.Add(new Binding("SelectedValue", Modelo.Tipo, "idTipoModelo"));
         }
 
         private void SincronizarColecoes()
@@ -915,6 +915,7 @@ namespace Ipen.CBT.UI
         {
             this.Modelo.nmModelo = txtNome.Text;
             this.Modelo.Descricao = txtDescricao.Text;
+            this.Modelo.Tipo.idTipoModelo = (int)cboTipo.SelectedValue;
             DataBD.GravarModelo(this.Modelo);
             this.Close();
         }
@@ -959,9 +960,10 @@ namespace Ipen.CBT.UI
                 MessageBox.Show("Digite um nome para este modelo", "Atenção", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 return;
             }
-
+            
             this.Modelo.nmModelo = txtNome.Text;
             this.Modelo.Descricao = txtDescricao.Text;
+            this.Modelo.Tipo.idTipoModelo = (int)cboTipo.SelectedValue;
             DataBD.GravarModelo(this.Modelo);
         }
 
