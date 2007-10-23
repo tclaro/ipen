@@ -88,11 +88,6 @@ namespace Ipen.SSID.UI
 
             for (int T = 0; T <= Final + 1; T++)
             {
-
-
-
-
-
                 if (T == 50)
                     Calculo(true);
                 else

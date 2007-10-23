@@ -970,6 +970,9 @@ namespace Ipen.CBT.UI
         private void btnSync_Click(object sender, EventArgs e)
         {
             this.PnlCanvas.SistemaCompartimental = this.Modelo.Colecao;
+            this.PnlCanvas.Controls.Clear();
+            this.PnlCanvas.Refresh();
+
             foreach (Caixas cx in this.Modelo.Colecao.Caixas)
             {
                 this.PnlCanvas.Controls.Add(cx);
