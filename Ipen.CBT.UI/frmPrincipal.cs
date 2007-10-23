@@ -35,7 +35,7 @@ namespace Ipen.CBT.UI
             PnlCanvas.BackColor = System.Drawing.Color.Ivory;
             PnlCanvas.Dock = System.Windows.Forms.DockStyle.Fill;
             PnlCanvas.BoxModifyRequest += new Painel.BoxModifyRequestHandle(pnlCanvas_BoxModifyRequest);
-            PnlCanvas.SistemaCompartimental.BoxClick += new EventHandler(SistemaCompartimental_BoxClick);
+            Configuracoes.Colecao.BoxClick += new EventHandler(SistemaCompartimental_BoxClick);
             this.splitContainer1.Panel2.Controls.Add(this.PnlCanvas);
             this.splitContainer1.Panel1.Enabled = false;
             AjustarRotulos();
@@ -159,8 +159,8 @@ namespace Ipen.CBT.UI
             {
                 ArquivoAberto = Caminho;
                 DataXML interfaceXML = new DataXML(ArquivoAberto);
-                interfaceXML.Caixas = this.PnlCanvas.SistemaCompartimental.Caixas;
-                interfaceXML.Linhas = this.PnlCanvas.SistemaCompartimental.Linhas;
+                interfaceXML.Caixas = Configuracoes.Colecao.Caixas;
+                interfaceXML.Linhas = Configuracoes.Colecao.Linhas;
                 interfaceXML.ExportarXML();
             }
         }
@@ -317,7 +317,7 @@ namespace Ipen.CBT.UI
         private void LimparColecao()
         {
             //Limpa a colecao e a tela?
-            this.PnlCanvas.SistemaCompartimental.Clear();
+            Configuracoes.Colecao.Clear();
             this.PnlCanvas.Controls.Clear();
             this.PnlCanvas.Refresh();
         }
@@ -445,6 +445,11 @@ namespace Ipen.CBT.UI
                 Modelo = DataBD.SelecionarModelos(Fmodelo.idModelo);
                 CarregarTela();
                 LimparTelaLigacao();
+
+                foreach (Caixas cx in Modelo.Colecao.Caixas)
+                    this.PnlCanvas.IncluirCaixa(cx);
+
+                this.PnlCanvas.Refresh();
             }
         }
         #endregion
@@ -969,7 +974,7 @@ namespace Ipen.CBT.UI
 
         private void btnSync_Click(object sender, EventArgs e)
         {
-            this.PnlCanvas.SistemaCompartimental = this.Modelo.Colecao;
+            //this.PnlCanvas.SistemaCompartimental = this.Modelo.Colecao;
             this.PnlCanvas.Controls.Clear();
             this.PnlCanvas.Refresh();
 

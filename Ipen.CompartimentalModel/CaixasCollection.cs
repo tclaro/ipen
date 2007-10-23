@@ -59,7 +59,10 @@ namespace Ipen.CompartimentalModel
 
         protected void OnBoxMove(object sender, EventArgs e)
         {
-            if (BoxMove != null) { BoxMove(sender, e); }
+            if (BoxMove != null) 
+            {
+                BoxMove(sender, e); 
+            }
         }
         protected void OnBoxMoved(Caixas.BoxEventArgs be)
         {
