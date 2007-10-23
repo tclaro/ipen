@@ -8,7 +8,6 @@ namespace Ipen.CompartimentalModel
 {
     public class Modelos
     {
-        public Sistema Colecao = new Sistema();
         public TipoModelos Tipo = new TipoModelos();
 
         private int _idModelo;
@@ -17,6 +16,12 @@ namespace Ipen.CompartimentalModel
         private string _Descricao;
         
         #region Acesso aos Campos
+        public Sistema Colecao
+        {
+            get { return Configuracoes.Colecao; }
+            set { Configuracoes.Colecao = value; }
+        }
+
         public int idModelo
         {
             get
