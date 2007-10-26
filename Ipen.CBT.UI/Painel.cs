@@ -11,7 +11,8 @@ namespace Ipen.CBT.UI
     public class Painel : Panel
     {
         #region Campos
-        //Sistema _sistemaCompartimental;
+        Sistema _sistemaCompartimental;
+        
         #endregion
 
         #region Construtor
@@ -19,24 +20,32 @@ namespace Ipen.CBT.UI
         {
             InitializeHelper();
         }
-        
         void InitializeHelper()
         {
-            Configuracoes.Colecao.BoxMouseDown += new MouseEventHandler(_sistemaCompartimental_BoxMouseDown);
-            Configuracoes.Colecao.BoxDeleted += new Caixas.CaixaEventHandler(_sistemaCompartimental_BoxDeleted);
-            Configuracoes.Colecao.BoxDoubleClick += new EventHandler(_sistemaCompartimental_BoxDoubleClick);
-            Configuracoes.Colecao.BoxKeyDown += new KeyEventHandler(_sistemaCompartimental_BoxKeyDown);
-            Configuracoes.Colecao.BoxMoved += new Caixas.CaixaEventHandler(_sistemaCompartimental_BoxMoved);
-            Configuracoes.Colecao.BoxPropertyChanged += new Caixas.CaixaEventHandler(_sistemaCompartimental_BoxPropertyChanged);
-            Configuracoes.Colecao.BoxMove += new EventHandler(_sistemaCompartimental_BoxMove);
+            _sistemaCompartimental = new Sistema();
+            _sistemaCompartimental.BoxMouseDown += new MouseEventHandler(_sistemaCompartimental_BoxMouseDown);
+            _sistemaCompartimental.BoxDeleted += new Caixas.CaixaEventHandler(_sistemaCompartimental_BoxDeleted);
+            _sistemaCompartimental.BoxDoubleClick += new EventHandler(_sistemaCompartimental_BoxDoubleClick);
+            _sistemaCompartimental.BoxKeyDown += new KeyEventHandler(_sistemaCompartimental_BoxKeyDown);
+            _sistemaCompartimental.BoxMoved += new Caixas.CaixaEventHandler(_sistemaCompartimental_BoxMoved);
+            _sistemaCompartimental.BoxPropertyChanged += new Caixas.CaixaEventHandler(_sistemaCompartimental_BoxPropertyChanged);
+            _sistemaCompartimental.BoxMove += new EventHandler(_sistemaCompartimental_BoxMove);
         }
-         
+        #endregion
+
+        #region Propriedades públicas
+        public Sistema SistemaCompartimental
+        {
+            get { return _sistemaCompartimental; }
+            set { _sistemaCompartimental = value; }
+        }
         #endregion
 
         #region Métodos públicos
         public void IncluirCaixa(Caixas cx)
         {
-            //Configuracoes.Colecao.Caixas.Add(cx);
+            
+            this._sistemaCompartimental.Caixas.Add(cx);
             this.Controls.Add(cx);
             cx.BringToFront();
             this.VerificarCaixasSobrepostas(cx);
@@ -45,15 +54,15 @@ namespace Ipen.CBT.UI
         public void IncluirLinha(Linhas ln)
         {
             //ln.Redesenhar = true;
-            Configuracoes.Colecao.Linhas.Add(ln);
+            this._sistemaCompartimental.Linhas.Add(ln);
             this.Refresh();
         }
         public void DesmarcarTudo()
         {
-            foreach (Caixas cx in Configuracoes.Colecao.Caixas)
+            foreach (Caixas cx in this._sistemaCompartimental.Caixas)
                 cx.EstaSelecionado = false;
 
-            foreach (Linhas ln in Configuracoes.Colecao.Linhas)
+            foreach (Linhas ln in this._sistemaCompartimental.Linhas)
                 ln.EstaSelecionado = false;
         }
         #endregion
@@ -92,7 +101,7 @@ namespace Ipen.CBT.UI
             {
                 DialogResult dlgResposta = MessageBox.Show(string.Format("Tem certeza que deseja excluir o compartimento {0} ({1}) e todas as suas ligações?", cx.Numero, cx.Nome), "Exclusão de compartimento", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2);
                 if (dlgResposta == DialogResult.Yes)
-                    Configuracoes.Colecao.Caixas.Remove(cx);
+                    this._sistemaCompartimental.Caixas.Remove(cx);
             }
         }
         void _sistemaCompartimental_BoxDoubleClick(object sender, EventArgs e)
@@ -105,7 +114,6 @@ namespace Ipen.CBT.UI
         void _sistemaCompartimental_BoxDeleted(Caixas.BoxEventArgs be)
         {
         }
-
         void _sistemaCompartimental_BoxMouseDown(object sender, MouseEventArgs e)
         {
             this.DesmarcarTudo();
@@ -131,7 +139,7 @@ namespace Ipen.CBT.UI
         }
         private Caixas ObterCaixaPorClique(System.Drawing.Point pto)
         {
-            foreach (Caixas cx in Configuracoes.Colecao.Caixas)
+            foreach (Caixas cx in this._sistemaCompartimental.Caixas)
                 if (cx.PontoNessaCaixa(pto))
                     return cx;
 
@@ -139,7 +147,7 @@ namespace Ipen.CBT.UI
         }
         private Caixas ObterCaixaPorClique(System.Drawing.Point[] ptos, Caixas CaixaNaoVerificada)
         {
-            foreach (Caixas cx in Configuracoes.Colecao.Caixas)
+            foreach (Caixas cx in this._sistemaCompartimental.Caixas)
             {
                 if (cx == CaixaNaoVerificada)
                     continue;
@@ -170,7 +178,7 @@ namespace Ipen.CBT.UI
             #endregion
             
             #region Desenhar Linhas
-            foreach (Linhas ln in Configuracoes.Colecao.Linhas)
+            foreach (Linhas ln in this.SistemaCompartimental.Linhas)
             {
                 if (!ln.Redesenhar)
                    //continue;

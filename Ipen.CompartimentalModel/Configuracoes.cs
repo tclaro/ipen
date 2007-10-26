@@ -10,8 +10,6 @@ namespace Ipen.CompartimentalModel
         public static string Arquivo;
         public static bool ExibirRotulos;
 
-        public static Sistema Colecao = new Sistema();
-
         public static OleDbConnection Conectar()
         {
             string connectionstring = "Provider=Microsoft.Jet.OLEDB.4.0;" +
