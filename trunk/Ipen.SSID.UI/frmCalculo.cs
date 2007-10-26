@@ -68,7 +68,7 @@ namespace Ipen.SSID.UI
 
             StringBuilder str = new StringBuilder();
 
-            Object[] coisas = new Object[n];
+            Object[] ListaDeParesDePontos = new Object[n];
             str.Append ("Tempo");
 
             foreach (CompartimentalModel.Caixas C in TodosCompartimentos)
@@ -76,7 +76,7 @@ namespace Ipen.SSID.UI
                 if (C.Acompanhar)
                 {
                     PointPairList list = new PointPairList();
-                    coisas[(int)C.Tag] = list;
+                    ListaDeParesDePontos[(int)C.Tag] = list;
                     str.Append("\t");
                     str.Append(C.Nome);
                 }
@@ -117,7 +117,7 @@ namespace Ipen.SSID.UI
                         str.Append("\t");
                         str.Append(valorInstanteCompartimento.ToString("e10"));
 
-                        ((PointPairList)coisas[indice]).Add(T, valorInstanteCompartimento);
+                        ((PointPairList)ListaDeParesDePontos[indice]).Add(T, valorInstanteCompartimento);
 
 
                         
@@ -139,7 +139,7 @@ namespace Ipen.SSID.UI
 
             txtSaida.Text = str.ToString();
 
-            GraphPane pane = CreateChart(coisas, zedGraphControl1);
+            GraphPane pane = CreateChart(ListaDeParesDePontos, zedGraphControl1);
             GraphPane paneCopia = pane.Clone();
             frmGrafico FormGrafico = new frmGrafico();
             FormGrafico.CreateChart(paneCopia);
@@ -165,12 +165,14 @@ namespace Ipen.SSID.UI
                 CompartimentalModel.Caixas C = TodosCompartimentos[i-1];
 
                 if (C.Acompanhar)
-                //LineItem myCurve2 = myPane.AddCurve("Compartimento " + i.ToString(), MinhaLista, RetornarCor(i), SymbolType.None);
-                myPane.AddCurve(C.Nome, MinhaLista, C.BackColor, SymbolType.None);
-                // Fill the area under the curve with a white-red gradient at 45 degrees
-                //myCurve2.Line.Fill = new Fill(RetornarCor(i), RetornarCor(i+4), 45F);
-                // Make the symbols opaque by filling them with white
-                //myCurve2.Symbol.Fill = new Fill(Color.White);
+                {
+                    //LineItem myCurve2 = myPane.AddCurve("Compartimento " + i.ToString(), MinhaLista, RetornarCor(i), SymbolType.None);
+                    LineItem minhaCurva = myPane.AddCurve(C.Nome, MinhaLista, C.BackColor, SymbolType.None);
+                    // Fill the area under the curve with a white-red gradient at 45 degrees
+                    //minhaCurva.Line.Fill = new Fill(C.BackColor, Color.White, 45F);
+                    // Make the symbols opaque by filling them with white
+                    //minhaCurva.Symbol.Fill = new Fill(Color.White);
+                }
             }
 
             // Set the XAxis type
@@ -184,35 +186,9 @@ namespace Ipen.SSID.UI
             return myPane;
         }
 
-        private Color RetornarCor(int Codigo)
-        {
-            switch (Codigo)
-            {
-                case 1:
-                    return Color.Black; 
-                case 2:
-                    return Color.Blue; 
-                case 3:
-                    return Color.Red; 
-                case 4:
-                    return Color.Green; 
-                case 5:
-                    return Color.Yellow;
-                case 6:
-                    return Color.Orange;
-                case 7:
-                    return Color.Violet;
-                case 8:
-                    return Color.PaleGreen; 
-                default:
-                    return Color.Black;
-            }
-        }
-
         private void Init()
         {
-            //ImportarArquivo(ref ModeloCompartimental);
-
+           
             sum = new double[n, n];
             a = new double[n, n];
             term = new double[n, n];
@@ -395,7 +371,6 @@ namespace Ipen.SSID.UI
         {
             System.Data.DataSet ds = new System.Data.DataSet();
             ds.ReadXml(Arquivo, System.Data.XmlReadMode.ReadSchema);
-            //LerDataSet(ds);
         }
 
         public void LerModelo(int idModelo)
