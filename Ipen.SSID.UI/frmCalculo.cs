@@ -88,10 +88,9 @@ namespace Ipen.SSID.UI
 
             for (int T = 0; T <= Final + 1; T++)
             {
-                if (T == 50)
-                    Calculo(true);
-                else
-                    Calculo(false);
+
+                Calculo();
+
 
                 double SomaCompartimentos = 0;
                 str.Append(Tempo.ToString());
@@ -218,11 +217,9 @@ namespace Ipen.SSID.UI
             qi = new double[2 * n, 2 * n];
         }
 
-        private void Calculo(bool reinjetar)
+        private void Calculo()
         {
-            if (reinjetar)
-                sum[1,1] += 1;
-            
+           
             for (int i = 1; i < n; i++)
             {
                 for (int j = 1; j < n; j++)
@@ -243,10 +240,6 @@ namespace Ipen.SSID.UI
             for (int i = 1; i < n; i++)
             {
                 xo[i] = R[i, i];
-                //Recarga
-                if (Tempo >= 10)
-                    xo[1] = R[1, 1] + 1; 
-
                 sum[i, i] = 1;
                 term[i, i] = 1;
             }
