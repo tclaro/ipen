@@ -103,16 +103,24 @@ namespace Ipen.SSID.UI
 
                     if (C.Acompanhar)
                     {
-                        str.Append("\t");
-                        str.Append(xt[indice].ToString("e10"));
                         
+                        double valorInstanteCompartimento = 0d;
+
                         if (C.Eliminacao)
                         {
-                            ((PointPairList)coisas[indice]).Add(T, xt[indice] - QuantAnt);
+                            valorInstanteCompartimento = xt[indice] - QuantAnt;
                             QuantAnt = xt[indice];
                         }
                         else
-                            ((PointPairList)coisas[indice]).Add(T, xt[indice]);
+                            valorInstanteCompartimento = xt[indice];
+
+                        str.Append("\t");
+                        str.Append(valorInstanteCompartimento.ToString("e10"));
+
+                        ((PointPairList)coisas[indice]).Add(T, valorInstanteCompartimento);
+
+
+                        
                     }
                 }
 
@@ -167,6 +175,7 @@ namespace Ipen.SSID.UI
 
             // Set the XAxis type
             myPane.XAxis.Type = AxisType.Log;
+            myPane.YAxis.Type = AxisType.Log;
 
 
             // Fill the axis background with a color gradient
