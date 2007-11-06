@@ -56,7 +56,6 @@ namespace Ipen.SSID.UI
             this.Name = "frmGrafico";
             this.Text = "frmGrafico";
             this.Resize += new System.EventHandler(this.frmGrafico_Resize);
-            this.Load += new System.EventHandler(this.frmGrafico_Load);
             this.ResumeLayout(false);
 
         }

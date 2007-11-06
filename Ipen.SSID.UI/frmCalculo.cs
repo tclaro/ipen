@@ -118,9 +118,7 @@ namespace Ipen.SSID.UI
                         str.Append(valorInstanteCompartimento.ToString("e10"));
 
                         ((PointPairList)ListaDeParesDePontos[indice]).Add(T, valorInstanteCompartimento);
-
-
-                        
+     
                     }
                 }
 
@@ -135,7 +133,6 @@ namespace Ipen.SSID.UI
             DateTime stopTime = DateTime.Now;
             TimeSpan Duration = stopTime - startTime;
             lblTempoDecorrido.Text = Duration.Hours.ToString("00") + ":" + Duration.Minutes.ToString("00") + ":" + Duration.Seconds.ToString("00") + ":" + Duration.Milliseconds.ToString("000");
-
 
             txtSaida.Text = str.ToString();
 
