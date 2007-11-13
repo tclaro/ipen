@@ -35,7 +35,7 @@ namespace Ipen.CBT.UI
             PnlCanvas.BackColor = System.Drawing.Color.Ivory;
             PnlCanvas.Dock = System.Windows.Forms.DockStyle.Fill;
             PnlCanvas.BoxModifyRequest += new Painel.BoxModifyRequestHandle(pnlCanvas_BoxModifyRequest);
-            Configuracoes.Colecao.BoxClick += new EventHandler(SistemaCompartimental_BoxClick);
+            PnlCanvas.SistemaCompartimental.BoxClick += new EventHandler(SistemaCompartimental_BoxClick);
             this.splitContainer1.Panel2.Controls.Add(this.PnlCanvas);
             this.splitContainer1.Panel1.Enabled = false;
             AjustarRotulos();
@@ -45,6 +45,20 @@ namespace Ipen.CBT.UI
 
             ConfigurarListView();
 
+            string CaminhoArquivo = LerSettings("MDBPath");
+            if (CaminhoArquivo != "")
+            {
+                Configuracoes.Arquivo = CaminhoArquivo;
+                try
+                {
+                    LerTipoModelosMdb();
+                }
+                catch(System.Data.OleDb.OleDbException)
+                {
+                    Configuracoes.Arquivo = "";
+                    MessageBox.Show("Não foi possível conectar no banco de dados previamente configurado.\nUse a opção \"Configurar banco de dados\" no menu ferramentas", "Atenção", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                }
+            }
         }
 
         private void AjustarRotulos()
@@ -159,8 +173,8 @@ namespace Ipen.CBT.UI
             {
                 ArquivoAberto = Caminho;
                 DataXML interfaceXML = new DataXML(ArquivoAberto);
-                interfaceXML.Caixas = Configuracoes.Colecao.Caixas;
-                interfaceXML.Linhas = Configuracoes.Colecao.Linhas;
+                interfaceXML.Caixas = this.PnlCanvas.SistemaCompartimental.Caixas;
+                interfaceXML.Linhas = this.PnlCanvas.SistemaCompartimental.Linhas;
                 interfaceXML.ExportarXML();
             }
         }
@@ -191,8 +205,6 @@ namespace Ipen.CBT.UI
                 if (openFile.FileName != caminhoInicial)
                     GravarSettings("MDBPath", openFile.FileName);
             }
-            LerTipoModelosMdb();
-
         }
 
         private void LerTipoModelosMdb()
@@ -317,7 +329,7 @@ namespace Ipen.CBT.UI
         private void LimparColecao()
         {
             //Limpa a colecao e a tela?
-            Configuracoes.Colecao.Clear();
+            this.PnlCanvas.SistemaCompartimental.Clear();
             this.PnlCanvas.Controls.Clear();
             this.PnlCanvas.Refresh();
         }
@@ -424,8 +436,11 @@ namespace Ipen.CBT.UI
 
         private void novoToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Modelo = new Modelos();
+            FecharModelo();
+            CarregarTela();
+            LimparTelaLigacao();
             this.splitContainer1.Panel1.Enabled = true;
+            
         }
 
         private void abrirToolStripMenuItem_Click(object sender, EventArgs e)
@@ -441,17 +456,35 @@ namespace Ipen.CBT.UI
 
             if (dlgForm == DialogResult.Yes)
             {
+                FecharModelo();
+
                 this.splitContainer1.Panel1.Enabled = true;
                 Modelo = DataBD.SelecionarModelos(Fmodelo.idModelo);
                 CarregarTela();
                 LimparTelaLigacao();
 
-                foreach (Caixas cx in Modelo.Colecao.Caixas)
-                    this.PnlCanvas.IncluirCaixa(cx);
+                Sistema S = Sistema.getInstance();
 
-                this.PnlCanvas.Refresh();
+                this.PnlCanvas.SuspendLayout();
+                foreach (Caixas cx in S.Caixas)
+                    this.PnlCanvas.IncluirCaixa(cx);
+                this.PnlCanvas.ResumeLayout();
+                
             }
+            this.PnlCanvas.Refresh();
         }
+
+        private void FecharModelo()
+        {
+            this.Modelo = new Modelos();
+            Sistema S = Sistema.getInstance();
+            S.Caixas.Clear();
+            S.Linhas.Clear();
+            this.PnlCanvas.Controls.Clear();
+            this.PnlCanvas.Refresh();
+
+        }
+
         #endregion
 
         #region Código do form editar modelo
@@ -541,6 +574,7 @@ namespace Ipen.CBT.UI
             }
             RefazBind();
             LimparTelaCompartimento();
+            AtualizarPainel();
         }
 
         private void LimparTelaCompartimento()
@@ -572,12 +606,14 @@ namespace Ipen.CBT.UI
                 if (resposta == DialogResult.No)
                     return;
 
-                Modelo.Colecao.Linhas.Remove(CaixaRemovendo);
+                //Modelo.Colecao.Linhas.Remove(CaixaRemovendo);
             }
 
             Modelo.Colecao.Caixas.RemoveAt(Item);
             RefazBind();
             AtualizarListView();
+            AtualizarPainel();
+
         }
 
         #endregion
@@ -669,9 +705,14 @@ namespace Ipen.CBT.UI
                 Modelo.Colecao.Linhas.Add(Ligacao);
             }
 
+            int lugar = lstCompartimentos.SelectedIndex;
             AtualizarListView();
+            lstCompartimentos.SelectedIndex = lugar;
             LimparTelaLigacao();
 
+            //AtualizarPainel();
+            this.PnlCanvas.Refresh();
+            
         }
 
         private void AtualizarListView()
@@ -767,6 +808,7 @@ namespace Ipen.CBT.UI
                     Ln.DirecaoDaLinha = Linhas.Direcao.InicioParaFim;
 
             AtualizarListView();
+            AtualizarPainel();
         }
 
         private bool ChecarLigacoesValidas()
@@ -942,6 +984,13 @@ namespace Ipen.CBT.UI
 
         private void salvarToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if (txtNome.Text != this.Modelo.nmModelo)
+            {
+                DialogResult resposta = MessageBox.Show("Este modelo irá sobrescrever o modelo \"" + this.Modelo.nmModelo + "\"\nConfirma a gravação?", "Atenção", MessageBoxButtons.OKCancel, MessageBoxIcon.Exclamation);
+                if (resposta == DialogResult.Cancel)
+                    return;
+            }
+
             Salvar();
         }
 
@@ -962,9 +1011,21 @@ namespace Ipen.CBT.UI
         {
             if (txtNome.Text == "")
             {
-                MessageBox.Show("Digite um nome para este modelo", "Atenção", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                MessageBox.Show("Digite um nome para este modelo.", "Atenção", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 return;
             }
+            if (cboTipo.SelectedValue == null)
+            {
+                MessageBox.Show("Especifique o tipo de modelo.", "Atenção", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                return;
+            }
+
+            if (this.Modelo.Colecao.Caixas.Count < 1)
+            {
+                MessageBox.Show("Não existem compartimentos no seu modelo.", "Atenção", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                return;
+            }
+            
             
             this.Modelo.nmModelo = txtNome.Text;
             this.Modelo.Descricao = txtDescricao.Text;
@@ -972,9 +1033,10 @@ namespace Ipen.CBT.UI
             DataBD.GravarModelo(this.Modelo);
         }
 
-        private void btnSync_Click(object sender, EventArgs e)
+        private void AtualizarPainel()
         {
-            //this.PnlCanvas.SistemaCompartimental = this.Modelo.Colecao;
+            this.SuspendLayout();
+
             this.PnlCanvas.Controls.Clear();
             this.PnlCanvas.Refresh();
 
@@ -985,6 +1047,8 @@ namespace Ipen.CBT.UI
                 this.PnlCanvas.VerificarCaixasSobrepostas(cx);
                 this.PnlCanvas.Refresh();
             }
+            this.ResumeLayout();
         }
-    }
+
+     }
 }
