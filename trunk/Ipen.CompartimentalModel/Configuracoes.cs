@@ -10,7 +10,7 @@ namespace Ipen.CompartimentalModel
         public static string Arquivo;
         public static bool ExibirRotulos;
 
-        public static Sistema Colecao = new Sistema();
+        //public static Sistema Colecao = new Sistema();
 
         public static OleDbConnection Conectar()
         {

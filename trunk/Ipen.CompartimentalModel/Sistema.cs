@@ -13,7 +13,7 @@ namespace Ipen.CompartimentalModel
         #endregion
 
         #region Construtor
-        public Sistema()
+        private Sistema()
         {
             _caixas = new CaixasCollection();
             _caixas.BoxClick += new EventHandler(_caixas_BoxClick);
@@ -28,6 +28,20 @@ namespace Ipen.CompartimentalModel
             _caixas.BoxPropertyChanged += new Caixas.CaixaEventHandler(_caixas_BoxPropertyChanged);
             _linhas = new LinhasCollection();
         }
+
+        //public static readonly Sistema Instancia = new Sistema();
+
+
+        private static Sistema referencia;
+
+        public static Sistema getInstance()
+        {
+            if (referencia == null)
+                referencia = new Sistema();
+
+            return referencia;
+        }
+
         #endregion
 
         #region Novos eventos

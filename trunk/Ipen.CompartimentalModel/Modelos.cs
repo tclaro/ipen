@@ -8,18 +8,20 @@ namespace Ipen.CompartimentalModel
 {
     public class Modelos
     {
-        public TipoModelos Tipo = new TipoModelos();
+        public TipoModelos Tipo;
 
         private int _idModelo;
         private string _nmModelo;
         private DateTime _dtCriacao;
         private string _Descricao;
+        private Sistema _Colecao;
+        
         
         #region Acesso aos Campos
         public Sistema Colecao
         {
-            get { return Configuracoes.Colecao; }
-            set { Configuracoes.Colecao = value; }
+            get { return _Colecao; }
+            set { _Colecao = value; }
         }
 
         public int idModelo
@@ -74,13 +76,24 @@ namespace Ipen.CompartimentalModel
             this.idModelo = 0;
             this.dtCriacao = System.DateTime.Now;
             this.Tipo = new TipoModelos();
+            this._Colecao = Sistema.getInstance();
         }
 
         public void PreencherCaixasLinhas()
         {
+            
             //Nunca poderia ser preenchido linhas antes de caixas
-            this.Colecao.Caixas = DataBD.PreencherCaixas(this.idModelo);
-            this.Colecao.Linhas = DataBD.PreencherLinhas(this.idModelo, this.Colecao.Caixas);
+            CaixasCollection TodasCaixas = DataBD.PreencherCaixas(this.idModelo);
+
+            foreach (Caixas cx in TodasCaixas)
+                this.Colecao.Caixas.Add(cx);
+
+            LinhasCollection TodasLinhas = DataBD.PreencherLinhas(this.idModelo, this.Colecao.Caixas);
+
+            foreach (Linhas ln in TodasLinhas)
+                this.Colecao.Linhas.Add(ln);
+
+                
         }
 
     }

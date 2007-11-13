@@ -48,7 +48,7 @@ namespace Ipen.CompartimentalModel
             _Incorporacao = Incorporacao;
             _Fracao = Fracao;
             this.Location = Posicao;
-            this.Font = new Font("Tahoma", 8F, FontStyle.Regular);
+            this.Font = new Font("Arial", 7F, FontStyle.Regular);
             this.Size = this.DefaultSize;
             VerificarTamanho();
             RecalcularValoresPosicao();
@@ -60,7 +60,7 @@ namespace Ipen.CompartimentalModel
         #region Propriedades públicas
 
         #region Override na base
-        [DefaultValue(typeof(Size), "60,50")]
+        [DefaultValue(typeof(Size), "60,35")]
         public new Size Size
         {
             get { return base.Size; }
@@ -82,7 +82,8 @@ namespace Ipen.CompartimentalModel
         }
         public new Size DefaultSize
         {
-            get { return new Size(60, 50); }
+            //get { return new Size(60, 50); }
+            get { return new Size(60, 35); }
         }
         public new Color ForeColor
         {

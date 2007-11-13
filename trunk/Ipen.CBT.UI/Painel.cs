@@ -11,7 +11,7 @@ namespace Ipen.CBT.UI
     public class Painel : Panel
     {
         #region Campos
-        //Sistema _sistemaCompartimental;
+        Sistema _sistemaCompartimental;
         #endregion
 
         #region Construtor
@@ -22,38 +22,47 @@ namespace Ipen.CBT.UI
         
         void InitializeHelper()
         {
-            Configuracoes.Colecao.BoxMouseDown += new MouseEventHandler(_sistemaCompartimental_BoxMouseDown);
-            Configuracoes.Colecao.BoxDeleted += new Caixas.CaixaEventHandler(_sistemaCompartimental_BoxDeleted);
-            Configuracoes.Colecao.BoxDoubleClick += new EventHandler(_sistemaCompartimental_BoxDoubleClick);
-            Configuracoes.Colecao.BoxKeyDown += new KeyEventHandler(_sistemaCompartimental_BoxKeyDown);
-            Configuracoes.Colecao.BoxMoved += new Caixas.CaixaEventHandler(_sistemaCompartimental_BoxMoved);
-            Configuracoes.Colecao.BoxPropertyChanged += new Caixas.CaixaEventHandler(_sistemaCompartimental_BoxPropertyChanged);
-            Configuracoes.Colecao.BoxMove += new EventHandler(_sistemaCompartimental_BoxMove);
+            _sistemaCompartimental = Sistema.getInstance();
+            _sistemaCompartimental.BoxMouseDown += new MouseEventHandler(_sistemaCompartimental_BoxMouseDown);
+            _sistemaCompartimental.BoxDeleted += new Caixas.CaixaEventHandler(_sistemaCompartimental_BoxDeleted);
+            _sistemaCompartimental.BoxDoubleClick += new EventHandler(_sistemaCompartimental_BoxDoubleClick);
+            _sistemaCompartimental.BoxKeyDown += new KeyEventHandler(_sistemaCompartimental_BoxKeyDown);
+            _sistemaCompartimental.BoxMoved += new Caixas.CaixaEventHandler(_sistemaCompartimental_BoxMoved);
+            _sistemaCompartimental.BoxPropertyChanged += new Caixas.CaixaEventHandler(_sistemaCompartimental_BoxPropertyChanged);
+            _sistemaCompartimental.BoxMove += new EventHandler(_sistemaCompartimental_BoxMove);
         }
          
+        #endregion
+
+        #region Propriedades públicas
+        public Sistema SistemaCompartimental
+        {
+            get { return _sistemaCompartimental; }
+            set { _sistemaCompartimental = value; }
+        }
         #endregion
 
         #region Métodos públicos
         public void IncluirCaixa(Caixas cx)
         {
-            //Configuracoes.Colecao.Caixas.Add(cx);
+            //_sistemaCompartimental.Caixas.Add(cx);
             this.Controls.Add(cx);
             cx.BringToFront();
             this.VerificarCaixasSobrepostas(cx);
-            this.Refresh();
+            //this.Refresh();
         }
         public void IncluirLinha(Linhas ln)
         {
-            //ln.Redesenhar = true;
-            Configuracoes.Colecao.Linhas.Add(ln);
+
+            this._sistemaCompartimental.Linhas.Add(ln);
             this.Refresh();
         }
         public void DesmarcarTudo()
         {
-            foreach (Caixas cx in Configuracoes.Colecao.Caixas)
+            foreach (Caixas cx in this._sistemaCompartimental.Caixas)
                 cx.EstaSelecionado = false;
 
-            foreach (Linhas ln in Configuracoes.Colecao.Linhas)
+            foreach (Linhas ln in this._sistemaCompartimental.Linhas)
                 ln.EstaSelecionado = false;
         }
         #endregion
@@ -77,7 +86,9 @@ namespace Ipen.CBT.UI
         }
         void _sistemaCompartimental_BoxMove(object sender, EventArgs e)
         {
+            
             this.Refresh();
+            
         }
         void _sistemaCompartimental_BoxMoved(Caixas.BoxEventArgs be)
         {
@@ -92,7 +103,7 @@ namespace Ipen.CBT.UI
             {
                 DialogResult dlgResposta = MessageBox.Show(string.Format("Tem certeza que deseja excluir o compartimento {0} ({1}) e todas as suas ligações?", cx.Numero, cx.Nome), "Exclusão de compartimento", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2);
                 if (dlgResposta == DialogResult.Yes)
-                    Configuracoes.Colecao.Caixas.Remove(cx);
+                    _sistemaCompartimental.Caixas.Remove(cx);
             }
         }
         void _sistemaCompartimental_BoxDoubleClick(object sender, EventArgs e)
@@ -131,7 +142,7 @@ namespace Ipen.CBT.UI
         }
         private Caixas ObterCaixaPorClique(System.Drawing.Point pto)
         {
-            foreach (Caixas cx in Configuracoes.Colecao.Caixas)
+            foreach (Caixas cx in this._sistemaCompartimental.Caixas)
                 if (cx.PontoNessaCaixa(pto))
                     return cx;
 
@@ -139,7 +150,7 @@ namespace Ipen.CBT.UI
         }
         private Caixas ObterCaixaPorClique(System.Drawing.Point[] ptos, Caixas CaixaNaoVerificada)
         {
-            foreach (Caixas cx in Configuracoes.Colecao.Caixas)
+            foreach (Caixas cx in this._sistemaCompartimental.Caixas)
             {
                 if (cx == CaixaNaoVerificada)
                     continue;
@@ -163,23 +174,22 @@ namespace Ipen.CBT.UI
         protected override void OnPaint(PaintEventArgs e)
         {
             #region Configurar gráficos
-            //e.Graphics.CompositingQuality = CompositingQuality.HighQuality;
-            //e.Graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
-            //e.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
-            //e.Graphics.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
+
+            e.Graphics.CompositingQuality = CompositingQuality.HighSpeed;
+            e.Graphics.InterpolationMode = InterpolationMode.Default;
+            e.Graphics.SmoothingMode = SmoothingMode.HighSpeed;
+            e.Graphics.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
             #endregion
             
             #region Desenhar Linhas
-            foreach (Linhas ln in Configuracoes.Colecao.Linhas)
+            foreach (Linhas ln in _sistemaCompartimental.Linhas)
             {
-                if (!ln.Redesenhar)
-                   //continue;
-
+               
                 //Desenha a seta
-                if (ln.DirecaoDaLinha == Linhas.Direcao.InicioParaFim || ln.DirecaoDaLinha == Linhas.Direcao.Ambos)
-                    DesenharSetaDirecao(ln.CaixaFim, ln, ln.CaixaInicio, e.Graphics);
-                if (ln.DirecaoDaLinha == Linhas.Direcao.FimParaInicio || ln.DirecaoDaLinha == Linhas.Direcao.Ambos)
-                    DesenharSetaDirecao(ln.CaixaInicio, ln, ln.CaixaFim, e.Graphics);
+                //if (ln.DirecaoDaLinha == Linhas.Direcao.InicioParaFim || ln.DirecaoDaLinha == Linhas.Direcao.Ambos)
+                //    DesenharSetaDirecao(ln.CaixaFim, ln, ln.CaixaInicio, e.Graphics);
+                //if (ln.DirecaoDaLinha == Linhas.Direcao.FimParaInicio || ln.DirecaoDaLinha == Linhas.Direcao.Ambos)
+                //    DesenharSetaDirecao(ln.CaixaInicio, ln, ln.CaixaFim, e.Graphics);
 
                 //Desenha a linha
                 e.Graphics.DrawLine(new Pen(ln.ForeColor), ln.PontoInicio, ln.PontoFim);
@@ -206,6 +216,7 @@ namespace Ipen.CBT.UI
                         e.Graphics.DrawString(ln.NomeBA, ln.Font, new System.Drawing.SolidBrush(ln.ForeColor), ln.PontoTercoFim.X - tamanho2.Width / 2, ln.PontoTercoFim.Y - tamanho2.Height / 2);
                         e.Graphics.DrawRectangle(new Pen(ln.ForeColor), (ln.PontoTercoFim.X - tamanho2.Width / 2) - 1, (ln.PontoTercoFim.Y - tamanho2.Height / 2) - 1, tamanho2.Width + 2, tamanho2.Height + 2);
                     }
+
                 }
             }
             #endregion
