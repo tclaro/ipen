@@ -45,6 +45,8 @@ namespace Ipen.CBT.UI
         {
             //Pega o código da linha selecionada
             _idModelo = (int)dgvModelos.CurrentRow.Cells["idModelo"].Value;
+            this.DialogResult = DialogResult.Yes;
+            this.Close();
         }
 
         private void btnFechar_Click(object sender, EventArgs e)
