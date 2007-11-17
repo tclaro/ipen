@@ -139,10 +139,10 @@ namespace Ipen.CompartimentalModel
                 if (_EstaSelecionado == value)
                     return;
                 this._EstaSelecionado = value;
-                //BoxEventArgs be = new BoxEventArgs();
-                //be.Box = this;
-                //be.EventType = BoxEventArgs.BoxEventTypes.PropertyChanged;
-                //OnPropertyChanged(be);
+                BoxEventArgs be = new BoxEventArgs();
+                be.Box = this;
+                be.EventType = BoxEventArgs.BoxEventTypes.PropertyChanged;
+                OnPropertyChanged(be);
             }
         }
         public bool Acompanhar
@@ -238,6 +238,7 @@ namespace Ipen.CompartimentalModel
             public BoxEventArgs() { }
             public Caixas Box { get { return _box; } set { _box = value; } }
             public BoxEventTypes EventType { get { return _eventType; } set { _eventType = value; } }
+           
             public enum BoxEventTypes
             {
                 Deleted, Moved, PropertyChanged
@@ -339,6 +340,7 @@ namespace Ipen.CompartimentalModel
 
                 #region Retângulo arredondado externo em Gradiente
                 Rectangle outerRect = new Rectangle(0, 0, this.Width - 1, this.Height - 1);
+                
                 using (GraphicsPath outerPath = DrawingUtils.RoundedRectangle(outerRect, 5, 0))
                 {
                     using (LinearGradientBrush outerBrush = new LinearGradientBrush(outerRect, gradientTop, gradientBottom, LinearGradientMode.Vertical))
@@ -350,6 +352,7 @@ namespace Ipen.CompartimentalModel
                         g.DrawPath(outlinePen, outerPath);
                     }
                 }
+                 
                 #endregion
 
                 #region Luz superior em Gradiente
@@ -365,11 +368,18 @@ namespace Ipen.CompartimentalModel
                 #endregion
 
                 #region Texto
-                SizeF tamanho = g.MeasureString(this.Nome, this.Font);
-                g.DrawString(this.Numero.ToString(), this.Font, Brushes.White, 2, 2);
-                g.DrawString(this.Numero.ToString(), this.Font, Brushes.Black, 1, 1);
-                g.DrawString(this.Nome, this.Font, Brushes.Gray, this.Width / 2 - tamanho.Width / 2 + 1, this.Height / 2 - tamanho.Height / 2 + 1);
-                g.DrawString(this.Nome, this.Font, new SolidBrush(this.ForeColor), this.Width / 2 - tamanho.Width / 2, this.Height / 2 - tamanho.Height / 2);
+                Font MinhaFonte = this.Font;
+
+                //Caixas de incorporação aparecem sublinhadas
+                if (this.Incorporacao)
+                    MinhaFonte = new Font(this.Font, FontStyle.Underline);
+                
+                SizeF tamanho = g.MeasureString(this.Nome, MinhaFonte);
+
+                g.DrawString(this.Numero.ToString(), MinhaFonte, Brushes.White, 2, 2);
+                g.DrawString(this.Numero.ToString(), MinhaFonte, Brushes.Black, 1, 1);
+                g.DrawString(this.Nome, MinhaFonte, Brushes.Gray, this.Width / 2 - tamanho.Width / 2 + 1, this.Height / 2 - tamanho.Height / 2 + 1);
+                g.DrawString(this.Nome, MinhaFonte, new SolidBrush(this.ForeColor), this.Width / 2 - tamanho.Width / 2, this.Height / 2 - tamanho.Height / 2);
                 #endregion
 
                 if (EstaSelecionado)

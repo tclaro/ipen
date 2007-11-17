@@ -61,6 +61,8 @@ namespace Ipen.CBT.UI
             this.mnuFerramentasPersonalizar = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuFerramentasOpcoes = new System.Windows.Forms.ToolStripMenuItem();
             this.exibirRótuloDeTransferênciasToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.exibirSetasDeDireçãoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.exibirApenasLigaçõesDoCompartimentoSelecionadoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.configurarBancoDeDadosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.cadastrarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.modelosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -139,6 +141,7 @@ namespace Ipen.CBT.UI
             this.mnuArquivoImprimir,
             this.toolStripSeparator2,
             this.mnuArquivoSair});
+            this.mnuArquivo.Enabled = false;
             this.mnuArquivo.Name = "mnuArquivo";
             this.mnuArquivo.Size = new System.Drawing.Size(56, 20);
             this.mnuArquivo.Text = "&Arquivo";
@@ -264,12 +267,14 @@ namespace Ipen.CBT.UI
             // 
             // exportarToolStripMenuItem
             // 
+            this.exportarToolStripMenuItem.Enabled = false;
             this.exportarToolStripMenuItem.Name = "exportarToolStripMenuItem";
             this.exportarToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
             this.exportarToolStripMenuItem.Text = "Exportar";
             // 
             // importarToolStripMenuItem
             // 
+            this.importarToolStripMenuItem.Enabled = false;
             this.importarToolStripMenuItem.Name = "importarToolStripMenuItem";
             this.importarToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
             this.importarToolStripMenuItem.Text = "Importar";
@@ -281,6 +286,7 @@ namespace Ipen.CBT.UI
             this.toolStripMenuItem1,
             this.mnuEditarPropriedades,
             this.mnuEditarExcluir});
+            this.mnuEditar.Enabled = false;
             this.mnuEditar.Name = "mnuEditar";
             this.mnuEditar.Size = new System.Drawing.Size(47, 20);
             this.mnuEditar.Text = "&Editar";
@@ -317,6 +323,7 @@ namespace Ipen.CBT.UI
             this.mnuInserir.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.mnuInserirCaixa,
             this.mnuInserirLinha});
+            this.mnuInserir.Enabled = false;
             this.mnuInserir.Name = "mnuInserir";
             this.mnuInserir.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift)
                         | System.Windows.Forms.Keys.C)));
@@ -353,6 +360,7 @@ namespace Ipen.CBT.UI
             // 
             // mnuFerramentasPersonalizar
             // 
+            this.mnuFerramentasPersonalizar.Enabled = false;
             this.mnuFerramentasPersonalizar.Name = "mnuFerramentasPersonalizar";
             this.mnuFerramentasPersonalizar.Size = new System.Drawing.Size(228, 22);
             this.mnuFerramentasPersonalizar.Text = "Personali&zar...";
@@ -361,7 +369,9 @@ namespace Ipen.CBT.UI
             // mnuFerramentasOpcoes
             // 
             this.mnuFerramentasOpcoes.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.exibirRótuloDeTransferênciasToolStripMenuItem});
+            this.exibirRótuloDeTransferênciasToolStripMenuItem,
+            this.exibirSetasDeDireçãoToolStripMenuItem,
+            this.exibirApenasLigaçõesDoCompartimentoSelecionadoToolStripMenuItem});
             this.mnuFerramentasOpcoes.Name = "mnuFerramentasOpcoes";
             this.mnuFerramentasOpcoes.Size = new System.Drawing.Size(228, 22);
             this.mnuFerramentasOpcoes.Text = "&Opções";
@@ -372,9 +382,25 @@ namespace Ipen.CBT.UI
             this.exibirRótuloDeTransferênciasToolStripMenuItem.Checked = true;
             this.exibirRótuloDeTransferênciasToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.exibirRótuloDeTransferênciasToolStripMenuItem.Name = "exibirRótuloDeTransferênciasToolStripMenuItem";
-            this.exibirRótuloDeTransferênciasToolStripMenuItem.Size = new System.Drawing.Size(234, 22);
+            this.exibirRótuloDeTransferênciasToolStripMenuItem.Size = new System.Drawing.Size(345, 22);
             this.exibirRótuloDeTransferênciasToolStripMenuItem.Text = "Exibir Rótulo de Transferências";
             this.exibirRótuloDeTransferênciasToolStripMenuItem.Click += new System.EventHandler(this.exibirRótuloDeTransferênciasToolStripMenuItem_Click);
+            // 
+            // exibirSetasDeDireçãoToolStripMenuItem
+            // 
+            this.exibirSetasDeDireçãoToolStripMenuItem.Checked = true;
+            this.exibirSetasDeDireçãoToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.exibirSetasDeDireçãoToolStripMenuItem.Name = "exibirSetasDeDireçãoToolStripMenuItem";
+            this.exibirSetasDeDireçãoToolStripMenuItem.Size = new System.Drawing.Size(345, 22);
+            this.exibirSetasDeDireçãoToolStripMenuItem.Text = "Exibir Setas de Direção";
+            this.exibirSetasDeDireçãoToolStripMenuItem.Click += new System.EventHandler(this.exibirSetasDeDireçãoToolStripMenuItem_Click);
+            // 
+            // exibirApenasLigaçõesDoCompartimentoSelecionadoToolStripMenuItem
+            // 
+            this.exibirApenasLigaçõesDoCompartimentoSelecionadoToolStripMenuItem.Name = "exibirApenasLigaçõesDoCompartimentoSelecionadoToolStripMenuItem";
+            this.exibirApenasLigaçõesDoCompartimentoSelecionadoToolStripMenuItem.Size = new System.Drawing.Size(345, 22);
+            this.exibirApenasLigaçõesDoCompartimentoSelecionadoToolStripMenuItem.Text = "Exibir Apenas Ligações do Compartimento Selecionado";
+            this.exibirApenasLigaçõesDoCompartimentoSelecionadoToolStripMenuItem.Click += new System.EventHandler(this.exibirApenasLigaçõesDoCompartimentoSelecionadoToolStripMenuItem_Click);
             // 
             // configurarBancoDeDadosToolStripMenuItem
             // 
@@ -388,6 +414,7 @@ namespace Ipen.CBT.UI
             this.cadastrarToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.modelosToolStripMenuItem,
             this.modelosGraficamenteToolStripMenuItem});
+            this.cadastrarToolStripMenuItem.Enabled = false;
             this.cadastrarToolStripMenuItem.Name = "cadastrarToolStripMenuItem";
             this.cadastrarToolStripMenuItem.Size = new System.Drawing.Size(67, 20);
             this.cadastrarToolStripMenuItem.Text = "Cadastrar";
@@ -581,6 +608,7 @@ namespace Ipen.CBT.UI
             this.lstCompartimentos.Size = new System.Drawing.Size(423, 82);
             this.lstCompartimentos.TabIndex = 38;
             this.lstCompartimentos.DoubleClick += new System.EventHandler(this.lstCompartimentos_DoubleClick);
+            this.lstCompartimentos.Click += new System.EventHandler(this.lstCompartimentos_Click);
             // 
             // lblCompAdded
             // 
@@ -907,5 +935,7 @@ namespace Ipen.CBT.UI
         private ComboBox cboCompartB;
         private ComboBox cboCompartA;
         private Button btnGamb;
+        private ToolStripMenuItem exibirSetasDeDireçãoToolStripMenuItem;
+        private ToolStripMenuItem exibirApenasLigaçõesDoCompartimentoSelecionadoToolStripMenuItem;
     }
 }

@@ -173,6 +173,8 @@ namespace Ipen.CBT.UI
 
         protected override void OnPaint(PaintEventArgs e)
         {
+            
+            
             #region Configurar gráficos
 
             e.Graphics.CompositingQuality = CompositingQuality.HighSpeed;
@@ -181,57 +183,80 @@ namespace Ipen.CBT.UI
             e.Graphics.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
             #endregion
             
+
             #region Desenhar Linhas
             foreach (Linhas ln in _sistemaCompartimental.Linhas)
             {
-               
-                //Desenha a seta
-                //if (ln.DirecaoDaLinha == Linhas.Direcao.InicioParaFim || ln.DirecaoDaLinha == Linhas.Direcao.Ambos)
-                //    DesenharSetaDirecao(ln.CaixaFim, ln, ln.CaixaInicio, e.Graphics);
-                //if (ln.DirecaoDaLinha == Linhas.Direcao.FimParaInicio || ln.DirecaoDaLinha == Linhas.Direcao.Ambos)
-                //    DesenharSetaDirecao(ln.CaixaInicio, ln, ln.CaixaFim, e.Graphics);
 
-                //Desenha a linha
-                e.Graphics.DrawLine(new Pen(ln.ForeColor), ln.PontoInicio, ln.PontoFim);
+                int EspessuraDaLinha = 1;
+                Brush CorDoRotulo = System.Drawing.Brushes.White;
 
-                //Label da Linha
-                if (Configuracoes.ExibirRotulos)
+                if (ln.CaixaInicio.EstaSelecionado || ln.CaixaFim.EstaSelecionado)
                 {
-                    if (ln.DirecaoDaLinha != Linhas.Direcao.Ambos)
-                    {
-                        System.Drawing.SizeF tamanho = e.Graphics.MeasureString(ln.Nome, ln.Font);
-                        e.Graphics.FillRectangle(System.Drawing.Brushes.White, (ln.PontoCentral.X - tamanho.Width / 2) - 1, (ln.PontoCentral.Y - tamanho.Height / 2) - 1, tamanho.Width + 2, tamanho.Height + 2);
-                        e.Graphics.DrawString(ln.Nome, ln.Font, new System.Drawing.SolidBrush(ln.ForeColor), ln.PontoCentral.X - tamanho.Width / 2, ln.PontoCentral.Y - tamanho.Height / 2);
-                        e.Graphics.DrawRectangle(new Pen(ln.ForeColor), (ln.PontoCentral.X - tamanho.Width / 2) - 1, (ln.PontoCentral.Y - tamanho.Height / 2) - 1, tamanho.Width + 2, tamanho.Height + 2);
-                    }
-                    else
-                    {
-                        System.Drawing.SizeF tamanho = e.Graphics.MeasureString(ln.NomeAB, ln.Font);
-                        e.Graphics.FillRectangle(System.Drawing.Brushes.White, (ln.PontoTercoInicio.X - tamanho.Width / 2) - 1, (ln.PontoTercoInicio.Y - tamanho.Height / 2) - 1, tamanho.Width + 2, tamanho.Height + 2);
-                        e.Graphics.DrawString(ln.NomeAB, ln.Font, new System.Drawing.SolidBrush(ln.ForeColor), ln.PontoTercoInicio.X - tamanho.Width / 2, ln.PontoTercoInicio.Y - tamanho.Height / 2);
-                        e.Graphics.DrawRectangle(new Pen(ln.ForeColor), (ln.PontoTercoInicio.X - tamanho.Width / 2) - 1, (ln.PontoTercoInicio.Y - tamanho.Height / 2) - 1, tamanho.Width + 2, tamanho.Height + 2);
+                    EspessuraDaLinha = 3;
+                    CorDoRotulo = Brushes.PapayaWhip;
+                }
 
-                        System.Drawing.SizeF tamanho2 = e.Graphics.MeasureString(ln.NomeBA, ln.Font);
-                        e.Graphics.FillRectangle(System.Drawing.Brushes.White, (ln.PontoTercoFim.X - tamanho2.Width / 2) - 1, (ln.PontoTercoFim.Y - tamanho2.Height / 2) - 1, tamanho2.Width + 2, tamanho2.Height + 2);
-                        e.Graphics.DrawString(ln.NomeBA, ln.Font, new System.Drawing.SolidBrush(ln.ForeColor), ln.PontoTercoFim.X - tamanho2.Width / 2, ln.PontoTercoFim.Y - tamanho2.Height / 2);
-                        e.Graphics.DrawRectangle(new Pen(ln.ForeColor), (ln.PontoTercoFim.X - tamanho2.Width / 2) - 1, (ln.PontoTercoFim.Y - tamanho2.Height / 2) - 1, tamanho2.Width + 2, tamanho2.Height + 2);
+                if (!Configuracoes.ExibirTodasLigacoes || (ln.CaixaInicio.EstaSelecionado || ln.CaixaFim.EstaSelecionado))
+                {
+
+                    //Desenha a seta
+                    if (Configuracoes.ExibirSetas)
+                    {
+                        if (ln.DirecaoDaLinha == Linhas.Direcao.InicioParaFim || ln.DirecaoDaLinha == Linhas.Direcao.Ambos)
+                            DesenharSetaDirecao(ln.CaixaFim, ln, ln.CaixaInicio, e.Graphics);
+                        if (ln.DirecaoDaLinha == Linhas.Direcao.FimParaInicio || ln.DirecaoDaLinha == Linhas.Direcao.Ambos)
+                            DesenharSetaDirecao(ln.CaixaInicio, ln, ln.CaixaFim, e.Graphics);
                     }
 
+                    //Desenha a linha
+
+                    e.Graphics.DrawLine(new Pen(ln.ForeColor, EspessuraDaLinha), ln.PontoInicio, ln.PontoFim);
+
+
+                    //Rótulo da Linha
+                    if (Configuracoes.ExibirRotulos)
+                    {
+                        if (ln.DirecaoDaLinha != Linhas.Direcao.Ambos)
+                        {
+                            System.Drawing.SizeF tamanho = e.Graphics.MeasureString(ln.Nome, ln.Font);
+                            e.Graphics.FillRectangle(CorDoRotulo, (ln.PontoCentral.X - tamanho.Width / 2) - 1, (ln.PontoCentral.Y - tamanho.Height / 2) - 1, tamanho.Width + 2, tamanho.Height + 2);
+                            e.Graphics.DrawString(ln.Nome, ln.Font, new System.Drawing.SolidBrush(ln.ForeColor), ln.PontoCentral.X - tamanho.Width / 2, ln.PontoCentral.Y - tamanho.Height / 2);
+                            e.Graphics.DrawRectangle(new Pen(ln.ForeColor), (ln.PontoCentral.X - tamanho.Width / 2) - 1, (ln.PontoCentral.Y - tamanho.Height / 2) - 1, tamanho.Width + 2, tamanho.Height + 2);
+                        }
+                        else
+                        {
+                            System.Drawing.SizeF tamanho = e.Graphics.MeasureString(ln.NomeAB, ln.Font);
+                            e.Graphics.FillRectangle(CorDoRotulo, (ln.PontoTercoInicio.X - tamanho.Width / 2) - 1, (ln.PontoTercoInicio.Y - tamanho.Height / 2) - 1, tamanho.Width + 2, tamanho.Height + 2);
+                            e.Graphics.DrawString(ln.NomeAB, ln.Font, new System.Drawing.SolidBrush(ln.ForeColor), ln.PontoTercoInicio.X - tamanho.Width / 2, ln.PontoTercoInicio.Y - tamanho.Height / 2);
+                            e.Graphics.DrawRectangle(new Pen(ln.ForeColor), (ln.PontoTercoInicio.X - tamanho.Width / 2) - 1, (ln.PontoTercoInicio.Y - tamanho.Height / 2) - 1, tamanho.Width + 2, tamanho.Height + 2);
+
+                            System.Drawing.SizeF tamanho2 = e.Graphics.MeasureString(ln.NomeBA, ln.Font);
+                            e.Graphics.FillRectangle(CorDoRotulo, (ln.PontoTercoFim.X - tamanho2.Width / 2) - 1, (ln.PontoTercoFim.Y - tamanho2.Height / 2) - 1, tamanho2.Width + 2, tamanho2.Height + 2);
+                            e.Graphics.DrawString(ln.NomeBA, ln.Font, new System.Drawing.SolidBrush(ln.ForeColor), ln.PontoTercoFim.X - tamanho2.Width / 2, ln.PontoTercoFim.Y - tamanho2.Height / 2);
+                            e.Graphics.DrawRectangle(new Pen(ln.ForeColor), (ln.PontoTercoFim.X - tamanho2.Width / 2) - 1, (ln.PontoTercoFim.Y - tamanho2.Height / 2) - 1, tamanho2.Width + 2, tamanho2.Height + 2);
+                        }
+
+                    }
                 }
             }
             #endregion
-                   
+
+            this.ResumeLayout();
+
             //base.OnPaint(e);
         }
         protected override void OnPaintBackground(PaintEventArgs e)
         {
+            this.SuspendLayout();
             base.OnPaintBackground(e);
+            this.ResumeLayout();
         }
         
         private void DesenharSetaDirecao(Caixas Caixa, Linhas ln, Caixas OutraCaixa, Graphics g)
         {
             //Seta na parte superior do compartimento
-            if (ln.XdeY(Caixa.Top) >= Caixa.Left && ln.XdeY(Caixa.Top) <= Caixa.Right && OutraCaixa.PontoCentral.Y < Caixa.PontoCentral.Y)
+            if (ln.XdeY(Caixa.Top) > Caixa.Left && ln.XdeY(Caixa.Top) <= Caixa.Right && OutraCaixa.PontoCentral.Y < Caixa.PontoCentral.Y)
             {
                 Point pontaDaSeta = new Point(ln.XdeY(Caixa.Top), Caixa.Top);
                 Point verticeDireita = new Point(pontaDaSeta.X + 4, pontaDaSeta.Y - 14);
@@ -244,7 +269,7 @@ namespace Ipen.CBT.UI
             }
 
             //Seta na parte inferior 
-            if (ln.XdeY(Caixa.Top) >= Caixa.Left && ln.XdeY(Caixa.Top) <= Caixa.Right && OutraCaixa.PontoCentral.Y > Caixa.PontoCentral.Y)
+            if (ln.XdeY(Caixa.Top) >= Caixa.Left && ln.XdeY(Caixa.Top) < Caixa.Right && OutraCaixa.PontoCentral.Y > Caixa.PontoCentral.Y)
             {
                 Point pontaDaSeta = new Point(ln.XdeY(Caixa.Bottom), Caixa.Bottom);
                 Point verticeDireita = new Point(pontaDaSeta.X + 4, pontaDaSeta.Y + 14);
@@ -257,7 +282,7 @@ namespace Ipen.CBT.UI
             }
 
             //Seta na lateral esquerda
-            if (ln.YdeX(Caixa.Left) >= Caixa.Top && ln.YdeX(Caixa.Left) <= Caixa.Bottom && OutraCaixa.PontoCentral.X < Caixa.PontoCentral.X)
+            if (ln.YdeX(Caixa.Left) >= Caixa.Top && ln.YdeX(Caixa.Left) < Caixa.Bottom && OutraCaixa.PontoCentral.X < Caixa.PontoCentral.X)
             {
                 Point pontaDaSeta = new Point(Caixa.Left, ln.YdeX(Caixa.Left));
                 Point verticeDireita = new Point(pontaDaSeta.X - 14, pontaDaSeta.Y + 4);

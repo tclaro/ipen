@@ -39,6 +39,8 @@ namespace Ipen.CBT.UI
             this.splitContainer1.Panel2.Controls.Add(this.PnlCanvas);
             this.splitContainer1.Panel1.Enabled = false;
             AjustarRotulos();
+            AjustarSetas();
+            AjustarLigacoes();
 
             btnCorComp.BackColor = Caixas.CorPadrao;
             btnCorLig.BackColor = Linhas.CorPadrao;
@@ -55,7 +57,7 @@ namespace Ipen.CBT.UI
                 }
                 catch(System.Data.OleDb.OleDbException)
                 {
-                    Configuracoes.Arquivo = "";
+                    Configuracoes.Arquivo = null;
                     MessageBox.Show("Não foi possível conectar no banco de dados previamente configurado.\nUse a opção \"Configurar banco de dados\" no menu ferramentas", "Atenção", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 }
             }
@@ -68,10 +70,24 @@ namespace Ipen.CBT.UI
             Configuracoes.ExibirRotulos = Exibir;
         }
 
+        private void AjustarSetas()
+        {
+            bool Exibir = Convert.ToBoolean(LerSettings("Setas"));
+            exibirSetasDeDireçãoToolStripMenuItem.Checked = Exibir;
+            Configuracoes.ExibirSetas = Exibir;
+        }
+
+        private void AjustarLigacoes()
+        {
+            bool Exibir = Convert.ToBoolean(LerSettings("Ligacoes"));
+            exibirApenasLigaçõesDoCompartimentoSelecionadoToolStripMenuItem.Checked = Exibir;
+            Configuracoes.ExibirTodasLigacoes = Exibir;
+        }
+        
         #region Métodos de eventos
         void pnlCanvas_BoxModifyRequest(Caixas cx)
         {
-            AlterarCaixa(cx);
+            SelecionarCaixa(cx);
         }
         void SistemaCompartimental_BoxClick(object sender, EventArgs e)
         {
@@ -204,6 +220,7 @@ namespace Ipen.CBT.UI
                 Configuracoes.Arquivo = openFile.FileName;
                 if (openFile.FileName != caminhoInicial)
                     GravarSettings("MDBPath", openFile.FileName);
+                LerTipoModelosMdb();
             }
         }
 
@@ -445,7 +462,7 @@ namespace Ipen.CBT.UI
 
         private void abrirToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (Configuracoes.Arquivo == null)
+            if (Configuracoes.Arquivo == null || Configuracoes.Arquivo == "")
             {
                 MessageBox.Show("Antes, use a opção \"Configurar banco de dados\" no menu ferramentas", "Atenção", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 return;
@@ -500,19 +517,6 @@ namespace Ipen.CBT.UI
 
         private void lstCompartimentos_DoubleClick(object sender, EventArgs e)
         {
-            int indice = lstCompartimentos.SelectedIndex;
-            if (indice < 0)
-                return;
-
-            CaixaAlterando = (Caixas)lstCompartimentos.SelectedItem;
-
-            txtCompartimento.Text = CaixaAlterando.Nome;
-            chkAcompanhar.Checked = CaixaAlterando.Acompanhar;
-            chkEliminacao.Checked = CaixaAlterando.Eliminacao;
-            btnCorComp.BackColor = CaixaAlterando.BackColor;
-            chkIncorporacao.Checked = CaixaAlterando.Incorporacao;
-            txtFracao.Text = CaixaAlterando.Fracao.ToString();
-            btnAddComp.Text = "&Alterar";
         }
 
         private void cmdLimparComp_Click(object sender, EventArgs e)
@@ -1050,5 +1054,52 @@ namespace Ipen.CBT.UI
             this.ResumeLayout();
         }
 
+        private void exibirSetasDeDireçãoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            bool Exibir = !exibirSetasDeDireçãoToolStripMenuItem.Checked;
+            exibirSetasDeDireçãoToolStripMenuItem.Checked = Exibir;
+            CompartimentalModel.Configuracoes.ExibirSetas = Exibir;
+            this.PnlCanvas.Refresh();
+            GravarSettings("Setas", Exibir.ToString());
+        }
+
+        private void lstCompartimentos_Click(object sender, EventArgs e)
+        {
+            int indice = lstCompartimentos.SelectedIndex;
+            if (indice < 0)
+                return;
+
+            Caixas cx = (Caixas)lstCompartimentos.SelectedItem;
+            SelecionarCaixa(cx);
+            
+        }
+
+        private void SelecionarCaixa(Caixas CaixaAlterando)
+        {
+            this.CaixaAlterando = CaixaAlterando;
+            txtCompartimento.Text = CaixaAlterando.Nome;
+            chkAcompanhar.Checked = CaixaAlterando.Acompanhar;
+            chkEliminacao.Checked = CaixaAlterando.Eliminacao;
+            btnCorComp.BackColor = CaixaAlterando.BackColor;
+            chkIncorporacao.Checked = CaixaAlterando.Incorporacao;
+            txtFracao.Text = CaixaAlterando.Fracao.ToString();
+            btnAddComp.Text = "&Alterar";
+
+            foreach (Caixas cx in lstCompartimentos.Items)
+                if (cx.Nome == CaixaAlterando.Nome)
+                {
+                    lstCompartimentos.SelectedItem = cx;
+                    return;
+                }
+        }
+
+        private void exibirApenasLigaçõesDoCompartimentoSelecionadoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            bool Exibir = !exibirApenasLigaçõesDoCompartimentoSelecionadoToolStripMenuItem.Checked;
+            exibirApenasLigaçõesDoCompartimentoSelecionadoToolStripMenuItem.Checked = Exibir;
+            CompartimentalModel.Configuracoes.ExibirTodasLigacoes = Exibir;
+            this.PnlCanvas.Refresh();
+            GravarSettings("Ligacoes", Exibir.ToString());
+        }
      }
 }

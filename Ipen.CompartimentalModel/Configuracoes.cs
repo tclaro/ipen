@@ -9,8 +9,8 @@ namespace Ipen.CompartimentalModel
     {
         public static string Arquivo;
         public static bool ExibirRotulos;
-
-        //public static Sistema Colecao = new Sistema();
+        public static bool ExibirSetas;
+        public static bool ExibirTodasLigacoes;
 
         public static OleDbConnection Conectar()
         {
