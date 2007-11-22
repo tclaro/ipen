@@ -89,6 +89,7 @@ namespace Ipen.CBT.UI
         {
             SelecionarCaixa(cx);
         }
+
         void SistemaCompartimental_BoxClick(object sender, EventArgs e)
         {
             if (sender is Caixas && statusAtual != StatusPossiveis.Normal)
@@ -185,12 +186,12 @@ namespace Ipen.CBT.UI
 
         private void Salvar(string Caminho)
         {
+            Sistema S = Sistema.getInstance();
             if (Caminho != "")
             {
-                ArquivoAberto = Caminho;
-                DataXML interfaceXML = new DataXML(ArquivoAberto);
-                interfaceXML.Caixas = this.PnlCanvas.SistemaCompartimental.Caixas;
-                interfaceXML.Linhas = this.PnlCanvas.SistemaCompartimental.Linhas;
+                DataXML interfaceXML = new DataXML(Caminho);
+                interfaceXML.Caixas = S.Caixas;
+                interfaceXML.Linhas = S.Linhas;
                 interfaceXML.ExportarXML();
             }
         }
@@ -515,10 +516,6 @@ namespace Ipen.CBT.UI
 
         #region Métodos dos Compartimentos
 
-        private void lstCompartimentos_DoubleClick(object sender, EventArgs e)
-        {
-        }
-
         private void cmdLimparComp_Click(object sender, EventArgs e)
         {
 
@@ -579,6 +576,7 @@ namespace Ipen.CBT.UI
             RefazBind();
             LimparTelaCompartimento();
             AtualizarPainel();
+            this.PnlCanvas.DesmarcarTudo();
         }
 
         private void LimparTelaCompartimento()
@@ -610,7 +608,6 @@ namespace Ipen.CBT.UI
                 if (resposta == DialogResult.No)
                     return;
 
-                //Modelo.Colecao.Linhas.Remove(CaixaRemovendo);
             }
 
             Modelo.Colecao.Caixas.RemoveAt(Item);
@@ -751,24 +748,7 @@ namespace Ipen.CBT.UI
         }
         private void lvwLigacoes_DoubleClick(object sender, EventArgs e)
         {
-            ListViewItem item = lvwLigacoes.SelectedItems[0];
 
-            if (item == null)
-                return;
-
-            Linhas Ln = (Linhas)item.Tag;
-            if (Ln.CaixaInicio.Nome == item.SubItems[1].Text)
-            {
-                cboCompartA.SelectedValue = Ln.CaixaInicio.Numero;
-                cboCompartB.SelectedValue = Ln.CaixaFim.Numero;
-                txtValorAB.Text = Ln.ValorAB.ToString();
-            }
-            else
-            {
-                cboCompartA.SelectedValue = Ln.CaixaFim.Numero;
-                cboCompartB.SelectedValue = Ln.CaixaInicio.Numero;
-                txtValorAB.Text = Ln.ValorBA.ToString();
-            }
         }
 
         private void btnCorLig_Click(object sender, EventArgs e)
@@ -1051,6 +1031,7 @@ namespace Ipen.CBT.UI
                 this.PnlCanvas.VerificarCaixasSobrepostas(cx);
                 this.PnlCanvas.Refresh();
             }
+
             this.ResumeLayout();
         }
 
@@ -1065,12 +1046,7 @@ namespace Ipen.CBT.UI
 
         private void lstCompartimentos_Click(object sender, EventArgs e)
         {
-            int indice = lstCompartimentos.SelectedIndex;
-            if (indice < 0)
-                return;
 
-            Caixas cx = (Caixas)lstCompartimentos.SelectedItem;
-            SelecionarCaixa(cx);
             
         }
 
@@ -1101,5 +1077,89 @@ namespace Ipen.CBT.UI
             this.PnlCanvas.Refresh();
             GravarSettings("Ligacoes", Exibir.ToString());
         }
-     }
+
+        private void lstCompartimentos_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            int indice = lstCompartimentos.SelectedIndex;
+            if (indice < 0)
+                return;
+
+            Caixas cx = (Caixas)lstCompartimentos.SelectedItem;
+            SelecionarCaixa(cx);
+
+            this.PnlCanvas.DesmarcarTudo();
+
+            cx.BringToFront();
+            cx.EstaSelecionado = true;
+        }
+
+        private void lvwLigacoes_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (lvwLigacoes.SelectedItems.Count == 0)
+                return;
+
+            ListViewItem item = lvwLigacoes.SelectedItems[0];
+            
+
+            if (item == null)
+                return;
+
+            Linhas Ln = (Linhas)item.Tag;
+            if (Ln.CaixaInicio.Nome == item.SubItems[1].Text)
+            {
+                cboCompartA.SelectedValue = Ln.CaixaInicio.Numero;
+                cboCompartB.SelectedValue = Ln.CaixaFim.Numero;
+                txtValorAB.Text = Ln.ValorAB.ToString();
+            }
+            else
+            {
+                cboCompartA.SelectedValue = Ln.CaixaFim.Numero;
+                cboCompartB.SelectedValue = Ln.CaixaInicio.Numero;
+                txtValorAB.Text = Ln.ValorBA.ToString();
+            }
+        }
+
+        private void exportarToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            string nomeArquivo = "";
+            nomeArquivo = SolicitarNomeArquivo();
+            Salvar(nomeArquivo);
+        }
+
+        private void importarToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openFile = new OpenFileDialog();
+            openFile.InitialDirectory = LerSettings("XMLPath");
+            openFile.DefaultExt = "xml";
+            openFile.Filter = "Extensible Markup Language (*.xml)|*.xml";
+            openFile.RestoreDirectory = true;
+            openFile.Multiselect = false;
+            if (openFile.ShowDialog() == DialogResult.OK)
+            {
+                LimparColecao();
+
+                ArquivoAberto = openFile.FileName;
+                GravarSettings("XMLPath", openFile.FileName);
+
+                DataXML interfaceXML = new DataXML(ArquivoAberto);
+                //DataXML interfaceXML = new DataXML(ArquivoAberto, this.PnlCanvas.SistemaCompartimental.Linhas, this.PnlCanvas.SistemaCompartimental.Caixas);
+
+                interfaceXML.ImportarXML();
+
+                //Não funciona... pq precisa passar pelo método "IncluirCaixa()"
+                //this.PnlCanvas.SistemaCompartimental.Caixas = interfaceXML.Caixas;
+
+                foreach (Caixas cx in interfaceXML.Caixas)
+                    this.PnlCanvas.IncluirCaixa(cx);
+
+                //aqui funciona
+                //this.PnlCanvas.SistemaCompartimental.Linhas = interfaceXML.Linhas;
+
+                foreach (Linhas ln in interfaceXML.Linhas)
+                    this.PnlCanvas.IncluirLinha(ln);
+
+                this.PnlCanvas.Refresh();
+            }
+        }
+    }
 }

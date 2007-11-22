@@ -267,17 +267,18 @@ namespace Ipen.CBT.UI
             // 
             // exportarToolStripMenuItem
             // 
-            this.exportarToolStripMenuItem.Enabled = false;
             this.exportarToolStripMenuItem.Name = "exportarToolStripMenuItem";
-            this.exportarToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
+            this.exportarToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.exportarToolStripMenuItem.Text = "Exportar";
+            this.exportarToolStripMenuItem.Click += new System.EventHandler(this.exportarToolStripMenuItem_Click);
             // 
             // importarToolStripMenuItem
             // 
             this.importarToolStripMenuItem.Enabled = false;
             this.importarToolStripMenuItem.Name = "importarToolStripMenuItem";
-            this.importarToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
+            this.importarToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.importarToolStripMenuItem.Text = "Importar";
+            this.importarToolStripMenuItem.Click += new System.EventHandler(this.importarToolStripMenuItem_Click);
             // 
             // mnuEditar
             // 
@@ -607,8 +608,7 @@ namespace Ipen.CBT.UI
             this.lstCompartimentos.Name = "lstCompartimentos";
             this.lstCompartimentos.Size = new System.Drawing.Size(423, 82);
             this.lstCompartimentos.TabIndex = 38;
-            this.lstCompartimentos.DoubleClick += new System.EventHandler(this.lstCompartimentos_DoubleClick);
-            this.lstCompartimentos.Click += new System.EventHandler(this.lstCompartimentos_Click);
+            this.lstCompartimentos.SelectedIndexChanged += new System.EventHandler(this.lstCompartimentos_SelectedIndexChanged);
             // 
             // lblCompAdded
             // 
@@ -792,6 +792,7 @@ namespace Ipen.CBT.UI
             this.lvwLigacoes.Size = new System.Drawing.Size(562, 100);
             this.lvwLigacoes.TabIndex = 11;
             this.lvwLigacoes.UseCompatibleStateImageBehavior = false;
+            this.lvwLigacoes.SelectedIndexChanged += new System.EventHandler(this.lvwLigacoes_SelectedIndexChanged);
             this.lvwLigacoes.Click += new System.EventHandler(this.lvwLigacoes_DoubleClick);
             // 
             // txtValorAB
