@@ -113,6 +113,7 @@ namespace Ipen.CBT.UI
             Caixas cx = (Caixas)sender;
             OnBoxModifyRequest(cx);
         }
+
         void _sistemaCompartimental_BoxDeleted(Caixas.BoxEventArgs be)
         {
         }
@@ -126,6 +127,8 @@ namespace Ipen.CBT.UI
             Caixas cx = (Caixas)sender;
             cx.BringToFront();
             cx.EstaSelecionado = true;
+
+            OnBoxModifyRequest(cx);
         }
         protected override void OnClick(EventArgs e)
         {
