@@ -16,6 +16,8 @@ namespace Ipen.CBT.UI
         private StatusPossiveis statusAtual;
         private Caixas criaLinha1;
         private Caixas criaLinha2;
+
+        private Modelos Modelo;
         
         private string _ArquivoAberto = "";
 
@@ -29,6 +31,38 @@ namespace Ipen.CBT.UI
         public frmPrincipal()
         {
             InitializeComponent();
+            AjustarPainel();
+            AjustarRotulos();
+            AjustarSetas();
+            AjustarLigacoes();
+
+            btnCorComp.BackColor = Caixas.CorPadrao;
+            btnCorLig.BackColor = Linhas.CorPadrao;
+
+            ConfigurarListView();
+            ConectarBancoDeDados();
+        }
+
+        private void ConectarBancoDeDados()
+        {
+            string CaminhoArquivo = LerSettings("MDBPath");
+            if (CaminhoArquivo != "")
+            {
+                Configuracoes.Arquivo = CaminhoArquivo;
+                try
+                {
+                    LerTipoModelosMdb();
+                }
+                catch (System.Data.OleDb.OleDbException)
+                {
+                    Configuracoes.Arquivo = null;
+                    MessageBox.Show("Não foi possível conectar no banco de dados previamente configurado.\nUse a opção \"Configurar banco de dados\" no menu ferramentas", "Atenção", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                }
+            }
+        }
+
+        private void AjustarPainel()
+        {
             statusAtual = StatusPossiveis.Normal;
             PnlCanvas = new Painel();
             PnlCanvas.AutoScroll = true;
@@ -38,29 +72,6 @@ namespace Ipen.CBT.UI
             PnlCanvas.SistemaCompartimental.BoxClick += new EventHandler(SistemaCompartimental_BoxClick);
             this.splitContainer1.Panel2.Controls.Add(this.PnlCanvas);
             this.splitContainer1.Panel1.Enabled = false;
-            AjustarRotulos();
-            AjustarSetas();
-            AjustarLigacoes();
-
-            btnCorComp.BackColor = Caixas.CorPadrao;
-            btnCorLig.BackColor = Linhas.CorPadrao;
-
-            ConfigurarListView();
-
-            string CaminhoArquivo = LerSettings("MDBPath");
-            if (CaminhoArquivo != "")
-            {
-                Configuracoes.Arquivo = CaminhoArquivo;
-                try
-                {
-                    LerTipoModelosMdb();
-                }
-                catch(System.Data.OleDb.OleDbException)
-                {
-                    Configuracoes.Arquivo = null;
-                    MessageBox.Show("Não foi possível conectar no banco de dados previamente configurado.\nUse a opção \"Configurar banco de dados\" no menu ferramentas", "Atenção", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                }
-            }
         }
 
         private void AjustarRotulos()
@@ -122,38 +133,6 @@ namespace Ipen.CBT.UI
         
         private void mnuArquivoAbrir_Click(object sender, EventArgs e)
         {
-            OpenFileDialog openFile = new OpenFileDialog();
-            openFile.InitialDirectory = LerSettings("XMLPath");
-            openFile.DefaultExt = "xml";
-            openFile.Filter = "Extensible Markup Language (*.xml)|*.xml";
-            openFile.RestoreDirectory = true;
-            openFile.Multiselect = false;
-            if (openFile.ShowDialog() == DialogResult.OK)
-            {
-                LimparColecao();
-
-                ArquivoAberto = openFile.FileName;
-                GravarSettings("XMLPath", openFile.FileName);
-
-                DataXML interfaceXML = new DataXML(ArquivoAberto);
-                //DataXML interfaceXML = new DataXML(ArquivoAberto, this.PnlCanvas.SistemaCompartimental.Linhas, this.PnlCanvas.SistemaCompartimental.Caixas);
-                
-                interfaceXML.ImportarXML();
-
-                //Não funciona... pq precisa passar pelo método "IncluirCaixa()"
-                //this.PnlCanvas.SistemaCompartimental.Caixas = interfaceXML.Caixas;
-                
-                foreach (Caixas cx in interfaceXML.Caixas)
-                    this.PnlCanvas.IncluirCaixa(cx);
-
-                //aqui funciona
-                //this.PnlCanvas.SistemaCompartimental.Linhas = interfaceXML.Linhas;
-
-                foreach (Linhas ln in interfaceXML.Linhas)
-                    this.PnlCanvas.IncluirLinha(ln);
-
-                this.PnlCanvas.Refresh();
-            }
         }
 
         private void mnuArquivoSalvar_Click(object sender, EventArgs e)
@@ -186,12 +165,10 @@ namespace Ipen.CBT.UI
 
         private void Salvar(string Caminho)
         {
-            Sistema S = Sistema.getInstance();
             if (Caminho != "")
             {
                 DataXML interfaceXML = new DataXML(Caminho);
-                interfaceXML.Caixas = S.Caixas;
-                interfaceXML.Linhas = S.Linhas;
+                interfaceXML.Modelo = this.Modelo;
                 interfaceXML.ExportarXML();
             }
         }
@@ -458,7 +435,6 @@ namespace Ipen.CBT.UI
             CarregarTela();
             LimparTelaLigacao();
             this.splitContainer1.Panel1.Enabled = true;
-            
         }
 
         private void abrirToolStripMenuItem_Click(object sender, EventArgs e)
@@ -477,14 +453,12 @@ namespace Ipen.CBT.UI
                 FecharModelo();
 
                 this.splitContainer1.Panel1.Enabled = true;
-                Modelo = DataBD.SelecionarModelos(Fmodelo.idModelo);
+                this.Modelo = DataBD.SelecionarModelos(Fmodelo.idModelo);
                 CarregarTela();
                 LimparTelaLigacao();
 
-                Sistema S = Sistema.getInstance();
-
                 this.PnlCanvas.SuspendLayout();
-                foreach (Caixas cx in S.Caixas)
+                foreach (Caixas cx in this.Modelo.Colecao.Caixas)
                     this.PnlCanvas.IncluirCaixa(cx);
                 this.PnlCanvas.ResumeLayout();
                 
@@ -506,8 +480,6 @@ namespace Ipen.CBT.UI
         #endregion
 
         #region Código do form editar modelo
-
-        private Modelos Modelo;
 
         private Caixas CaixaAlterando;
 
@@ -1136,28 +1108,20 @@ namespace Ipen.CBT.UI
             openFile.Multiselect = false;
             if (openFile.ShowDialog() == DialogResult.OK)
             {
+                FecharModelo();
                 LimparColecao();
 
                 ArquivoAberto = openFile.FileName;
                 GravarSettings("XMLPath", openFile.FileName);
 
                 DataXML interfaceXML = new DataXML(ArquivoAberto);
-                //DataXML interfaceXML = new DataXML(ArquivoAberto, this.PnlCanvas.SistemaCompartimental.Linhas, this.PnlCanvas.SistemaCompartimental.Caixas);
-
+                
                 interfaceXML.ImportarXML();
 
-                //Não funciona... pq precisa passar pelo método "IncluirCaixa()"
-                //this.PnlCanvas.SistemaCompartimental.Caixas = interfaceXML.Caixas;
-
-                foreach (Caixas cx in interfaceXML.Caixas)
+                this.PnlCanvas.SuspendLayout();
+                foreach (Caixas cx in this.Modelo.Colecao.Caixas)
                     this.PnlCanvas.IncluirCaixa(cx);
-
-                //aqui funciona
-                //this.PnlCanvas.SistemaCompartimental.Linhas = interfaceXML.Linhas;
-
-                foreach (Linhas ln in interfaceXML.Linhas)
-                    this.PnlCanvas.IncluirLinha(ln);
-
+                this.PnlCanvas.ResumeLayout();
                 this.PnlCanvas.Refresh();
             }
         }

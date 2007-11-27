@@ -176,7 +176,7 @@ namespace Ipen.CBT.UI
 
         protected override void OnPaint(PaintEventArgs e)
         {
-            
+            //this.SuspendLayout();
             
             #region Configurar gráficos
 
@@ -245,7 +245,7 @@ namespace Ipen.CBT.UI
             }
             #endregion
 
-            this.ResumeLayout();
+            //this.ResumeLayout();
 
             //base.OnPaint(e);
         }

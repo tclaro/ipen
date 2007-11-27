@@ -42,17 +42,11 @@
     <Compile Include="CaixaProp.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Desktop.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="frmEditModelo.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="frmEditModelo.Designer.cs">
       <DependentUpon>frmEditModelo.cs</DependentUpon>
-    </Compile>
-    <Compile Include="frmGrafico.cs">
-      <SubType>Form</SubType>
     </Compile>
     <Compile Include="frmModelos.cs">
       <SubType>Form</SubType>
@@ -78,16 +72,8 @@
       <DependentUpon>CaixaProp.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Desktop.resx">
-      <DependentUpon>Desktop.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
     <EmbeddedResource Include="frmEditModelo.resx">
       <DependentUpon>frmEditModelo.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="frmGrafico.resx">
-      <DependentUpon>frmGrafico.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="frmModelos.resx">

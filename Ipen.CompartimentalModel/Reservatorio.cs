@@ -10,6 +10,12 @@ namespace Ipen.CompartimentalModel
         public Reservatorio()
         {
             this.EnforceConstraints = false;
+            this.Tables.Add("Modelo");
+            this.Tables["Modelo"].Columns.Add("nmModelo", typeof(string));
+            this.Tables["Modelo"].Columns.Add("dtCriacao", typeof(DateTime));
+            this.Tables["Modelo"].Columns.Add("Descricao", typeof(string));
+            this.Tables["Modelo"].Columns.Add("TipoModelo", typeof(string));
+            
             this.Tables.Add("TableCaixas");
             this.Tables["TableCaixas"].Columns.Add("Numero", typeof(int));
             this.Tables["TableCaixas"].Columns.Add("Nome", typeof(string));
@@ -35,8 +41,23 @@ namespace Ipen.CompartimentalModel
         }
         #endregion
 
-        #region Métodos Públicos
-        public void ImportarCaixas(CaixasCollection ConjuntoDeCaixas)
+        public void ExportarModelo(Modelos Modelo)
+        {
+            System.Data.DataRow dr = this.Tables["Modelo"].NewRow();
+            dr["nmModelo"] = Modelo.nmModelo;
+            dr["dtCriacao"] = Modelo.dtCriacao;
+            dr["Descricao"] = Modelo.Descricao;
+            dr["TipoModelo"] = Modelo.Tipo.nmTipoModelo;
+            this.Tables["Modelo"].Rows.Add(dr);
+
+            if (Modelo.Colecao.Caixas != null)
+                ExportarCaixas(Modelo.Colecao.Caixas);
+            if (Modelo.Colecao.Linhas != null)
+                ExportarLinhas(Modelo.Colecao.Linhas);
+        }
+
+
+        private void ExportarCaixas(CaixasCollection ConjuntoDeCaixas)
         {
             foreach (Caixas cx in ConjuntoDeCaixas)
             {
@@ -55,7 +76,7 @@ namespace Ipen.CompartimentalModel
                 this.Tables["TableCaixas"].Rows.Add(dr);
             }
         }
-        public void ImportarLinhas(LinhasCollection ConjuntoDeLinhas)
+        private void ExportarLinhas(LinhasCollection ConjuntoDeLinhas)
         {
             foreach (Linhas ln in ConjuntoDeLinhas)
             {
@@ -71,23 +92,32 @@ namespace Ipen.CompartimentalModel
                 this.Tables["TableLinhas"].Rows.Add(dr);
             }
         }
-        public void ImportarArquivo(string Arquivo, ref CaixasCollection refCaixas, ref LinhasCollection refLinhas)
+        public void ImportarArquivo(string Arquivo, ref Modelos Modelo)
         {
-            refCaixas.Clear();
-            refLinhas.Clear();
+            Modelo.Colecao.Caixas.Clear();
+            Modelo.Colecao.Linhas.Clear();
             System.Data.DataSet ds = new System.Data.DataSet();
             ds.ReadXml(Arquivo, System.Data.XmlReadMode.ReadSchema);
+
+            foreach (System.Data.DataRow dr in ds.Tables["Modelo"].Rows)
+            {
+                Modelo.nmModelo = dr["nmModelo"].ToString();
+                Modelo.dtCriacao = (DateTime)dr["dtCriacao"];
+                Modelo.Descricao = dr["Descricao"].ToString();
+            }
+
             foreach (System.Data.DataRow dr in ds.Tables["TableCaixas"].Rows)
             {
                 Caixas cx = new Caixas((int)dr["Numero"], (string)dr["Nome"], new System.Drawing.Point((int)dr["PosLeft"], (int)dr["PosTop"]), System.Drawing.Color.FromArgb((byte)dr["CorR"], (byte)dr["CorG"], (byte)dr["CorB"]), (bool)dr["Acompanhar"], (bool)dr["Eliminacao"]);
-                refCaixas.Add(cx);
+                Modelo.Colecao.Caixas.Add(cx);
             }
+
             foreach (System.Data.DataRow dr in ds.Tables["TableLinhas"].Rows)
             {
                 Caixas cxInicio = null;
                 Caixas cxFim = null;
 
-                foreach (Caixas cx in refCaixas)
+                foreach (Caixas cx in Modelo.Colecao.Caixas)
                 {
                     if (cx.Numero == (int)dr["CaixaInicio"])
                         cxInicio = cx;
@@ -98,10 +128,8 @@ namespace Ipen.CompartimentalModel
                         break;
                 }
                 Linhas ln = new Linhas(cxInicio, cxFim, System.Drawing.Color.FromArgb((byte)dr["CorR"], (byte)dr["CorG"], (byte)dr["CorB"]), (Linhas.Direcao)dr["Direcao"], (float)dr["ValorAB"], (float)dr["ValorBA"]);
-                refLinhas.Add(ln);
+                Modelo.Colecao.Linhas.Add(ln);
             }
         }
-        #endregion
-
     }
 }

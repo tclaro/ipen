@@ -98,7 +98,7 @@ namespace Ipen.CBT.UI
             this.label1.Location = new System.Drawing.Point(195, 8);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(32, 16);
-            this.label1.TabIndex = 11;
+            this.label1.TabIndex = 2;
             this.label1.Text = "Cor:";
             // 
             // btnCor
@@ -106,7 +106,7 @@ namespace Ipen.CBT.UI
             this.btnCor.Location = new System.Drawing.Point(195, 24);
             this.btnCor.Name = "btnCor";
             this.btnCor.Size = new System.Drawing.Size(32, 21);
-            this.btnCor.TabIndex = 1;
+            this.btnCor.TabIndex = 3;
             this.btnCor.Click += new System.EventHandler(this.btnCor_Click);
             // 
             // btnCancelar
@@ -115,7 +115,7 @@ namespace Ipen.CBT.UI
             this.btnCancelar.Location = new System.Drawing.Point(145, 117);
             this.btnCancelar.Name = "btnCancelar";
             this.btnCancelar.Size = new System.Drawing.Size(75, 23);
-            this.btnCancelar.TabIndex = 4;
+            this.btnCancelar.TabIndex = 10;
             this.btnCancelar.Text = "Cancelar";
             this.btnCancelar.Click += new System.EventHandler(this.btnCancelar_Click);
             // 
@@ -125,7 +125,7 @@ namespace Ipen.CBT.UI
             this.btnOK.Location = new System.Drawing.Point(65, 117);
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(72, 24);
-            this.btnOK.TabIndex = 3;
+            this.btnOK.TabIndex = 9;
             this.btnOK.Text = "OK";
             this.btnOK.Click += new System.EventHandler(this.btnOK_Click);
             // 
@@ -134,7 +134,7 @@ namespace Ipen.CBT.UI
             this.lblNome.Location = new System.Drawing.Point(8, 8);
             this.lblNome.Name = "lblNome";
             this.lblNome.Size = new System.Drawing.Size(176, 16);
-            this.lblNome.TabIndex = 9;
+            this.lblNome.TabIndex = 0;
             this.lblNome.Text = "Nome:";
             // 
             // txtNome
@@ -142,7 +142,7 @@ namespace Ipen.CBT.UI
             this.txtNome.Location = new System.Drawing.Point(8, 24);
             this.txtNome.Name = "txtNome";
             this.txtNome.Size = new System.Drawing.Size(181, 21);
-            this.txtNome.TabIndex = 0;
+            this.txtNome.TabIndex = 1;
             // 
             // chkAcompanhar
             // 
@@ -150,7 +150,7 @@ namespace Ipen.CBT.UI
             this.chkAcompanhar.Location = new System.Drawing.Point(8, 60);
             this.chkAcompanhar.Name = "chkAcompanhar";
             this.chkAcompanhar.Size = new System.Drawing.Size(86, 17);
-            this.chkAcompanhar.TabIndex = 2;
+            this.chkAcompanhar.TabIndex = 4;
             this.chkAcompanhar.Text = "Acompanhar";
             this.chkAcompanhar.UseVisualStyleBackColor = true;
             // 
@@ -160,7 +160,7 @@ namespace Ipen.CBT.UI
             this.chkEliminacao.Location = new System.Drawing.Point(8, 83);
             this.chkEliminacao.Name = "chkEliminacao";
             this.chkEliminacao.Size = new System.Drawing.Size(75, 17);
-            this.chkEliminacao.TabIndex = 12;
+            this.chkEliminacao.TabIndex = 6;
             this.chkEliminacao.Text = "Eliminação";
             this.chkEliminacao.UseVisualStyleBackColor = true;
             // 
@@ -170,7 +170,7 @@ namespace Ipen.CBT.UI
             this.chkIncorporacao.Location = new System.Drawing.Point(107, 60);
             this.chkIncorporacao.Name = "chkIncorporacao";
             this.chkIncorporacao.Size = new System.Drawing.Size(90, 17);
-            this.chkIncorporacao.TabIndex = 13;
+            this.chkIncorporacao.TabIndex = 5;
             this.chkIncorporacao.Text = "Incorporacao";
             this.chkIncorporacao.UseVisualStyleBackColor = true;
             // 
@@ -180,7 +180,7 @@ namespace Ipen.CBT.UI
             this.lblFracao.Location = new System.Drawing.Point(104, 84);
             this.lblFracao.Name = "lblFracao";
             this.lblFracao.Size = new System.Drawing.Size(40, 13);
-            this.lblFracao.TabIndex = 14;
+            this.lblFracao.TabIndex = 7;
             this.lblFracao.Text = "Fração";
             // 
             // txtFracao
@@ -188,7 +188,7 @@ namespace Ipen.CBT.UI
             this.txtFracao.Location = new System.Drawing.Point(150, 81);
             this.txtFracao.Name = "txtFracao";
             this.txtFracao.Size = new System.Drawing.Size(53, 21);
-            this.txtFracao.TabIndex = 15;
+            this.txtFracao.TabIndex = 8;
             // 
             // CaixaProp
             // 
