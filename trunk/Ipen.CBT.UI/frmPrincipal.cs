@@ -17,10 +17,10 @@ namespace Ipen.CBT.UI
         private Caixas criaLinha1;
         private Caixas criaLinha2;
 
+        //Objeto principal do form, que guarda o modelo sendo editado.
+        //Dentro de modelo estão as coleções de caixas e linhas.
         private Modelos Modelo;
         
-        private string _ArquivoAberto = "";
-
         private enum StatusPossiveis
         {
             Normal,
@@ -31,6 +31,8 @@ namespace Ipen.CBT.UI
         public frmPrincipal()
         {
             InitializeComponent();
+            statusAtual = StatusPossiveis.Normal;
+
             AjustarPainel();
             AjustarRotulos();
             AjustarSetas();
@@ -63,13 +65,16 @@ namespace Ipen.CBT.UI
 
         private void AjustarPainel()
         {
-            statusAtual = StatusPossiveis.Normal;
+            
             PnlCanvas = new Painel();
             PnlCanvas.AutoScroll = true;
             PnlCanvas.BackColor = System.Drawing.Color.Ivory;
             PnlCanvas.Dock = System.Windows.Forms.DockStyle.Fill;
             PnlCanvas.BoxModifyRequest += new Painel.BoxModifyRequestHandle(pnlCanvas_BoxModifyRequest);
             PnlCanvas.SistemaCompartimental.BoxClick += new EventHandler(SistemaCompartimental_BoxClick);
+
+            //Panel1 = cima, texto e Painel2 = baixo, grafico.
+            //Não sei renomear estes panels
             this.splitContainer1.Panel2.Controls.Add(this.PnlCanvas);
             this.splitContainer1.Panel1.Enabled = false;
         }
@@ -111,39 +116,100 @@ namespace Ipen.CBT.UI
         #region Comandos de menus
         private void mnuArquivoNovo_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show("Ao iniciar um novo modelo, todas as alterações no modelo atual que não foram salvas, serão perdidas.\nDeseja continuar?", "Novo modelo", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == DialogResult.Yes)
-            {
-                LimparColecao();
-                ArquivoAberto = "";
-            }
-        }
-
-        public string ArquivoAberto
-        {
-            get
-            {
-                return this._ArquivoAberto;
-            }
-            set
-            {
-                this._ArquivoAberto = value;
-                this.Text = "Modelos Compartimentais " + _ArquivoAberto;
-            }
+            FecharModelo();
+            CarregarTela();
+            LimparTelaLigacao();
+            this.splitContainer1.Panel1.Enabled = true;
         }
         
         private void mnuArquivoAbrir_Click(object sender, EventArgs e)
         {
+            if (Configuracoes.Arquivo == null || Configuracoes.Arquivo == "")
+            {
+                MessageBox.Show("Antes, use a opção \"Configurar banco de dados\" no menu ferramentas", "Atenção", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                return;
+            }
+
+            frmModelos Fmodelo = new frmModelos();
+            DialogResult dlgForm = Fmodelo.ShowDialog();
+
+            if (dlgForm == DialogResult.Yes)
+            {
+                //Caso algum modelo ja esteja aberto, ele fecha.
+                //Senão, pelo menos ja instancia o objeto modelo...
+                FecharModelo();
+
+                this.splitContainer1.Panel1.Enabled = true;
+                this.Modelo = DataBD.SelecionarModelos(Fmodelo.idModelo);
+                CarregarTela();
+                LimparTelaLigacao();
+
+                this.PnlCanvas.SuspendLayout();
+                foreach (Caixas cx in this.Modelo.Colecao.Caixas)
+                    this.PnlCanvas.IncluirCaixa(cx);
+                this.PnlCanvas.ResumeLayout();
+
+            }
+            this.PnlCanvas.Refresh();
         }
 
         private void mnuArquivoSalvar_Click(object sender, EventArgs e)
         {
-            string nomeArquivo = "";
-            if (ArquivoAberto == "")
+            if (txtNome.Text != this.Modelo.nmModelo)
             {
-                nomeArquivo = SolicitarNomeArquivo();
-                ArquivoAberto = nomeArquivo;
+                DialogResult resposta = MessageBox.Show("Este modelo irá sobrescrever o modelo \"" + this.Modelo.nmModelo + "\"\nConfirma a gravação?", "Atenção", MessageBoxButtons.OKCancel, MessageBoxIcon.Exclamation);
+                if (resposta == DialogResult.Cancel)
+                    return;
             }
-            Salvar(ArquivoAberto);
+
+            Salvar();
+        }
+
+        private void mnuArquivoSalvarComo_Click(object sender, EventArgs e)
+        {
+            if (txtNome.Text == this.Modelo.nmModelo)
+            {
+                MessageBox.Show("Altere o nome do modelo para criar uma cópia dele", "Atenção", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                return;
+            }
+
+            this.Modelo.idModelo = 0;
+            this.Modelo.dtCriacao = System.DateTime.Now;
+            Salvar();
+        }
+
+                private void mnuArquivoExportar_Click(object sender, EventArgs e)
+        {
+            string nomeArquivo = "";
+            nomeArquivo = SolicitarNomeArquivo();
+            Salvar(nomeArquivo);
+        }
+
+        private void mnuArquivoImportar_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openFile = new OpenFileDialog();
+            openFile.InitialDirectory = LerSettings("XMLPath");
+            openFile.DefaultExt = "xml";
+            openFile.Filter = "Extensible Markup Language (*.xml)|*.xml";
+            openFile.RestoreDirectory = true;
+            openFile.Multiselect = false;
+            if (openFile.ShowDialog() == DialogResult.OK)
+            {
+                FecharModelo();
+                LimparColecao();
+
+                GravarSettings("XMLPath", openFile.FileName);
+
+                DataXML interfaceXML = new DataXML(openFile.FileName);
+
+                interfaceXML.ImportarXML();
+
+                this.PnlCanvas.SuspendLayout();
+                foreach (Caixas cx in this.Modelo.Colecao.Caixas)
+                    this.PnlCanvas.IncluirCaixa(cx);
+                this.PnlCanvas.ResumeLayout();
+                this.PnlCanvas.Refresh();
+            }
         }
 
         private string SolicitarNomeArquivo()
@@ -171,13 +237,6 @@ namespace Ipen.CBT.UI
                 interfaceXML.Modelo = this.Modelo;
                 interfaceXML.ExportarXML();
             }
-        }
-
-        private void mnuArquivoSalvarComo_Click(object sender, EventArgs e)
-        {
-            string nomeArquivo = "";
-            nomeArquivo = SolicitarNomeArquivo();
-            Salvar(nomeArquivo);
         }
 
         private void configurarBancoDeDadosToolStripMenuItem_Click(object sender, EventArgs e)
@@ -219,6 +278,8 @@ namespace Ipen.CBT.UI
             this.PnlCanvas.Refresh();
             GravarSettings("Rotulos", Exibir.ToString());
         }
+
+ 
 
         private void mnuArquivoVisualizarImpressao_Click(object sender, EventArgs e)
         {
@@ -431,39 +492,12 @@ namespace Ipen.CBT.UI
 
         private void novoToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            FecharModelo();
-            CarregarTela();
-            LimparTelaLigacao();
-            this.splitContainer1.Panel1.Enabled = true;
+
         }
 
         private void abrirToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (Configuracoes.Arquivo == null || Configuracoes.Arquivo == "")
-            {
-                MessageBox.Show("Antes, use a opção \"Configurar banco de dados\" no menu ferramentas", "Atenção", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                return;
-            }
 
-            frmModelos Fmodelo = new frmModelos();
-            DialogResult dlgForm = Fmodelo.ShowDialog();
-
-            if (dlgForm == DialogResult.Yes)
-            {
-                FecharModelo();
-
-                this.splitContainer1.Panel1.Enabled = true;
-                this.Modelo = DataBD.SelecionarModelos(Fmodelo.idModelo);
-                CarregarTela();
-                LimparTelaLigacao();
-
-                this.PnlCanvas.SuspendLayout();
-                foreach (Caixas cx in this.Modelo.Colecao.Caixas)
-                    this.PnlCanvas.IncluirCaixa(cx);
-                this.PnlCanvas.ResumeLayout();
-                
-            }
-            this.PnlCanvas.Refresh();
         }
 
         private void FecharModelo()
@@ -474,7 +508,6 @@ namespace Ipen.CBT.UI
             S.Linhas.Clear();
             this.PnlCanvas.Controls.Clear();
             this.PnlCanvas.Refresh();
-
         }
 
         #endregion
@@ -1111,10 +1144,9 @@ namespace Ipen.CBT.UI
                 FecharModelo();
                 LimparColecao();
 
-                ArquivoAberto = openFile.FileName;
                 GravarSettings("XMLPath", openFile.FileName);
 
-                DataXML interfaceXML = new DataXML(ArquivoAberto);
+                DataXML interfaceXML = new DataXML(openFile.FileName);
                 
                 interfaceXML.ImportarXML();
 
@@ -1125,5 +1157,9 @@ namespace Ipen.CBT.UI
                 this.PnlCanvas.Refresh();
             }
         }
+
+
+
+
     }
 }
