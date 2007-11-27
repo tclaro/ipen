@@ -38,17 +38,13 @@ namespace Ipen.CBT.UI
             this.mnuArquivoSalvar = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuArquivoSalvarComo = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.mnuArquivoExportar = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuArquivoImportar = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.mnuArquivoVisualizarImpressao = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuArquivoImprimir = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.mnuArquivoSair = new System.Windows.Forms.ToolStripMenuItem();
-            this.arquivoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.novoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.abrirToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.salvarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.salvarComoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.exportarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.importarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuEditar = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuEditarLocalizar = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
@@ -117,7 +113,6 @@ namespace Ipen.CBT.UI
             // 
             this.mnu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.mnuArquivo,
-            this.arquivoToolStripMenuItem,
             this.mnuEditar,
             this.mnuInserir,
             this.mnuFerramentas,
@@ -137,11 +132,13 @@ namespace Ipen.CBT.UI
             this.mnuArquivoSalvar,
             this.mnuArquivoSalvarComo,
             this.toolStripSeparator1,
+            this.mnuArquivoExportar,
+            this.mnuArquivoImportar,
+            this.toolStripSeparator4,
             this.mnuArquivoVisualizarImpressao,
             this.mnuArquivoImprimir,
             this.toolStripSeparator2,
             this.mnuArquivoSair});
-            this.mnuArquivo.Enabled = false;
             this.mnuArquivo.Name = "mnuArquivo";
             this.mnuArquivo.Size = new System.Drawing.Size(56, 20);
             this.mnuArquivo.Text = "&Arquivo";
@@ -193,6 +190,25 @@ namespace Ipen.CBT.UI
             this.toolStripSeparator1.Name = "toolStripSeparator1";
             this.toolStripSeparator1.Size = new System.Drawing.Size(177, 6);
             // 
+            // mnuArquivoExportar
+            // 
+            this.mnuArquivoExportar.Name = "mnuArquivoExportar";
+            this.mnuArquivoExportar.Size = new System.Drawing.Size(180, 22);
+            this.mnuArquivoExportar.Text = "Exportar...";
+            this.mnuArquivoExportar.Click += new System.EventHandler(this.mnuArquivoExportar_Click);
+            // 
+            // mnuArquivoImportar
+            // 
+            this.mnuArquivoImportar.Name = "mnuArquivoImportar";
+            this.mnuArquivoImportar.Size = new System.Drawing.Size(180, 22);
+            this.mnuArquivoImportar.Text = "Importar...";
+            this.mnuArquivoImportar.Click += new System.EventHandler(this.mnuArquivoImportar_Click);
+            // 
+            // toolStripSeparator4
+            // 
+            this.toolStripSeparator4.Name = "toolStripSeparator4";
+            this.toolStripSeparator4.Size = new System.Drawing.Size(177, 6);
+            // 
             // mnuArquivoVisualizarImpressao
             // 
             this.mnuArquivoVisualizarImpressao.Image = ((System.Drawing.Image)(resources.GetObject("mnuArquivoVisualizarImpressao.Image")));
@@ -223,61 +239,6 @@ namespace Ipen.CBT.UI
             this.mnuArquivoSair.Size = new System.Drawing.Size(180, 22);
             this.mnuArquivoSair.Text = "Sai&r";
             this.mnuArquivoSair.Click += new System.EventHandler(this.mnuArquivoSair_Click);
-            // 
-            // arquivoToolStripMenuItem
-            // 
-            this.arquivoToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.novoToolStripMenuItem,
-            this.abrirToolStripMenuItem,
-            this.salvarToolStripMenuItem,
-            this.salvarComoToolStripMenuItem,
-            this.exportarToolStripMenuItem,
-            this.importarToolStripMenuItem});
-            this.arquivoToolStripMenuItem.Name = "arquivoToolStripMenuItem";
-            this.arquivoToolStripMenuItem.Size = new System.Drawing.Size(62, 20);
-            this.arquivoToolStripMenuItem.Text = "Arquivo2";
-            // 
-            // novoToolStripMenuItem
-            // 
-
-            this.novoToolStripMenuItem.Name = "novoToolStripMenuItem";
-            this.novoToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
-            this.novoToolStripMenuItem.Text = "Novo";
-            this.novoToolStripMenuItem.Click += new System.EventHandler(this.novoToolStripMenuItem_Click);
-            // 
-            // abrirToolStripMenuItem
-            // 
-            this.abrirToolStripMenuItem.Name = "abrirToolStripMenuItem";
-            this.abrirToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
-            this.abrirToolStripMenuItem.Text = "Abrir";
-            this.abrirToolStripMenuItem.Click += new System.EventHandler(this.abrirToolStripMenuItem_Click);
-            // 
-            // salvarToolStripMenuItem
-            // 
-            this.salvarToolStripMenuItem.Name = "salvarToolStripMenuItem";
-            this.salvarToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
-            this.salvarToolStripMenuItem.Text = "Salvar";
-            this.salvarToolStripMenuItem.Click += new System.EventHandler(this.salvarToolStripMenuItem_Click);
-            // 
-            // salvarComoToolStripMenuItem
-            // 
-            this.salvarComoToolStripMenuItem.Name = "salvarComoToolStripMenuItem";
-            this.salvarComoToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
-            this.salvarComoToolStripMenuItem.Text = "Salvar Como";
-            this.salvarComoToolStripMenuItem.Click += new System.EventHandler(this.salvarComoToolStripMenuItem_Click);            // 
-            // exportarToolStripMenuItem
-            // 
-            this.exportarToolStripMenuItem.Name = "exportarToolStripMenuItem";
-            this.exportarToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.exportarToolStripMenuItem.Text = "Exportar";
-            this.exportarToolStripMenuItem.Click += new System.EventHandler(this.exportarToolStripMenuItem_Click);
-            // 
-            // importarToolStripMenuItem
-            // 
-            this.importarToolStripMenuItem.Name = "importarToolStripMenuItem";
-            this.importarToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.importarToolStripMenuItem.Text = "Importar";
-            this.importarToolStripMenuItem.Click += new System.EventHandler(this.importarToolStripMenuItem_Click);
             // 
             // mnuEditar
             // 
@@ -436,16 +397,16 @@ namespace Ipen.CBT.UI
             // panel1
             // 
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel1.Location = new System.Drawing.Point(0, 0);
+            this.panel1.Location = new System.Drawing.Point(0, 24);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(851, 614);
+            this.panel1.Size = new System.Drawing.Size(851, 590);
             this.panel1.TabIndex = 2;
             // 
             // splitContainer1
             // 
             this.splitContainer1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer1.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer1.Location = new System.Drawing.Point(0, 24);
             this.splitContainer1.Name = "splitContainer1";
             this.splitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal;
             // 
@@ -460,8 +421,8 @@ namespace Ipen.CBT.UI
             this.splitContainer1.Panel1.Controls.Add(this.tabControlModelo);
             this.splitContainer1.Panel1.Controls.Add(this.btnGamb);
             this.splitContainer1.Panel1MinSize = 176;
-            this.splitContainer1.Size = new System.Drawing.Size(851, 614);
-            this.splitContainer1.SplitterDistance = 183;
+            this.splitContainer1.Size = new System.Drawing.Size(851, 590);
+            this.splitContainer1.SplitterDistance = 176;
             this.splitContainer1.TabIndex = 3;
             // 
             // cboTipo
@@ -528,7 +489,7 @@ namespace Ipen.CBT.UI
             this.tabControlModelo.Location = new System.Drawing.Point(1, 30);
             this.tabControlModelo.Name = "tabControlModelo";
             this.tabControlModelo.SelectedIndex = 0;
-            this.tabControlModelo.Size = new System.Drawing.Size(847, 146);
+            this.tabControlModelo.Size = new System.Drawing.Size(847, 139);
             this.tabControlModelo.TabIndex = 38;
             // 
             // tabPageCompart
@@ -550,7 +511,7 @@ namespace Ipen.CBT.UI
             this.tabPageCompart.Location = new System.Drawing.Point(4, 22);
             this.tabPageCompart.Name = "tabPageCompart";
             this.tabPageCompart.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageCompart.Size = new System.Drawing.Size(839, 120);
+            this.tabPageCompart.Size = new System.Drawing.Size(839, 113);
             this.tabPageCompart.TabIndex = 0;
             this.tabPageCompart.Text = "Compartimentos";
             this.tabPageCompart.UseVisualStyleBackColor = true;
@@ -605,7 +566,7 @@ namespace Ipen.CBT.UI
             this.lstCompartimentos.FormattingEnabled = true;
             this.lstCompartimentos.Location = new System.Drawing.Point(410, 19);
             this.lstCompartimentos.Name = "lstCompartimentos";
-            this.lstCompartimentos.Size = new System.Drawing.Size(423, 82);
+            this.lstCompartimentos.Size = new System.Drawing.Size(423, 69);
             this.lstCompartimentos.TabIndex = 38;
             this.lstCompartimentos.SelectedIndexChanged += new System.EventHandler(this.lstCompartimentos_SelectedIndexChanged);
             // 
@@ -824,7 +785,7 @@ namespace Ipen.CBT.UI
             // btnGamb
             // 
             this.btnGamb.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnGamb.Location = new System.Drawing.Point(514, 121);
+            this.btnGamb.Location = new System.Drawing.Point(514, 114);
             this.btnGamb.Name = "btnGamb";
             this.btnGamb.Size = new System.Drawing.Size(122, 34);
             this.btnGamb.TabIndex = 45;
@@ -858,6 +819,7 @@ namespace Ipen.CBT.UI
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
+
         }
 
         #endregion
@@ -892,13 +854,6 @@ namespace Ipen.CBT.UI
         private ToolStripMenuItem exibirRótuloDeTransferênciasToolStripMenuItem;
         private ToolStripMenuItem modelosGraficamenteToolStripMenuItem;
         private SplitContainer splitContainer1;
-        private ToolStripMenuItem arquivoToolStripMenuItem;
-        private ToolStripMenuItem abrirToolStripMenuItem;
-        private ToolStripMenuItem novoToolStripMenuItem;
-        private ToolStripMenuItem salvarToolStripMenuItem;
-        private ToolStripMenuItem salvarComoToolStripMenuItem;
-        private ToolStripMenuItem exportarToolStripMenuItem;
-        private ToolStripMenuItem importarToolStripMenuItem;
         private ComboBox cboTipo;
         private Label lblTipo;
         private TextBox txtDescricao;
@@ -936,5 +891,8 @@ namespace Ipen.CBT.UI
         private Button btnGamb;
         private ToolStripMenuItem exibirSetasDeDireçãoToolStripMenuItem;
         private ToolStripMenuItem exibirApenasLigaçõesDoCompartimentoSelecionadoToolStripMenuItem;
+        private ToolStripMenuItem mnuArquivoExportar;
+        private ToolStripMenuItem mnuArquivoImportar;
+        private ToolStripSeparator toolStripSeparator4;
     }
 }
