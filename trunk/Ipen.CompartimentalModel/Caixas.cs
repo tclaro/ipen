@@ -316,6 +316,7 @@ namespace Ipen.CompartimentalModel
         }
         protected override void OnPaint(PaintEventArgs e)
         {
+
             Desenhar();
             e.Graphics.DrawImage(BackBuffer, 0, 0);
         }

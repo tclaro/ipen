@@ -239,6 +239,7 @@ namespace Ipen.CBT.UI
             // 
             // novoToolStripMenuItem
             // 
+
             this.novoToolStripMenuItem.Name = "novoToolStripMenuItem";
             this.novoToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
             this.novoToolStripMenuItem.Text = "Novo";
@@ -263,8 +264,7 @@ namespace Ipen.CBT.UI
             this.salvarComoToolStripMenuItem.Name = "salvarComoToolStripMenuItem";
             this.salvarComoToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
             this.salvarComoToolStripMenuItem.Text = "Salvar Como";
-            this.salvarComoToolStripMenuItem.Click += new System.EventHandler(this.salvarComoToolStripMenuItem_Click);
-            // 
+            this.salvarComoToolStripMenuItem.Click += new System.EventHandler(this.salvarComoToolStripMenuItem_Click);            // 
             // exportarToolStripMenuItem
             // 
             this.exportarToolStripMenuItem.Name = "exportarToolStripMenuItem";
@@ -274,7 +274,6 @@ namespace Ipen.CBT.UI
             // 
             // importarToolStripMenuItem
             // 
-            this.importarToolStripMenuItem.Enabled = false;
             this.importarToolStripMenuItem.Name = "importarToolStripMenuItem";
             this.importarToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.importarToolStripMenuItem.Text = "Importar";
@@ -437,16 +436,16 @@ namespace Ipen.CBT.UI
             // panel1
             // 
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel1.Location = new System.Drawing.Point(0, 24);
+            this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(851, 590);
+            this.panel1.Size = new System.Drawing.Size(851, 614);
             this.panel1.TabIndex = 2;
             // 
             // splitContainer1
             // 
             this.splitContainer1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer1.Location = new System.Drawing.Point(0, 24);
+            this.splitContainer1.Location = new System.Drawing.Point(0, 0);
             this.splitContainer1.Name = "splitContainer1";
             this.splitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal;
             // 
@@ -461,8 +460,8 @@ namespace Ipen.CBT.UI
             this.splitContainer1.Panel1.Controls.Add(this.tabControlModelo);
             this.splitContainer1.Panel1.Controls.Add(this.btnGamb);
             this.splitContainer1.Panel1MinSize = 176;
-            this.splitContainer1.Size = new System.Drawing.Size(851, 590);
-            this.splitContainer1.SplitterDistance = 176;
+            this.splitContainer1.Size = new System.Drawing.Size(851, 614);
+            this.splitContainer1.SplitterDistance = 183;
             this.splitContainer1.TabIndex = 3;
             // 
             // cboTipo
@@ -529,7 +528,7 @@ namespace Ipen.CBT.UI
             this.tabControlModelo.Location = new System.Drawing.Point(1, 30);
             this.tabControlModelo.Name = "tabControlModelo";
             this.tabControlModelo.SelectedIndex = 0;
-            this.tabControlModelo.Size = new System.Drawing.Size(847, 139);
+            this.tabControlModelo.Size = new System.Drawing.Size(847, 146);
             this.tabControlModelo.TabIndex = 38;
             // 
             // tabPageCompart
@@ -551,7 +550,7 @@ namespace Ipen.CBT.UI
             this.tabPageCompart.Location = new System.Drawing.Point(4, 22);
             this.tabPageCompart.Name = "tabPageCompart";
             this.tabPageCompart.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageCompart.Size = new System.Drawing.Size(839, 113);
+            this.tabPageCompart.Size = new System.Drawing.Size(839, 120);
             this.tabPageCompart.TabIndex = 0;
             this.tabPageCompart.Text = "Compartimentos";
             this.tabPageCompart.UseVisualStyleBackColor = true;
@@ -825,7 +824,7 @@ namespace Ipen.CBT.UI
             // btnGamb
             // 
             this.btnGamb.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnGamb.Location = new System.Drawing.Point(514, 114);
+            this.btnGamb.Location = new System.Drawing.Point(514, 121);
             this.btnGamb.Name = "btnGamb";
             this.btnGamb.Size = new System.Drawing.Size(122, 34);
             this.btnGamb.TabIndex = 45;
@@ -859,7 +858,6 @@ namespace Ipen.CBT.UI
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
-
         }
 
         #endregion
