@@ -81,7 +81,8 @@ namespace Ipen.CompartimentalModel
 
         public void PreencherCaixasLinhas()
         {
-            
+            this.Colecao.Clear();
+
             //Nunca poderia ser preenchido linhas antes de caixas
             CaixasCollection TodasCaixas = DataBD.PreencherCaixas(this.idModelo);
 
