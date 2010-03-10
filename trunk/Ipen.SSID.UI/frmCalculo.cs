@@ -35,6 +35,13 @@ namespace Ipen.SSID.UI
         private void btnCalcular_Click(object sender, EventArgs e)
         {
 
+            if (!rdoPascal.Checked)
+            {
+                ResolverOutrosMetodos();
+                return;
+            }
+
+
             int Final = 0, Passo = 0;
             double MeiaVida = 0;
             try
@@ -562,13 +569,12 @@ namespace Ipen.SSID.UI
         }
         #endregion
 
-        [Category("Stiff ODEs")]
-        [Description("The OdeImplicitRungeKutta5 class solves an initial-value problem for stiff ordinary differential equations using the implicit Runge-Kutta method of order 5.")]
-        public void ODEImplicitRungeKutta5()
+        private void SolveRungeKutta()
         {
             double Final = 0, Passo = 0;
             double Inicio = 0;
             double MeiaVida = 0;
+            int QuantFuncoes = 0;
             try
             {
                 Final = Convert.ToDouble(txtTempo.Text);
@@ -581,24 +587,59 @@ namespace Ipen.SSID.UI
                 return;
             }
 
-            OdeFunction YDot = new OdeFunction(MontarEquacao);
-            OdeImplicitRungeKutta5 rungeKutta = new OdeImplicitRungeKutta5(YDot, 2);
-
-            double[,] sol;
+            
             double[] y0 = new double[ModeloAberto.Colecao.Caixas.Count];
             foreach (CompartimentalModel.Caixas Caixa in ModeloAberto.Colecao.Caixas)
             {
                 y0[(int)Caixa.Tag] = Caixa.Fracao;
+                QuantFuncoes++;
             }
-            
-            sol = rungeKutta.Solve(y0, Inicio, Passo, Final);
+
+
+            OdeFunction YDot = new OdeFunction(MontarEquacao);
+            double[,] sol;
+
+            if (rdoKutta5.Checked)
+                sol = ResolverPorKutta5(YDot, QuantFuncoes, y0, Inicio, Final, Passo);
+            else if (rdoKutta45.Checked)
+                sol = ResolverPorKutta45(YDot, QuantFuncoes, y0, Inicio, Final, Passo);
+            else
+                sol = ResolverPorAdamsM(YDot, QuantFuncoes, y0, Inicio, Final, Passo);
 
             txtSaida.Clear();
+
+            StringBuilder str = new StringBuilder();
+
             for (int i = 0; i < sol.GetLength(0); i++)
             {
-                double soma = sol[i,1] + sol[i,2];
-                txtSaida.Text += "\nT = " + sol[i, 0].ToString() + "  A = " + sol[i, 1].ToString("e10") + " B = " + sol[i, 2].ToString("e10") + " Soma = " + soma.ToString("e10");
+                double soma = sol[i,1] + sol[i,2] + sol[1,3];
+                str.Append("\nT = " + sol[i, 0].ToString() + "  A = " + sol[i, 1].ToString("e10") + " B = " + sol[i, 2].ToString("e10") + " C = " + sol[i, 3].ToString("e10") + " Soma = " + soma.ToString("e10"));
             }
+            txtSaida.Text = str.ToString();
+        }
+
+        private double[,] ResolverPorKutta5(OdeFunction YDot, int QuantidadeFuncoes, double[] EstadoInicial, double Inicio, double Final,double Passo)
+        {
+            OdeImplicitRungeKutta5 rungeKutta = new OdeImplicitRungeKutta5(YDot, QuantidadeFuncoes);
+            double[,] sol;
+            sol = rungeKutta.Solve(EstadoInicial, Inicio, Passo, Final);
+            return sol;
+        }
+
+        private double[,] ResolverPorKutta45(OdeFunction YDot, int QuantidadeFuncoes, double[] EstadoInicial, double Inicio, double Final, double Passo)
+        {
+            OdeExplicitRungeKutta45 rungeKutta = new OdeExplicitRungeKutta45(YDot, QuantidadeFuncoes);
+            double[,] sol;
+            sol = rungeKutta.Solve(EstadoInicial, Inicio, Passo, Final);
+            return sol;
+        }
+
+        private double[,] ResolverPorAdamsM(OdeFunction YDot, int QuantidadeFuncoes, double[] EstadoInicial, double Inicio, double Final, double Passo)
+        {
+            OdeAdamsMoulton Adams = new OdeAdamsMoulton(YDot, QuantidadeFuncoes);
+            double[,] sol;
+            sol = Adams.Solve(EstadoInicial, Inicio, Passo, Final);
+            return sol;
         }
 
         private double[] MontarEquacao(double T, double[] Y)
@@ -617,12 +658,24 @@ namespace Ipen.SSID.UI
         }
 
 
-        private void btnKutta_Click(object sender, EventArgs e)
+        private void ResolverOutrosMetodos()
         {
             LerModelo(idModeloAberto);
             PreencherMatrizR(true);
-            ODEImplicitRungeKutta5();
+
+            //Muda cursor pra ampulheta
+            this.Cursor = Cursors.WaitCursor;
+            DateTime startTime = DateTime.Now;
+
+            SolveRungeKutta();
+
+            this.Cursor = Cursors.Default;
+            DateTime stopTime = DateTime.Now;
+            TimeSpan Duration = stopTime - startTime;
+            lblTempoDecorrido.Text = Duration.Hours.ToString("00") + ":" + Duration.Minutes.ToString("00") + ":" + Duration.Seconds.ToString("00") + ":" + Duration.Milliseconds.ToString("000");
+
         }
+
     }
 }
 
