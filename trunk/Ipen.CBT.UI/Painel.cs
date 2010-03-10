@@ -57,6 +57,7 @@ namespace Ipen.CBT.UI
             this._sistemaCompartimental.Linhas.Add(ln);
             this.Refresh();
         }
+
         public void DesmarcarTudo()
         {
             foreach (Caixas cx in this._sistemaCompartimental.Caixas)
@@ -64,6 +65,8 @@ namespace Ipen.CBT.UI
 
             foreach (Linhas ln in this._sistemaCompartimental.Linhas)
                 ln.EstaSelecionado = false;
+
+            
         }
         #endregion
 
@@ -130,9 +133,11 @@ namespace Ipen.CBT.UI
 
             OnBoxModifyRequest(cx);
         }
+
         protected override void OnClick(EventArgs e)
         {
             this.DesmarcarTudo();
+
             base.OnClick(e);
         }
         #endregion
@@ -216,6 +221,8 @@ namespace Ipen.CBT.UI
 
                     e.Graphics.DrawLine(new Pen(ln.ForeColor, EspessuraDaLinha), ln.PontoInicio, ln.PontoFim);
 
+                    //Tentativa com curve no lugar de line
+                   //e.Graphics.DrawCurve(new Pen(ln.ForeColor, EspessuraDaLinha), new Point[2]{ln.PontoInicio, ln.PontoFim},0 );
 
                     //Rótulo da Linha
                     if (Configuracoes.ExibirRotulos)

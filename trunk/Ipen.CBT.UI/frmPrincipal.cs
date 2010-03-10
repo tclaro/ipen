@@ -596,6 +596,7 @@ namespace Ipen.CBT.UI
             btnCorComp.BackColor = Caixas.CorPadrao;
             btnAddComp.Text = "&Adicionar";
             CaixaAlterando = null;
+            this.PnlCanvas.DesmarcarTudo();
         }
 
         private void btnRemComp_Click(object sender, EventArgs e)
@@ -1076,6 +1077,8 @@ namespace Ipen.CBT.UI
 
         private void exibirApenasLigaçõesDoCompartimentoSelecionadoToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            MessageBox.Show(this.Size.Height.ToString() + " " + this.Size.Width.ToString());
+            
             bool Exibir = !exibirApenasLigaçõesDoCompartimentoSelecionadoToolStripMenuItem.Checked;
             exibirApenasLigaçõesDoCompartimentoSelecionadoToolStripMenuItem.Checked = Exibir;
             CompartimentalModel.Configuracoes.ExibirTodasLigacoes = Exibir;
