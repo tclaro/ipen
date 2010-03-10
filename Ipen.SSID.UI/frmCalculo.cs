@@ -8,6 +8,7 @@ using System.Windows.Forms;
 using System.Collections;
 using ZedGraph;
 using System.Configuration;
+using DotNumerics.ODE;
 
 namespace Ipen.SSID.UI
 {
@@ -15,6 +16,7 @@ namespace Ipen.SSID.UI
     {
 
         public int idModeloAberto;
+        CompartimentalModel.Modelos ModeloAberto;
         private ArrayList ModeloCompartimental = new ArrayList();
         private CompartimentalModel.CaixasCollection TodosCompartimentos = new CompartimentalModel.CaixasCollection();
 
@@ -24,7 +26,7 @@ namespace Ipen.SSID.UI
         double[,] q, qi;
         double max, lam, terr;
         int Tempo;
-        
+
         public Form1()
         {
             InitializeComponent();
@@ -32,9 +34,9 @@ namespace Ipen.SSID.UI
 
         private void btnCalcular_Click(object sender, EventArgs e)
         {
-            
-            int Final =0 , Passo =0;
-            double MeiaVida =0 ;
+
+            int Final = 0, Passo = 0;
+            double MeiaVida = 0;
             try
             {
                 Final = Convert.ToInt32(txtTempo.Text);
@@ -53,7 +55,7 @@ namespace Ipen.SSID.UI
 
             Final = Final / Passo;
             Tempo = 0;
-            
+
             if (MeiaVida > 0)
                 lam = Math.Log(2) / MeiaVida; //lambda R
             else
@@ -63,12 +65,13 @@ namespace Ipen.SSID.UI
             double QuantAnt = 0;
 
             LerModelo(idModeloAberto);
+            PreencherMatrizR();
             Init();
 
             StringBuilder str = new StringBuilder();
 
             Object[] ListaDeParesDePontos = new Object[n];
-            str.Append ("Tempo");
+            str.Append("Tempo");
 
             foreach (CompartimentalModel.Caixas C in TodosCompartimentos)
             {
@@ -102,7 +105,7 @@ namespace Ipen.SSID.UI
 
                     if (C.Acompanhar)
                     {
-                        
+
                         double valorInstanteCompartimento = 0d;
 
                         if (C.Eliminacao)
@@ -117,7 +120,7 @@ namespace Ipen.SSID.UI
                         str.Append(valorInstanteCompartimento.ToString("e10"));
 
                         ((PointPairList)ListaDeParesDePontos[indice]).Add(T, valorInstanteCompartimento);
-     
+
                     }
                 }
 
@@ -125,7 +128,7 @@ namespace Ipen.SSID.UI
                 str.Append(SomaCompartimentos.ToString("e10"));
                 str.Append("\n");
                 Tempo = Tempo + Passo;
-                
+
             }
 
             this.Cursor = Cursors.Default;
@@ -142,10 +145,10 @@ namespace Ipen.SSID.UI
             FormGrafico.Show();
 
         }
-        
+
         private GraphPane CreateChart(Object[] coisas, ZedGraphControl zgc)
         {
-            
+
             GraphPane myPane = zgc.GraphPane;
             myPane.CurveList.Clear();
 
@@ -154,11 +157,11 @@ namespace Ipen.SSID.UI
             myPane.XAxis.Title.Text = "Tempo";
             myPane.YAxis.Title.Text = "Quantidade";
 
-            
-            for (int i =1; i<n;i++)
+
+            for (int i = 1; i < n; i++)
             {
                 PointPairList MinhaLista = (PointPairList)coisas[i];
-                CompartimentalModel.Caixas C = TodosCompartimentos[i-1];
+                CompartimentalModel.Caixas C = TodosCompartimentos[i - 1];
 
                 if (C.Acompanhar)
                 {
@@ -172,8 +175,8 @@ namespace Ipen.SSID.UI
             }
 
             // Set the XAxis type
-            myPane.XAxis.Type = AxisType.Log;
-            myPane.YAxis.Type = AxisType.Log;
+            myPane.XAxis.Type = AxisType.Linear;
+            myPane.YAxis.Type = AxisType.Linear;
 
 
             // Fill the axis background with a color gradient
@@ -184,7 +187,7 @@ namespace Ipen.SSID.UI
 
         private void Init()
         {
-           
+
             sum = new double[n, n];
             a = new double[n, n];
             term = new double[n, n];
@@ -200,7 +203,7 @@ namespace Ipen.SSID.UI
 
         private void Calculo()
         {
-           
+
             for (int i = 1; i < n; i++)
             {
                 for (int j = 1; j < n; j++)
@@ -362,7 +365,7 @@ namespace Ipen.SSID.UI
                         q[j1, k1 + ip1] = qi[j1, k1];
             }
         }
-        
+
         public void ImportarArquivo(string Arquivo)
         {
             System.Data.DataSet ds = new System.Data.DataSet();
@@ -371,19 +374,22 @@ namespace Ipen.SSID.UI
 
         public void LerModelo(int idModelo)
         {
-            CompartimentalModel.Modelos Modelo = new CompartimentalModel.Modelos();
-            Modelo.idModelo = idModelo;
-            Modelo.PreencherCaixasLinhas();
-            
-            int Tamanho = Modelo.Colecao.Caixas.Count + 1;  //+ 1 pq o elemento zero nao é utilizado
+            ModeloAberto = new CompartimentalModel.Modelos();
+            ModeloAberto.idModelo = idModelo;
+            ModeloAberto.PreencherCaixasLinhas();
+
+            TodosCompartimentos.Clear();
+        }
+
+        public void PreencherMatrizR()
+        {
+            int Tamanho = ModeloAberto.Colecao.Caixas.Count + 1;  //+ 1 pq o elemento zero nao é utilizado
 
             n = Tamanho;
             R = new double[n, n];
-
-            TodosCompartimentos.Clear();
             int Contador = 1;
 
-            foreach (CompartimentalModel.Caixas Caixa in Modelo.Colecao.Caixas)
+            foreach (CompartimentalModel.Caixas Caixa in ModeloAberto.Colecao.Caixas)
             {
                 Caixa.Tag = Contador++;
 
@@ -394,13 +400,61 @@ namespace Ipen.SSID.UI
             }
             TodosCompartimentos.TrimExcess();
 
-            foreach (CompartimentalModel.Linhas Linha in Modelo.Colecao.Linhas)
+            foreach (CompartimentalModel.Linhas Linha in ModeloAberto.Colecao.Linhas)
             {
                 if (Linha.ValorAB != 0)
                     R[RetornarID(Linha.CaixaInicio.Numero, TodosCompartimentos), RetornarID(Linha.CaixaFim.Numero, TodosCompartimentos)] = Linha.ValorAB;
                 if (Linha.ValorBA != 0)
                     R[RetornarID(Linha.CaixaFim.Numero, TodosCompartimentos), RetornarID(Linha.CaixaInicio.Numero, TodosCompartimentos)] = Linha.ValorBA;
             }
+
+
+        }
+
+        public void PreencherMatrizR(bool OutrosMetodos)
+        {
+            int Tamanho = ModeloAberto.Colecao.Caixas.Count;
+            R = new double[Tamanho, Tamanho];
+            
+            int contador = 0;
+            foreach (CompartimentalModel.Caixas Caixa in ModeloAberto.Colecao.Caixas)
+            {
+                Caixa.Tag = contador++;
+                TodosCompartimentos.Add(Caixa);
+            }
+            TodosCompartimentos.TrimExcess();
+
+
+            foreach (CompartimentalModel.Caixas Caixa in ModeloAberto.Colecao.Caixas)
+            {
+                foreach (CompartimentalModel.Linhas Linha in ModeloAberto.Colecao.Linhas)
+                {
+                    int l = RetornarID(Caixa.Numero, TodosCompartimentos);
+
+                    if (Linha.CaixaInicio == Caixa)
+                    {
+                        int c = RetornarID(Linha.CaixaFim.Numero, TodosCompartimentos);
+                        if (Linha.ValorAB != 0)
+                            R[l, l] += Linha.ValorAB;
+                        if (Linha.ValorBA != 0)
+                            R[l, c] = Linha.ValorBA;
+                    }
+                    
+                    if (Linha.CaixaFim == Caixa)
+                    {
+                        int c = RetornarID(Linha.CaixaInicio.Numero, TodosCompartimentos);
+
+                        if (Linha.ValorBA != 0)
+                            R[l, l] += Linha.ValorBA;
+                        if (Linha.ValorAB != 0)
+                            R[l, c] = Linha.ValorAB;
+                    }
+                    
+                }
+            }
+
+            for (int i = 0; i < R.GetUpperBound(0); i++)
+                R[i, i] = R[i, i] * -1;
         }
 
         /*
@@ -433,7 +487,7 @@ namespace Ipen.SSID.UI
             }
         }
         */
-         
+
         private int RetornarID(int NumeroCaixa, CompartimentalModel.CaixasCollection Colecao)
         {
             foreach (CompartimentalModel.Caixas C in Colecao)
@@ -444,6 +498,7 @@ namespace Ipen.SSID.UI
             return 0;
         }
 
+        #region Interface
         private void carregarXMLToolStripMenuItem_Click(object sender, EventArgs e)
         {
             string caminhoInicial = LerSettings("XMLPath");
@@ -505,5 +560,69 @@ namespace Ipen.SSID.UI
             config.Save(ConfigurationSaveMode.Modified);
             ConfigurationManager.RefreshSection("appSettings");
         }
+        #endregion
+
+        [Category("Stiff ODEs")]
+        [Description("The OdeImplicitRungeKutta5 class solves an initial-value problem for stiff ordinary differential equations using the implicit Runge-Kutta method of order 5.")]
+        public void ODEImplicitRungeKutta5()
+        {
+            double Final = 0, Passo = 0;
+            double Inicio = 0;
+            double MeiaVida = 0;
+            try
+            {
+                Final = Convert.ToDouble(txtTempo.Text);
+                Passo = Convert.ToDouble(txtPasso.Text);
+                MeiaVida = Convert.ToDouble(txtMeiaVida.Text);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Erro de conversão\n" + ex.Message, "Stupid Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            OdeFunction YDot = new OdeFunction(MontarEquacao);
+            OdeImplicitRungeKutta5 rungeKutta = new OdeImplicitRungeKutta5(YDot, 2);
+
+            double[,] sol;
+            double[] y0 = new double[ModeloAberto.Colecao.Caixas.Count];
+            foreach (CompartimentalModel.Caixas Caixa in ModeloAberto.Colecao.Caixas)
+            {
+                y0[(int)Caixa.Tag] = Caixa.Fracao;
+            }
+            
+            sol = rungeKutta.Solve(y0, Inicio, Passo, Final);
+
+            txtSaida.Clear();
+            for (int i = 0; i < sol.GetLength(0); i++)
+            {
+                double soma = sol[i,1] + sol[i,2];
+                txtSaida.Text += "\nT = " + sol[i, 0].ToString() + "  A = " + sol[i, 1].ToString("e10") + " B = " + sol[i, 2].ToString("e10") + " Soma = " + soma.ToString("e10");
+            }
+        }
+
+        private double[] MontarEquacao(double T, double[] Y)
+        {
+
+            int Tamanho = R.GetLength(0);
+
+            double[] ydot = new double[Tamanho];
+
+           
+            for (int l = 0; l < Tamanho; l++)
+                for (int c = 0; c < Tamanho; c++)
+                    ydot[l] += R[l,c] * Y[c];
+
+            return ydot;
+        }
+
+
+        private void btnKutta_Click(object sender, EventArgs e)
+        {
+            LerModelo(idModeloAberto);
+            PreencherMatrizR(true);
+            ODEImplicitRungeKutta5();
+        }
     }
 }
+

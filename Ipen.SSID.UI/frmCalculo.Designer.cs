@@ -46,6 +46,7 @@ namespace Ipen.SSID.UI
             this.sairToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.sairDoSistemaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.lblTempoDecorrido = new System.Windows.Forms.Label();
+            this.btnKutta = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -190,17 +191,29 @@ namespace Ipen.SSID.UI
             // lblTempoDecorrido
             // 
             this.lblTempoDecorrido.AutoSize = true;
-            this.lblTempoDecorrido.Location = new System.Drawing.Point(487, 77);
+            this.lblTempoDecorrido.Location = new System.Drawing.Point(487, 91);
             this.lblTempoDecorrido.Name = "lblTempoDecorrido";
             this.lblTempoDecorrido.Size = new System.Drawing.Size(70, 13);
             this.lblTempoDecorrido.TabIndex = 15;
             this.lblTempoDecorrido.Text = "00:00:00:000";
+            // 
+            // btnKutta
+            // 
+            this.btnKutta.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnKutta.Location = new System.Drawing.Point(482, 58);
+            this.btnKutta.Name = "btnKutta";
+            this.btnKutta.Size = new System.Drawing.Size(75, 23);
+            this.btnKutta.TabIndex = 16;
+            this.btnKutta.Text = "Runge-Kutta";
+            this.btnKutta.UseVisualStyleBackColor = true;
+            this.btnKutta.Click += new System.EventHandler(this.btnKutta_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(569, 438);
+            this.Controls.Add(this.btnKutta);
             this.Controls.Add(this.lblTempoDecorrido);
             this.Controls.Add(this.zedGraphControl1);
             this.Controls.Add(this.label4);
@@ -241,6 +254,7 @@ namespace Ipen.SSID.UI
         private System.Windows.Forms.ToolStripMenuItem sairToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem sairDoSistemaToolStripMenuItem;
         private System.Windows.Forms.Label lblTempoDecorrido;
+        private System.Windows.Forms.Button btnKutta;
     }
 }
 
