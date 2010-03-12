@@ -35,7 +35,7 @@ namespace Ipen.SSID.UI
             // 
             // zg1
             // 
-            this.zg1.Location = new System.Drawing.Point(25, 12);
+            this.zg1.Location = new System.Drawing.Point(57, 27);
             this.zg1.Name = "zg1";
             this.zg1.ScrollMaxX = 0;
             this.zg1.ScrollMaxY = 0;

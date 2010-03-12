@@ -182,8 +182,8 @@ namespace Ipen.SSID.UI
             }
 
             // Set the XAxis type
-            myPane.XAxis.Type = AxisType.Linear;
-            myPane.YAxis.Type = AxisType.Linear;
+            myPane.XAxis.Type = AxisType.Log;
+            myPane.YAxis.Type = AxisType.Log;
 
 
             // Fill the axis background with a color gradient
@@ -460,7 +460,7 @@ namespace Ipen.SSID.UI
                 }
             }
 
-            for (int i = 0; i < R.GetUpperBound(0); i++)
+            for (int i = 0; i <= R.GetUpperBound(0); i++)
                 R[i, i] = R[i, i] * -1;
         }
 
@@ -574,6 +574,7 @@ namespace Ipen.SSID.UI
             double Final = 0, Passo = 0;
             double Inicio = 0;
             double MeiaVida = 0;
+            double QuantAnt = 0;
             int QuantFuncoes = 0;
             try
             {
@@ -586,16 +587,14 @@ namespace Ipen.SSID.UI
                 MessageBox.Show("Erro de conversão\n" + ex.Message, "Stupid Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
-
-            
+                        
             double[] y0 = new double[ModeloAberto.Colecao.Caixas.Count];
             foreach (CompartimentalModel.Caixas Caixa in ModeloAberto.Colecao.Caixas)
             {
                 y0[(int)Caixa.Tag] = Caixa.Fracao;
                 QuantFuncoes++;
             }
-
-
+            
             OdeFunction YDot = new OdeFunction(MontarEquacao);
             double[,] sol;
 
@@ -612,10 +611,31 @@ namespace Ipen.SSID.UI
 
             for (int i = 0; i < sol.GetLength(0); i++)
             {
-                double soma = sol[i,1] + sol[i,2] + sol[1,3];
-                str.Append("\nT = " + sol[i, 0].ToString() + "  A = " + sol[i, 1].ToString("e10") + " B = " + sol[i, 2].ToString("e10") + " C = " + sol[i, 3].ToString("e10") + " Soma = " + soma.ToString("e10"));
+                double soma =0;
+                str.Append("\nT = " + sol[i, 0].ToString());
+                for (int c = 1; c < sol.GetLength(1); c++)
+                {
+                    CompartimentalModel.Caixas Caixa = ModeloAberto.Colecao.Caixas[c-1];
+                    soma += sol[i, c];
+                    if (Caixa.Acompanhar)
+                    {
+                        double valorInstanteCompartimento = 0d;
+
+                        if (Caixa.Eliminacao)
+                        {
+                            valorInstanteCompartimento = sol[i,c] - QuantAnt;
+                            QuantAnt = sol[i, c];
+                        }
+                        else
+                            valorInstanteCompartimento = sol[i, c];
+
+                        str.Append("\t" + Caixa.Nome + " = " + valorInstanteCompartimento.ToString("e10"));
+                    }
+                }
+                str.Append("\t soma = " + soma.ToString("e10"));
             }
             txtSaida.Text = str.ToString();
+            
         }
 
         private double[,] ResolverPorKutta5(OdeFunction YDot, int QuantidadeFuncoes, double[] EstadoInicial, double Inicio, double Final,double Passo)
@@ -673,6 +693,8 @@ namespace Ipen.SSID.UI
             DateTime stopTime = DateTime.Now;
             TimeSpan Duration = stopTime - startTime;
             lblTempoDecorrido.Text = Duration.Hours.ToString("00") + ":" + Duration.Minutes.ToString("00") + ":" + Duration.Seconds.ToString("00") + ":" + Duration.Milliseconds.ToString("000");
+
+            
 
         }
 

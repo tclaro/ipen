@@ -194,7 +194,7 @@ namespace Ipen.SSID.UI
             // lblTempoDecorrido
             // 
             this.lblTempoDecorrido.AutoSize = true;
-            this.lblTempoDecorrido.Location = new System.Drawing.Point(463, 84);
+            this.lblTempoDecorrido.Location = new System.Drawing.Point(471, 84);
             this.lblTempoDecorrido.Name = "lblTempoDecorrido";
             this.lblTempoDecorrido.Size = new System.Drawing.Size(70, 13);
             this.lblTempoDecorrido.TabIndex = 15;
@@ -204,7 +204,7 @@ namespace Ipen.SSID.UI
             // 
             this.rdoPascal.AutoSize = true;
             this.rdoPascal.Checked = true;
-            this.rdoPascal.Location = new System.Drawing.Point(314, 12);
+            this.rdoPascal.Location = new System.Drawing.Point(309, 32);
             this.rdoPascal.Name = "rdoPascal";
             this.rdoPascal.Size = new System.Drawing.Size(57, 17);
             this.rdoPascal.TabIndex = 17;
@@ -215,7 +215,7 @@ namespace Ipen.SSID.UI
             // rdoKutta5
             // 
             this.rdoKutta5.AutoSize = true;
-            this.rdoKutta5.Location = new System.Drawing.Point(314, 35);
+            this.rdoKutta5.Location = new System.Drawing.Point(309, 55);
             this.rdoKutta5.Name = "rdoKutta5";
             this.rdoKutta5.Size = new System.Drawing.Size(94, 17);
             this.rdoKutta5.TabIndex = 18;
@@ -225,7 +225,7 @@ namespace Ipen.SSID.UI
             // rdoKutta45
             // 
             this.rdoKutta45.AutoSize = true;
-            this.rdoKutta45.Location = new System.Drawing.Point(314, 58);
+            this.rdoKutta45.Location = new System.Drawing.Point(309, 78);
             this.rdoKutta45.Name = "rdoKutta45";
             this.rdoKutta45.Size = new System.Drawing.Size(100, 17);
             this.rdoKutta45.TabIndex = 19;
@@ -235,7 +235,7 @@ namespace Ipen.SSID.UI
             // rdoAdams
             // 
             this.rdoAdams.AutoSize = true;
-            this.rdoAdams.Location = new System.Drawing.Point(314, 80);
+            this.rdoAdams.Location = new System.Drawing.Point(309, 100);
             this.rdoAdams.Name = "rdoAdams";
             this.rdoAdams.Size = new System.Drawing.Size(101, 17);
             this.rdoAdams.TabIndex = 20;
