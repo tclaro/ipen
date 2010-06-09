@@ -1077,7 +1077,7 @@ namespace Ipen.CBT.UI
 
         private void exibirApenasLigaçõesDoCompartimentoSelecionadoToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            MessageBox.Show(this.Size.Height.ToString() + " " + this.Size.Width.ToString());
+            //MessageBox.Show(this.Size.Height.ToString() + " " + this.Size.Width.ToString());
             
             bool Exibir = !exibirApenasLigaçõesDoCompartimentoSelecionadoToolStripMenuItem.Checked;
             exibirApenasLigaçõesDoCompartimentoSelecionadoToolStripMenuItem.Checked = Exibir;
