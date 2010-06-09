@@ -97,9 +97,7 @@ namespace Ipen.SSID.UI
 
             for (int T = 0; T <= Final + 1; T++)
             {
-
                 Calculo();
-
 
                 double SomaCompartimentos = 0;
                 str.Append(Tempo.ToString());
@@ -127,7 +125,6 @@ namespace Ipen.SSID.UI
                         str.Append(valorInstanteCompartimento.ToString("e10"));
 
                         ((PointPairList)ListaDeParesDePontos[indice]).Add(T, valorInstanteCompartimento);
-
                     }
                 }
 
@@ -145,7 +142,7 @@ namespace Ipen.SSID.UI
 
             txtSaida.Text = str.ToString();
 
-            GraphPane pane = CreateChart(ListaDeParesDePontos, zedGraphControl1);
+            GraphPane pane = CreateChart(ListaDeParesDePontos, zedGraphControl1, false);
             GraphPane paneCopia = pane.Clone();
             frmGrafico FormGrafico = new frmGrafico();
             FormGrafico.CreateChart(paneCopia);
@@ -153,7 +150,7 @@ namespace Ipen.SSID.UI
 
         }
 
-        private GraphPane CreateChart(Object[] coisas, ZedGraphControl zgc)
+        private GraphPane CreateChart(Object[] coisas, ZedGraphControl zgc, bool ZeroBased)
         {
 
             GraphPane myPane = zgc.GraphPane;
@@ -164,12 +161,29 @@ namespace Ipen.SSID.UI
             myPane.XAxis.Title.Text = "Tempo";
             myPane.YAxis.Title.Text = "Quantidade";
 
+            int Limite;
+            if (ZeroBased)
+                Limite = coisas.GetLength(0)+1;
+            else
+                Limite = coisas.GetLength(0);
 
-            for (int i = 1; i < n; i++)
+            for (int i = 1; i < Limite; i++)
             {
-                PointPairList MinhaLista = (PointPairList)coisas[i];
-                CompartimentalModel.Caixas C = TodosCompartimentos[i - 1];
-
+                CompartimentalModel.Caixas C ;
+                PointPairList MinhaLista;
+                if (ZeroBased)
+                {
+                    MinhaLista = (PointPairList)coisas[i-1];
+                    C = TodosCompartimentos[i-1];
+                }
+                else
+                {
+                    
+                    MinhaLista = (PointPairList)coisas[i];
+                    C = TodosCompartimentos[i-1];
+                }
+                
+                
                 if (C.Acompanhar)
                 {
                     //LineItem myCurve2 = myPane.AddCurve("Compartimento " + i.ToString(), MinhaLista, RetornarCor(i), SymbolType.None);
@@ -180,6 +194,7 @@ namespace Ipen.SSID.UI
                     //minhaCurva.Symbol.Fill = new Fill(Color.White);
                 }
             }
+
 
             // Set the XAxis type
             myPane.XAxis.Type = AxisType.Log;
@@ -587,14 +602,31 @@ namespace Ipen.SSID.UI
                 MessageBox.Show("Erro de conversão\n" + ex.Message, "Stupid Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
+
+           
+            StringBuilder str = new StringBuilder();
                         
             double[] y0 = new double[ModeloAberto.Colecao.Caixas.Count];
             foreach (CompartimentalModel.Caixas Caixa in ModeloAberto.Colecao.Caixas)
             {
                 y0[(int)Caixa.Tag] = Caixa.Fracao;
                 QuantFuncoes++;
+                
             }
-            
+            str.Append ("\n");
+
+            Object[] ListaDeParesDePontos = new Object[QuantFuncoes];
+
+            foreach (CompartimentalModel.Caixas Caixa in ModeloAberto.Colecao.Caixas)
+            {
+                if (Caixa.Acompanhar)
+                {
+                    PointPairList list = new PointPairList();
+                    ListaDeParesDePontos[(int)Caixa.Tag] = list;
+                    str.Append(Caixa.Nome + "\t");
+                }
+            }
+                        
             OdeFunction YDot = new OdeFunction(MontarEquacao);
             double[,] sol;
 
@@ -607,12 +639,11 @@ namespace Ipen.SSID.UI
 
             txtSaida.Clear();
 
-            StringBuilder str = new StringBuilder();
-
             for (int i = 0; i < sol.GetLength(0); i++)
             {
                 double soma =0;
                 str.Append("\nT = " + sol[i, 0].ToString());
+               
                 for (int c = 1; c < sol.GetLength(1); c++)
                 {
                     CompartimentalModel.Caixas Caixa = ModeloAberto.Colecao.Caixas[c-1];
@@ -623,19 +654,25 @@ namespace Ipen.SSID.UI
 
                         if (Caixa.Eliminacao)
                         {
-                            valorInstanteCompartimento = sol[i,c] - QuantAnt;
+                            valorInstanteCompartimento = sol[i, c] - QuantAnt;
                             QuantAnt = sol[i, c];
                         }
                         else
                             valorInstanteCompartimento = sol[i, c];
 
-                        str.Append("\t" + Caixa.Nome + " = " + valorInstanteCompartimento.ToString("e10"));
+                        str.Append("\t" + valorInstanteCompartimento.ToString("e10"));
+                        ((PointPairList)ListaDeParesDePontos[(int)Caixa.Tag]).Add(sol[i, 0], valorInstanteCompartimento);
                     }
                 }
                 str.Append("\t soma = " + soma.ToString("e10"));
             }
             txtSaida.Text = str.ToString();
-            
+
+            GraphPane pane = CreateChart(ListaDeParesDePontos, zedGraphControl1,true);
+            GraphPane paneCopia = pane.Clone();
+            frmGrafico FormGrafico = new frmGrafico();
+            FormGrafico.CreateChart(paneCopia);
+            FormGrafico.Show();
         }
 
         private double[,] ResolverPorKutta5(OdeFunction YDot, int QuantidadeFuncoes, double[] EstadoInicial, double Inicio, double Final,double Passo)
@@ -693,11 +730,8 @@ namespace Ipen.SSID.UI
             DateTime stopTime = DateTime.Now;
             TimeSpan Duration = stopTime - startTime;
             lblTempoDecorrido.Text = Duration.Hours.ToString("00") + ":" + Duration.Minutes.ToString("00") + ":" + Duration.Seconds.ToString("00") + ":" + Duration.Milliseconds.ToString("000");
-
-            
-
         }
-
     }
 }
 
+ 
