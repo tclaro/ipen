@@ -15,6 +15,7 @@ namespace Ipen.CompartimentalModel
             this.Tables["Modelo"].Columns.Add("dtCriacao", typeof(DateTime));
             this.Tables["Modelo"].Columns.Add("Descricao", typeof(string));
             this.Tables["Modelo"].Columns.Add("TipoModelo", typeof(string));
+            this.Tables["Modelo"].Columns.Add("meiaVida", typeof(double));
             
             this.Tables.Add("TableCaixas");
             this.Tables["TableCaixas"].Columns.Add("Numero", typeof(int));
@@ -48,6 +49,7 @@ namespace Ipen.CompartimentalModel
             dr["dtCriacao"] = Modelo.dtCriacao;
             dr["Descricao"] = Modelo.Descricao;
             dr["TipoModelo"] = Modelo.Tipo.nmTipoModelo;
+            dr["meiaVida"] = Modelo.meiaVida;
             this.Tables["Modelo"].Rows.Add(dr);
 
             if (Modelo.Colecao.Caixas != null)
@@ -104,6 +106,8 @@ namespace Ipen.CompartimentalModel
                 Modelo.nmModelo = dr["nmModelo"].ToString();
                 Modelo.dtCriacao = (DateTime)dr["dtCriacao"];
                 Modelo.Descricao = dr["Descricao"].ToString();
+                Modelo.meiaVida = (double)dr["meiaVida"];
+                Modelo.Tipo.idTipoModelo = (int)dr["tipoModelo"];
             }
 
             foreach (System.Data.DataRow dr in ds.Tables["TableCaixas"].Rows)

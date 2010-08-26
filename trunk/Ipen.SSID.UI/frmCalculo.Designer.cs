@@ -1,6 +1,6 @@
 namespace Ipen.SSID.UI
 {
-    partial class Form1
+    partial class frmCalculo
     {
         /// <summary>
         /// Required designer variable.
@@ -29,15 +29,13 @@ namespace Ipen.SSID.UI
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmCalculo));
             this.btnCalcular = new System.Windows.Forms.Button();
             this.txtSaida = new System.Windows.Forms.RichTextBox();
             this.txtTempo = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.txtPasso = new System.Windows.Forms.TextBox();
-            this.label4 = new System.Windows.Forms.Label();
-            this.txtMeiaVida = new System.Windows.Forms.TextBox();
             this.zedGraphControl1 = new ZedGraph.ZedGraphControl();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.modelosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -46,20 +44,23 @@ namespace Ipen.SSID.UI
             this.sairToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.sairDoSistemaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.lblTempoDecorrido = new System.Windows.Forms.Label();
-            this.rdoPascal = new System.Windows.Forms.RadioButton();
+            this.rdoBirchall = new System.Windows.Forms.RadioButton();
             this.rdoKutta5 = new System.Windows.Forms.RadioButton();
             this.rdoKutta45 = new System.Windows.Forms.RadioButton();
             this.rdoAdams = new System.Windows.Forms.RadioButton();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.label1 = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnCalcular
             // 
             this.btnCalcular.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCalcular.Enabled = false;
-            this.btnCalcular.Location = new System.Drawing.Point(466, 29);
+            this.btnCalcular.Location = new System.Drawing.Point(464, 40);
             this.btnCalcular.Name = "btnCalcular";
-            this.btnCalcular.Size = new System.Drawing.Size(75, 23);
+            this.btnCalcular.Size = new System.Drawing.Size(75, 40);
             this.btnCalcular.TabIndex = 0;
             this.btnCalcular.Text = "Calcular";
             this.btnCalcular.UseVisualStyleBackColor = true;
@@ -72,14 +73,14 @@ namespace Ipen.SSID.UI
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.txtSaida.Location = new System.Drawing.Point(12, 132);
             this.txtSaida.Name = "txtSaida";
-            this.txtSaida.Size = new System.Drawing.Size(546, 294);
+            this.txtSaida.Size = new System.Drawing.Size(560, 294);
             this.txtSaida.TabIndex = 4;
             this.txtSaida.Text = "";
             this.txtSaida.WordWrap = false;
             // 
             // txtTempo
             // 
-            this.txtTempo.Location = new System.Drawing.Point(129, 51);
+            this.txtTempo.Location = new System.Drawing.Point(98, 40);
             this.txtTempo.Name = "txtTempo";
             this.txtTempo.Size = new System.Drawing.Size(100, 20);
             this.txtTempo.TabIndex = 5;
@@ -88,16 +89,16 @@ namespace Ipen.SSID.UI
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(80, 54);
+            this.label2.Location = new System.Drawing.Point(21, 43);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(43, 13);
+            this.label2.Size = new System.Drawing.Size(71, 13);
             this.label2.TabIndex = 6;
-            this.label2.Text = "Tempo:";
+            this.label2.Text = "Tempo (dias):";
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(80, 84);
+            this.label3.Location = new System.Drawing.Point(53, 69);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(39, 13);
             this.label3.TabIndex = 8;
@@ -105,33 +106,17 @@ namespace Ipen.SSID.UI
             // 
             // txtPasso
             // 
-            this.txtPasso.Location = new System.Drawing.Point(129, 77);
+            this.txtPasso.Location = new System.Drawing.Point(98, 66);
             this.txtPasso.Name = "txtPasso";
             this.txtPasso.Size = new System.Drawing.Size(100, 20);
             this.txtPasso.TabIndex = 7;
             this.txtPasso.Text = "1";
             // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(12, 106);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(111, 13);
-            this.label4.TabIndex = 10;
-            this.label4.Text = "Meia Vida Radioativa:";
-            // 
-            // txtMeiaVida
-            // 
-            this.txtMeiaVida.Location = new System.Drawing.Point(129, 103);
-            this.txtMeiaVida.Name = "txtMeiaVida";
-            this.txtMeiaVida.Size = new System.Drawing.Size(100, 20);
-            this.txtMeiaVida.TabIndex = 9;
-            this.txtMeiaVida.Text = "0";
-            // 
             // zedGraphControl1
             // 
             this.zedGraphControl1.Location = new System.Drawing.Point(207, 2);
             this.zedGraphControl1.Name = "zedGraphControl1";
+            this.zedGraphControl1.ScrollGrace = 0;
             this.zedGraphControl1.ScrollMaxX = 0;
             this.zedGraphControl1.ScrollMaxY = 0;
             this.zedGraphControl1.ScrollMaxY2 = 0;
@@ -149,7 +134,7 @@ namespace Ipen.SSID.UI
             this.sairToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(569, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(583, 24);
             this.menuStrip1.TabIndex = 14;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -193,29 +178,30 @@ namespace Ipen.SSID.UI
             // 
             // lblTempoDecorrido
             // 
+            this.lblTempoDecorrido.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lblTempoDecorrido.AutoSize = true;
-            this.lblTempoDecorrido.Location = new System.Drawing.Point(471, 84);
+            this.lblTempoDecorrido.Location = new System.Drawing.Point(469, 106);
             this.lblTempoDecorrido.Name = "lblTempoDecorrido";
             this.lblTempoDecorrido.Size = new System.Drawing.Size(70, 13);
             this.lblTempoDecorrido.TabIndex = 15;
             this.lblTempoDecorrido.Text = "00:00:00:000";
             // 
-            // rdoPascal
+            // rdoBirchall
             // 
-            this.rdoPascal.AutoSize = true;
-            this.rdoPascal.Checked = true;
-            this.rdoPascal.Location = new System.Drawing.Point(309, 32);
-            this.rdoPascal.Name = "rdoPascal";
-            this.rdoPascal.Size = new System.Drawing.Size(57, 17);
-            this.rdoPascal.TabIndex = 17;
-            this.rdoPascal.TabStop = true;
-            this.rdoPascal.Text = "Pascal";
-            this.rdoPascal.UseVisualStyleBackColor = true;
+            this.rdoBirchall.AutoSize = true;
+            this.rdoBirchall.Checked = true;
+            this.rdoBirchall.Location = new System.Drawing.Point(31, 24);
+            this.rdoBirchall.Name = "rdoBirchall";
+            this.rdoBirchall.Size = new System.Drawing.Size(59, 17);
+            this.rdoBirchall.TabIndex = 17;
+            this.rdoBirchall.TabStop = true;
+            this.rdoBirchall.Text = "Birchall";
+            this.rdoBirchall.UseVisualStyleBackColor = true;
             // 
             // rdoKutta5
             // 
             this.rdoKutta5.AutoSize = true;
-            this.rdoKutta5.Location = new System.Drawing.Point(309, 55);
+            this.rdoKutta5.Location = new System.Drawing.Point(31, 43);
             this.rdoKutta5.Name = "rdoKutta5";
             this.rdoKutta5.Size = new System.Drawing.Size(94, 17);
             this.rdoKutta5.TabIndex = 18;
@@ -225,7 +211,7 @@ namespace Ipen.SSID.UI
             // rdoKutta45
             // 
             this.rdoKutta45.AutoSize = true;
-            this.rdoKutta45.Location = new System.Drawing.Point(309, 78);
+            this.rdoKutta45.Location = new System.Drawing.Point(31, 63);
             this.rdoKutta45.Name = "rdoKutta45";
             this.rdoKutta45.Size = new System.Drawing.Size(100, 17);
             this.rdoKutta45.TabIndex = 19;
@@ -235,26 +221,45 @@ namespace Ipen.SSID.UI
             // rdoAdams
             // 
             this.rdoAdams.AutoSize = true;
-            this.rdoAdams.Location = new System.Drawing.Point(309, 100);
+            this.rdoAdams.Location = new System.Drawing.Point(31, 81);
             this.rdoAdams.Name = "rdoAdams";
             this.rdoAdams.Size = new System.Drawing.Size(101, 17);
             this.rdoAdams.TabIndex = 20;
             this.rdoAdams.Text = "Adams-Moulton ";
             this.rdoAdams.UseVisualStyleBackColor = true;
             // 
-            // Form1
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.rdoAdams);
+            this.groupBox1.Controls.Add(this.rdoKutta45);
+            this.groupBox1.Controls.Add(this.rdoKutta5);
+            this.groupBox1.Controls.Add(this.rdoBirchall);
+            this.groupBox1.Location = new System.Drawing.Point(260, 23);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(150, 103);
+            this.groupBox1.TabIndex = 21;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Método de Solução";
+            // 
+            // label1
+            // 
+            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(438, 88);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(131, 13);
+            this.label1.TabIndex = 22;
+            this.label1.Text = "Tempo de Processamento";
+            // 
+            // frmCalculo
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(569, 438);
-            this.Controls.Add(this.rdoAdams);
-            this.Controls.Add(this.rdoKutta45);
-            this.Controls.Add(this.rdoKutta5);
-            this.Controls.Add(this.rdoPascal);
+            this.ClientSize = new System.Drawing.Size(583, 438);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.lblTempoDecorrido);
             this.Controls.Add(this.zedGraphControl1);
-            this.Controls.Add(this.label4);
-            this.Controls.Add(this.txtMeiaVida);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.txtPasso);
             this.Controls.Add(this.label2);
@@ -264,10 +269,13 @@ namespace Ipen.SSID.UI
             this.Controls.Add(this.menuStrip1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
-            this.Name = "Form1";
-            this.Text = "SSID";
+            this.MinimumSize = new System.Drawing.Size(591, 465);
+            this.Name = "frmCalculo";
+            this.Text = " ";
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -281,8 +289,6 @@ namespace Ipen.SSID.UI
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox txtPasso;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.TextBox txtMeiaVida;
         private ZedGraph.ZedGraphControl zedGraphControl1;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem modelosToolStripMenuItem;
@@ -291,10 +297,12 @@ namespace Ipen.SSID.UI
         private System.Windows.Forms.ToolStripMenuItem sairToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem sairDoSistemaToolStripMenuItem;
         private System.Windows.Forms.Label lblTempoDecorrido;
-        private System.Windows.Forms.RadioButton rdoPascal;
+        private System.Windows.Forms.RadioButton rdoBirchall;
         private System.Windows.Forms.RadioButton rdoKutta5;
         private System.Windows.Forms.RadioButton rdoKutta45;
         private System.Windows.Forms.RadioButton rdoAdams;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.Label label1;
     }
 }
 

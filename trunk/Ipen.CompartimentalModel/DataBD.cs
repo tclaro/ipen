@@ -37,7 +37,7 @@ namespace Ipen.CompartimentalModel
             OleDbConnection cn;
             cn = Configuracoes.Conectar();
             OleDbCommand cmd = cn.CreateCommand();
-            string textoSql = "INSERT INTO MODELO (nmModelo, dtCriacao, dtAlteracao, Descricao, idTipoModelo) VALUES (@nmModelo, @dtCriacao, @dtAlteracao, @Descricao, @idTipoModelo);";
+            string textoSql = "INSERT INTO MODELO (nmModelo, dtCriacao, dtAlteracao, Descricao, idTipoModelo, meiaVida) VALUES (@nmModelo, @dtCriacao, @dtAlteracao, @Descricao, @idTipoModelo, @meiaVida);";
                 
             cmd.CommandText = textoSql;
             cmd.Parameters.Add("@nmModelo", OleDbType.VarChar, 50).Value = M.nmModelo;
@@ -45,6 +45,7 @@ namespace Ipen.CompartimentalModel
             cmd.Parameters.Add("@dtAlteracao", OleDbType.Date).Value = System.DateTime.Now;
             cmd.Parameters.Add("@Descricao", OleDbType.VarChar, 200).Value = M.Descricao;
             cmd.Parameters.Add("@idTipoModelo", OleDbType.Integer).Value = M.Tipo.idTipoModelo;
+            cmd.Parameters.Add("@meiaVida", OleDbType.Double).Value = M.meiaVida;
             cmd.ExecuteNonQuery();
 
             cmd = cn.CreateCommand();
@@ -65,13 +66,15 @@ namespace Ipen.CompartimentalModel
                             "set nmModelo = @nmModelo, " +
                             "dtAlteracao = @dtAlteracao, " + 
                             "Descricao = @Descricao, " +
-                            "idTipoModelo = @idTipoModelo " +
+                            "idTipoModelo = @idTipoModelo, " +
+                            "meiaVida = @meiaVida " +
                             "WHERE idModelo = " + M.idModelo;
             cmd.CommandText = textoSql;
             cmd.Parameters.Add("@nmModelo", OleDbType.VarChar, 50).Value = M.nmModelo;
             cmd.Parameters.Add("@dtAlteracao", OleDbType.Date).Value = System.DateTime.Now;
             cmd.Parameters.Add("@Descricao", OleDbType.VarChar, 200).Value = M.Descricao;
             cmd.Parameters.Add("@idTipoModelo", OleDbType.Integer).Value = M.Tipo.idTipoModelo;
+            cmd.Parameters.Add("@meiaVida", OleDbType.Double).Value = M.meiaVida;
             cmd.ExecuteNonQuery();
             cn.Close();
             cn.Dispose();
@@ -174,9 +177,9 @@ namespace Ipen.CompartimentalModel
         {
             OleDbConnection cn;
             cn = Configuracoes.Conectar();
-            string textoSql = "select idModelo, nmModelo, dtCriacao, Descricao, nmTipoModelo " +
+            string textoSql = "select idModelo, nmModelo, dtAlteracao, Descricao, nmTipoModelo, meiaVida " +
                                 "from Modelo M inner join TipoModelo TM on (M.idTipoModelo = TM.idTipoModelo) " +
-                                "order by idModelo";
+                                "order by dtAlteracao desc";
             
             OleDbCommand cmd = cn.CreateCommand();
             cmd.CommandText = textoSql;
@@ -211,7 +214,7 @@ namespace Ipen.CompartimentalModel
             Modelos Modelo = new Modelos();
 
             cn = Configuracoes.Conectar();
-            string textoSql = "select idModelo, nmModelo, dtCriacao, Descricao, idTipoModelo " +
+            string textoSql = "select idModelo, nmModelo, dtCriacao, Descricao, idTipoModelo, meiaVida " +
                                 "from modelo M " +
                                 "where idModelo = " + cod.ToString();
             
@@ -229,6 +232,7 @@ namespace Ipen.CompartimentalModel
             Modelo.dtCriacao = (DateTime)drow["dtCriacao"];
             Modelo.Descricao = drow["Descricao"].ToString();
             Modelo.Tipo.idTipoModelo = (int)drow["idTipoModelo"];
+            Modelo.meiaVida = (double)drow["meiaVida"];
             return Modelo;
         }
 

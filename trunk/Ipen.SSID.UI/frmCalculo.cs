@@ -12,7 +12,7 @@ using DotNumerics.ODE;
 
 namespace Ipen.SSID.UI
 {
-    public partial class Form1 : Form
+    public partial class frmCalculo : Form
     {
 
         public int idModeloAberto;
@@ -27,7 +27,7 @@ namespace Ipen.SSID.UI
         double max, lam, terr;
         int Tempo;
 
-        public Form1()
+        public frmCalculo()
         {
             InitializeComponent();
         }
@@ -35,7 +35,7 @@ namespace Ipen.SSID.UI
         private void btnCalcular_Click(object sender, EventArgs e)
         {
 
-            if (!rdoPascal.Checked)
+            if (!rdoBirchall.Checked)
             {
                 ResolverOutrosMetodos();
                 return;
@@ -48,7 +48,7 @@ namespace Ipen.SSID.UI
             {
                 Final = Convert.ToInt32(txtTempo.Text);
                 Passo = Convert.ToInt32(txtPasso.Text);
-                MeiaVida = Convert.ToDouble(txtMeiaVida.Text);
+                
             }
             catch (Exception ex)
             {
@@ -62,6 +62,8 @@ namespace Ipen.SSID.UI
 
             Final = Final / Passo;
             Tempo = 0;
+            LerModelo(idModeloAberto);
+            MeiaVida = ModeloAberto.meiaVida;
 
             if (MeiaVida > 0)
                 lam = Math.Log(2) / MeiaVida; //lambda R
@@ -71,7 +73,7 @@ namespace Ipen.SSID.UI
             terr = 1E-10;
             double QuantAnt = 0;
 
-            LerModelo(idModeloAberto);
+
             PreencherMatrizR();
             Init();
 
@@ -398,6 +400,7 @@ namespace Ipen.SSID.UI
         {
             ModeloAberto = new CompartimentalModel.Modelos();
             ModeloAberto.idModelo = idModelo;
+            ModeloAberto = CompartimentalModel.DataBD.SelecionarModelos(idModelo);
             ModeloAberto.PreencherCaixasLinhas();
 
             TodosCompartimentos.Clear();
@@ -595,7 +598,7 @@ namespace Ipen.SSID.UI
             {
                 Final = Convert.ToDouble(txtTempo.Text);
                 Passo = Convert.ToDouble(txtPasso.Text);
-                MeiaVida = Convert.ToDouble(txtMeiaVida.Text);
+                MeiaVida = ModeloAberto.meiaVida;
             }
             catch (Exception ex)
             {

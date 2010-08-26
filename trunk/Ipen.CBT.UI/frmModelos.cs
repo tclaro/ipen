@@ -35,10 +35,11 @@ namespace Ipen.CBT.UI
             DataTable dt = DataBD.SelecionarModelos();
             dgvModelos.DataSource = null;
             dgvModelos.DataSource = dt;
-        }
-
-        private void btnNovo_Click(object sender, EventArgs e)
-        {
+            dgvModelos.Columns["idModelo"].HeaderText = "Código";
+            dgvModelos.Columns["nmModelo"].HeaderText = "Nome";
+            dgvModelos.Columns["dtAlteracao"].HeaderText = "Última Alteração";
+            dgvModelos.Columns["Descricao"].HeaderText = "Descrição";
+            dgvModelos.Columns["nmTipoModelo"].HeaderText = "Tipo";
         }
 
         private void btnAlterar_Click(object sender, EventArgs e)

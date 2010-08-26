@@ -12,9 +12,9 @@ namespace Ipen.SSID.UI
 {
     public partial class frmModelos : Form
     {
-        Form1 FormOrigem;
+        frmCalculo FormOrigem;
 
-        public frmModelos(string Arquivo, Form1 F)
+        public frmModelos(string Arquivo, frmCalculo F)
         {
             InitializeComponent();
             carregarModelos(Arquivo);
