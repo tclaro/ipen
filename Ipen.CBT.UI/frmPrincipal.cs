@@ -178,7 +178,7 @@ namespace Ipen.CBT.UI
             Salvar();
         }
 
-                private void mnuArquivoExportar_Click(object sender, EventArgs e)
+        private void mnuArquivoExportar_Click(object sender, EventArgs e)
         {
             string nomeArquivo = "";
             nomeArquivo = SolicitarNomeArquivo();
@@ -229,11 +229,27 @@ namespace Ipen.CBT.UI
                 return "";
         }
 
-        private void Salvar(string Caminho)
+        private string SolicitarNomeExcel()
         {
-            if (Caminho != "")
+            string caminhoInicial = "c:\\";
+            SaveFileDialog saveFile = new SaveFileDialog();
+            saveFile.InitialDirectory = caminhoInicial;
+            saveFile.DefaultExt = "xls";
+            saveFile.Filter = "Arquivo do MS Excel (*.xls)|*.xls";
+            saveFile.RestoreDirectory = true;
+            if (saveFile.ShowDialog() == DialogResult.OK)
             {
-                DataXML interfaceXML = new DataXML(Caminho);
+                return saveFile.FileName;
+            }
+            else
+                return "";
+        }
+
+        private void Salvar(string caminho)
+        {
+            if (caminho != "")
+            {
+                DataXML interfaceXML = new DataXML(caminho);
                 interfaceXML.Modelo = this.Modelo;
                 interfaceXML.ExportarXML();
             }
@@ -288,6 +304,24 @@ namespace Ipen.CBT.UI
 
         private void mnuArquivoImprimir_Click(object sender, EventArgs e)
         {
+            string nomeArquivo = "";
+            nomeArquivo = SolicitarNomeExcel();
+            ImprimirExcel(nomeArquivo);
+        }
+
+        private void ImprimirExcel(string caminho)
+        {
+            using (System.IO.StreamWriter sw = System.IO.File.CreateText(caminho))
+            {
+
+                foreach (Linhas L in this.PnlCanvas.SistemaCompartimental.Linhas)
+                {
+                    if (L.ValorAB != 0)
+                        sw.WriteLine(L.CaixaInicio.Nome + "\t" + L.CaixaFim.Nome + "\t" + L.ValorAB);
+                    if (L.ValorBA != 0)
+                        sw.WriteLine(L.CaixaFim.Nome + "\t" + L.CaixaInicio.Nome + "\t" + L.ValorBA);
+                }
+            }
 
         }
 
@@ -867,6 +901,7 @@ namespace Ipen.CBT.UI
             //Nome do modelo no alto da tela por favor...
             txtNome.Text = Modelo.nmModelo;
             txtDescricao.Text = Modelo.Descricao;
+            txtMeiaVida.Text = Modelo.meiaVida.ToString();
             cboTipo.DataBindings.Clear();
             cboTipo.DataBindings.Add(new Binding("SelectedValue", Modelo.Tipo, "idTipoModelo"));
         }
@@ -905,14 +940,14 @@ namespace Ipen.CBT.UI
             AtualizarContador();
         }
 
-        private void frmEditModelo_Load(object sender, EventArgs e)
-        {
-            btnCorComp.BackColor = Caixas.CorPadrao;
-            btnCorLig.BackColor = Linhas.CorPadrao;
+        //private void frmEditModelo_Load(object sender, EventArgs e)
+        //{
+        //    btnCorComp.BackColor = Caixas.CorPadrao;
+        //    btnCorLig.BackColor = Linhas.CorPadrao;
 
-            ConfigurarListView();
+        //    ConfigurarListView();
           
-        }
+        //}
 
         private void btnGamb_Click(object sender, EventArgs e)
         {
@@ -936,6 +971,8 @@ namespace Ipen.CBT.UI
             //    lblContador.Text = "Total: " + Modelo.Colecao.Caixas.Count.ToString() + " compartimentos";
             //else
             //    lblContador.Text = "Total: " + lvwLigacoes.Items.Count.ToString() + " transferências em " + Modelo.Colecao.Linhas.Count.ToString() + " ligações";
+            lblCompAdded.Text = "Compartimentos Adicionados (" + Modelo.Colecao.Caixas.Count.ToString() + ")";
+
         }
 
         private void tabControlModelo_Selected(object sender, TabControlEventArgs e)
@@ -1020,6 +1057,7 @@ namespace Ipen.CBT.UI
             this.Modelo.nmModelo = txtNome.Text;
             this.Modelo.Descricao = txtDescricao.Text;
             this.Modelo.Tipo.idTipoModelo = (int)cboTipo.SelectedValue;
+            this.Modelo.meiaVida = Convert.ToDouble(txtMeiaVida.Text);
             DataBD.GravarModelo(this.Modelo);
         }
 

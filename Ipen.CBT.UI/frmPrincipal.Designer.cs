@@ -100,6 +100,8 @@ namespace Ipen.CBT.UI
             this.cboCompartB = new System.Windows.Forms.ComboBox();
             this.cboCompartA = new System.Windows.Forms.ComboBox();
             this.btnGamb = new System.Windows.Forms.Button();
+            this.txtMeiaVida = new System.Windows.Forms.TextBox();
+            this.lblMeiaVida = new System.Windows.Forms.Label();
             this.mnu.SuspendLayout();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.SuspendLayout();
@@ -412,6 +414,8 @@ namespace Ipen.CBT.UI
             // 
             // splitContainer1.Panel1
             // 
+            this.splitContainer1.Panel1.Controls.Add(this.lblMeiaVida);
+            this.splitContainer1.Panel1.Controls.Add(this.txtMeiaVida);
             this.splitContainer1.Panel1.Controls.Add(this.cboTipo);
             this.splitContainer1.Panel1.Controls.Add(this.lblTipo);
             this.splitContainer1.Panel1.Controls.Add(this.txtDescricao);
@@ -431,7 +435,7 @@ namespace Ipen.CBT.UI
             this.cboTipo.FormattingEnabled = true;
             this.cboTipo.Location = new System.Drawing.Point(245, 3);
             this.cboTipo.Name = "cboTipo";
-            this.cboTipo.Size = new System.Drawing.Size(159, 21);
+            this.cboTipo.Size = new System.Drawing.Size(140, 21);
             this.cboTipo.TabIndex = 44;
             // 
             // lblTipo
@@ -447,17 +451,17 @@ namespace Ipen.CBT.UI
             // 
             this.txtDescricao.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtDescricao.Location = new System.Drawing.Point(472, 3);
+            this.txtDescricao.Location = new System.Drawing.Point(605, 4);
             this.txtDescricao.MaxLength = 200;
             this.txtDescricao.Multiline = true;
             this.txtDescricao.Name = "txtDescricao";
-            this.txtDescricao.Size = new System.Drawing.Size(355, 43);
+            this.txtDescricao.Size = new System.Drawing.Size(239, 43);
             this.txtDescricao.TabIndex = 42;
             // 
             // lblDescricao
             // 
             this.lblDescricao.AutoSize = true;
-            this.lblDescricao.Location = new System.Drawing.Point(413, 7);
+            this.lblDescricao.Location = new System.Drawing.Point(541, 6);
             this.lblDescricao.Name = "lblDescricao";
             this.lblDescricao.Size = new System.Drawing.Size(58, 13);
             this.lblDescricao.TabIndex = 41;
@@ -566,7 +570,7 @@ namespace Ipen.CBT.UI
             this.lstCompartimentos.FormattingEnabled = true;
             this.lstCompartimentos.Location = new System.Drawing.Point(410, 19);
             this.lstCompartimentos.Name = "lstCompartimentos";
-            this.lstCompartimentos.Size = new System.Drawing.Size(423, 69);
+            this.lstCompartimentos.Size = new System.Drawing.Size(423, 82);
             this.lstCompartimentos.TabIndex = 38;
             this.lstCompartimentos.SelectedIndexChanged += new System.EventHandler(this.lstCompartimentos_SelectedIndexChanged);
             // 
@@ -649,7 +653,7 @@ namespace Ipen.CBT.UI
             // 
             // txtCompartimento
             // 
-            this.txtCompartimento.Location = new System.Drawing.Point(84, 20);
+            this.txtCompartimento.Location = new System.Drawing.Point(84, 22);
             this.txtCompartimento.Name = "txtCompartimento";
             this.txtCompartimento.Size = new System.Drawing.Size(140, 20);
             this.txtCompartimento.TabIndex = 30;
@@ -769,6 +773,7 @@ namespace Ipen.CBT.UI
             this.cboCompartB.Location = new System.Drawing.Point(11, 88);
             this.cboCompartB.Name = "cboCompartB";
             this.cboCompartB.Size = new System.Drawing.Size(159, 21);
+            this.cboCompartB.Sorted = true;
             this.cboCompartB.TabIndex = 2;
             this.cboCompartB.SelectionChangeCommitted += new System.EventHandler(this.cboCompartimentoAouB_SelectionChangeCommitted);
             // 
@@ -779,6 +784,7 @@ namespace Ipen.CBT.UI
             this.cboCompartA.Location = new System.Drawing.Point(11, 8);
             this.cboCompartA.Name = "cboCompartA";
             this.cboCompartA.Size = new System.Drawing.Size(159, 21);
+            this.cboCompartA.Sorted = true;
             this.cboCompartA.TabIndex = 0;
             this.cboCompartA.SelectionChangeCommitted += new System.EventHandler(this.cboCompartimentoAouB_SelectionChangeCommitted);
             // 
@@ -792,6 +798,22 @@ namespace Ipen.CBT.UI
             this.btnGamb.Text = "Gambiarra Oculta";
             this.btnGamb.UseVisualStyleBackColor = true;
             this.btnGamb.Click += new System.EventHandler(this.btnGamb_Click);
+            // 
+            // txtMeiaVida
+            // 
+            this.txtMeiaVida.Location = new System.Drawing.Point(463, 3);
+            this.txtMeiaVida.Name = "txtMeiaVida";
+            this.txtMeiaVida.Size = new System.Drawing.Size(72, 20);
+            this.txtMeiaVida.TabIndex = 46;
+            // 
+            // lblMeiaVida
+            // 
+            this.lblMeiaVida.AutoSize = true;
+            this.lblMeiaVida.Location = new System.Drawing.Point(400, 7);
+            this.lblMeiaVida.Name = "lblMeiaVida";
+            this.lblMeiaVida.Size = new System.Drawing.Size(57, 13);
+            this.lblMeiaVida.TabIndex = 48;
+            this.lblMeiaVida.Text = "Meia Vida:";
             // 
             // frmPrincipal
             // 
@@ -895,5 +917,7 @@ namespace Ipen.CBT.UI
         private ToolStripMenuItem mnuArquivoExportar;
         private ToolStripMenuItem mnuArquivoImportar;
         private ToolStripSeparator toolStripSeparator4;
+        private Label lblMeiaVida;
+        private TextBox txtMeiaVida;
     }
 }

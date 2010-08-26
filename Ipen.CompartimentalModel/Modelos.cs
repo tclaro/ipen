@@ -15,6 +15,7 @@ namespace Ipen.CompartimentalModel
         private DateTime _dtCriacao;
         private string _Descricao;
         private Sistema _Colecao;
+        private double _meiaVida;
         
         
         #region Acesso aos Campos
@@ -68,6 +69,17 @@ namespace Ipen.CompartimentalModel
                 this._Descricao = value;
             }
         }
+        public double meiaVida
+        {
+            get
+            {
+                return this._meiaVida;
+            }
+            set
+            {
+                this._meiaVida = value;
+            }
+        }
 
         #endregion
 
@@ -77,6 +89,7 @@ namespace Ipen.CompartimentalModel
             this.dtCriacao = System.DateTime.Now;
             this.Tipo = new TipoModelos();
             this._Colecao = Sistema.getInstance();
+            this._meiaVida = 0;
         }
 
         public void PreencherCaixasLinhas()
@@ -93,8 +106,6 @@ namespace Ipen.CompartimentalModel
 
             foreach (Linhas ln in TodasLinhas)
                 this.Colecao.Linhas.Add(ln);
-
-                
         }
 
     }
