@@ -219,7 +219,7 @@ namespace Ipen.CBT.UI
 
                     //Desenha a linha
 
-                    e.Graphics.DrawLine(new Pen(ln.ForeColor, EspessuraDaLinha), ln.PontoInicio, ln.PontoFim);
+                    e.Graphics.DrawLine(new Pen(ln.BackColor, EspessuraDaLinha), ln.PontoInicio, ln.PontoFim);
 
                     //Tentativa com curve no lugar de line
                    //e.Graphics.DrawCurve(new Pen(ln.ForeColor, EspessuraDaLinha), new Point[2]{ln.PontoInicio, ln.PontoFim},0 );
@@ -231,20 +231,20 @@ namespace Ipen.CBT.UI
                         {
                             System.Drawing.SizeF tamanho = e.Graphics.MeasureString(ln.Nome, ln.Font);
                             e.Graphics.FillRectangle(CorDoRotulo, (ln.PontoCentral.X - tamanho.Width / 2) - 1, (ln.PontoCentral.Y - tamanho.Height / 2) - 1, tamanho.Width + 2, tamanho.Height + 2);
-                            e.Graphics.DrawString(ln.Nome, ln.Font, new System.Drawing.SolidBrush(ln.ForeColor), ln.PontoCentral.X - tamanho.Width / 2, ln.PontoCentral.Y - tamanho.Height / 2);
-                            e.Graphics.DrawRectangle(new Pen(ln.ForeColor), (ln.PontoCentral.X - tamanho.Width / 2) - 1, (ln.PontoCentral.Y - tamanho.Height / 2) - 1, tamanho.Width + 2, tamanho.Height + 2);
+                            e.Graphics.DrawString(ln.Nome, ln.Font, new System.Drawing.SolidBrush(ln.BackColor), ln.PontoCentral.X - tamanho.Width / 2, ln.PontoCentral.Y - tamanho.Height / 2);
+                            e.Graphics.DrawRectangle(new Pen(ln.BackColor), (ln.PontoCentral.X - tamanho.Width / 2) - 1, (ln.PontoCentral.Y - tamanho.Height / 2) - 1, tamanho.Width + 2, tamanho.Height + 2);
                         }
                         else
                         {
                             System.Drawing.SizeF tamanho = e.Graphics.MeasureString(ln.NomeAB, ln.Font);
                             e.Graphics.FillRectangle(CorDoRotulo, (ln.PontoTercoInicio.X - tamanho.Width / 2) - 1, (ln.PontoTercoInicio.Y - tamanho.Height / 2) - 1, tamanho.Width + 2, tamanho.Height + 2);
-                            e.Graphics.DrawString(ln.NomeAB, ln.Font, new System.Drawing.SolidBrush(ln.ForeColor), ln.PontoTercoInicio.X - tamanho.Width / 2, ln.PontoTercoInicio.Y - tamanho.Height / 2);
-                            e.Graphics.DrawRectangle(new Pen(ln.ForeColor), (ln.PontoTercoInicio.X - tamanho.Width / 2) - 1, (ln.PontoTercoInicio.Y - tamanho.Height / 2) - 1, tamanho.Width + 2, tamanho.Height + 2);
+                            e.Graphics.DrawString(ln.NomeAB, ln.Font, new System.Drawing.SolidBrush(ln.BackColor), ln.PontoTercoInicio.X - tamanho.Width / 2, ln.PontoTercoInicio.Y - tamanho.Height / 2);
+                            e.Graphics.DrawRectangle(new Pen(ln.BackColor), (ln.PontoTercoInicio.X - tamanho.Width / 2) - 1, (ln.PontoTercoInicio.Y - tamanho.Height / 2) - 1, tamanho.Width + 2, tamanho.Height + 2);
 
                             System.Drawing.SizeF tamanho2 = e.Graphics.MeasureString(ln.NomeBA, ln.Font);
                             e.Graphics.FillRectangle(CorDoRotulo, (ln.PontoTercoFim.X - tamanho2.Width / 2) - 1, (ln.PontoTercoFim.Y - tamanho2.Height / 2) - 1, tamanho2.Width + 2, tamanho2.Height + 2);
-                            e.Graphics.DrawString(ln.NomeBA, ln.Font, new System.Drawing.SolidBrush(ln.ForeColor), ln.PontoTercoFim.X - tamanho2.Width / 2, ln.PontoTercoFim.Y - tamanho2.Height / 2);
-                            e.Graphics.DrawRectangle(new Pen(ln.ForeColor), (ln.PontoTercoFim.X - tamanho2.Width / 2) - 1, (ln.PontoTercoFim.Y - tamanho2.Height / 2) - 1, tamanho2.Width + 2, tamanho2.Height + 2);
+                            e.Graphics.DrawString(ln.NomeBA, ln.Font, new System.Drawing.SolidBrush(ln.BackColor), ln.PontoTercoFim.X - tamanho2.Width / 2, ln.PontoTercoFim.Y - tamanho2.Height / 2);
+                            e.Graphics.DrawRectangle(new Pen(ln.BackColor), (ln.PontoTercoFim.X - tamanho2.Width / 2) - 1, (ln.PontoTercoFim.Y - tamanho2.Height / 2) - 1, tamanho2.Width + 2, tamanho2.Height + 2);
                         }
 
                     }
@@ -275,7 +275,7 @@ namespace Ipen.CBT.UI
                 setaCompleta.AddLine(pontaDaSeta, verticeDireita);
                 setaCompleta.AddLine(verticeDireita, verticeEsquerda);
                 setaCompleta.AddLine(verticeEsquerda, pontaDaSeta);
-                g.FillPath(new SolidBrush(ln.ForeColor), setaCompleta);
+                g.FillPath(new SolidBrush(ln.BackColor), setaCompleta);
             }
 
             //Seta na parte inferior 
@@ -288,7 +288,7 @@ namespace Ipen.CBT.UI
                 setaCompleta.AddLine(pontaDaSeta, verticeDireita);
                 setaCompleta.AddLine(verticeDireita, verticeEsquerda);
                 setaCompleta.AddLine(verticeEsquerda, pontaDaSeta);
-                g.FillPath(new SolidBrush(ln.ForeColor), setaCompleta);
+                g.FillPath(new SolidBrush(ln.BackColor), setaCompleta);
             }
 
             //Seta na lateral esquerda
@@ -301,7 +301,7 @@ namespace Ipen.CBT.UI
                 setaCompleta.AddLine(pontaDaSeta, verticeDireita);
                 setaCompleta.AddLine(verticeDireita, verticeEsquerda);
                 setaCompleta.AddLine(verticeEsquerda, pontaDaSeta);
-                g.FillPath(new SolidBrush(ln.ForeColor), setaCompleta);
+                g.FillPath(new SolidBrush(ln.BackColor), setaCompleta);
             }
 
             //Seta na lateral direita
@@ -314,7 +314,7 @@ namespace Ipen.CBT.UI
                 setaCompleta.AddLine(pontaDaSeta, verticeDireita);
                 setaCompleta.AddLine(verticeDireita, verticeEsquerda);
                 setaCompleta.AddLine(verticeEsquerda, pontaDaSeta);
-                g.FillPath(new SolidBrush(ln.ForeColor), setaCompleta);
+                g.FillPath(new SolidBrush(ln.BackColor), setaCompleta);
             }
         }
     }
