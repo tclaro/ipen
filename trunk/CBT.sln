@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual C# Express 2008
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ipen.CBT.UI", "Ipen.CBT.UI\Ipen.CBT.UI.csproj", "{850662FA-1CF9-4AFE-B3D0-5D2D8D3C349D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ipen.CompartimentalModel", "Ipen.CompartimentalModel\Ipen.CompartimentalModel.csproj", "{E45650F2-C522-47DB-87F2-F97DA67E22F4}"
