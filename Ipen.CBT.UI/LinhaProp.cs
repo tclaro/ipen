@@ -272,7 +272,7 @@ namespace Ipen.CBT.UI
             this.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "LinhaProp";
-            this.Opacity = 0.85;
+            this.Opacity = 0.85D;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Linha";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.LinhaProp_FormClosing);

@@ -28,7 +28,6 @@ namespace Ipen.SSID.UI
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmGrafico));
             this.zg1 = new ZedGraph.ZedGraphControl();
             this.SuspendLayout();
@@ -37,12 +36,13 @@ namespace Ipen.SSID.UI
             // 
             this.zg1.Location = new System.Drawing.Point(57, 27);
             this.zg1.Name = "zg1";
-            this.zg1.ScrollMaxX = 0;
-            this.zg1.ScrollMaxY = 0;
-            this.zg1.ScrollMaxY2 = 0;
-            this.zg1.ScrollMinX = 0;
-            this.zg1.ScrollMinY = 0;
-            this.zg1.ScrollMinY2 = 0;
+            this.zg1.ScrollGrace = 0D;
+            this.zg1.ScrollMaxX = 0D;
+            this.zg1.ScrollMaxY = 0D;
+            this.zg1.ScrollMaxY2 = 0D;
+            this.zg1.ScrollMinX = 0D;
+            this.zg1.ScrollMinY = 0D;
+            this.zg1.ScrollMinY2 = 0D;
             this.zg1.Size = new System.Drawing.Size(308, 265);
             this.zg1.TabIndex = 0;
             // 
@@ -54,7 +54,7 @@ namespace Ipen.SSID.UI
             this.Controls.Add(this.zg1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "frmGrafico";
-            this.Text = "frmGrafico";
+            this.Text = "Gráfico";
             this.Resize += new System.EventHandler(this.frmGrafico_Resize);
             this.ResumeLayout(false);
 
