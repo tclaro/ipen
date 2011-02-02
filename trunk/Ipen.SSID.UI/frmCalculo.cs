@@ -80,7 +80,11 @@ namespace Ipen.SSID.UI
             StringBuilder str = new StringBuilder();
 
             Object[] ListaDeParesDePontos = new Object[n];
-            str.Append("Tempo");
+            str.Append("<html><body><h1>Relatório</h1>");
+            str.Append(ModeloAberto.nmModelo + " - Gerado em: " + DateTime.Now.ToString());
+            str.Append("</br>Resolvido pelo método: Birchall</br>");
+            str.Append("<table border='1' bordercolor='#000099' style='background-color:#EFFFFF' width='100%' cellpadding='3' cellspacing='3'><tr><b>");
+            str.Append("<td><b>Tempo</b></td>");
 
             foreach (CompartimentalModel.Caixas C in TodosCompartimentos)
             {
@@ -88,21 +92,25 @@ namespace Ipen.SSID.UI
                 {
                     PointPairList list = new PointPairList();
                     ListaDeParesDePontos[(int)C.Tag] = list;
-                    str.Append("\t");
+                    str.Append("<td><b>");
                     str.Append(C.Nome);
+                    str.Append("</b></td>");
                 }
             }
 
-            str.Append("\t");
+            str.Append("<td><b>");
             str.Append("Total");
-            str.Append("\n");
+            str.Append("</b></td></b></tr>");
 
             for (int T = 0; T <= Final + 1; T++)
             {
                 Calculo();
 
                 double SomaCompartimentos = 0;
+
+                str.Append("<tr><td>");
                 str.Append(Tempo.ToString());
+                str.Append("</td>");
 
                 foreach (CompartimentalModel.Caixas C in TodosCompartimentos)
                 {
@@ -123,33 +131,44 @@ namespace Ipen.SSID.UI
                         else
                             valorInstanteCompartimento = xt[indice];
 
-                        str.Append("\t");
+                        str.Append("<td>");
                         str.Append(valorInstanteCompartimento.ToString("e10"));
+                        str.Append("</td>");
 
-                        ((PointPairList)ListaDeParesDePontos[indice]).Add(T, valorInstanteCompartimento);
+                        ((PointPairList)ListaDeParesDePontos[indice]).Add(T, valorInstanteCompartimento, "Compartimento: " + C.Nome + "\nTempo: " + T + "\nValor: " + valorInstanteCompartimento);
                     }
                 }
 
-                str.Append("\t");
+                str.Append("<td>");
                 str.Append(SomaCompartimentos.ToString("e10"));
-                str.Append("\n");
+                str.Append("</td></tr>");
                 Tempo = Tempo + Passo;
-
             }
 
-            this.Cursor = Cursors.Default;
+            
             DateTime stopTime = DateTime.Now;
             TimeSpan Duration = stopTime - startTime;
             lblTempoDecorrido.Text = Duration.Hours.ToString("00") + ":" + Duration.Minutes.ToString("00") + ":" + Duration.Seconds.ToString("00") + ":" + Duration.Milliseconds.ToString("000");
 
-            txtSaida.Text = str.ToString();
+            str.Append("</table><br/>Tempo de processamento: " + lblTempoDecorrido.Text + "</body></html>");
 
+           // txtSaida.Text = str.ToString();
+            Browser.DocumentText = str.ToString();
+
+            this.Cursor = Cursors.Default;
+            
             GraphPane pane = CreateChart(ListaDeParesDePontos, zedGraphControl1, false);
             GraphPane paneCopia = pane.Clone();
             frmGrafico FormGrafico = new frmGrafico();
-            FormGrafico.CreateChart(paneCopia);
-            FormGrafico.Show();
+            this.CreateChart(paneCopia);
+            tabControl1.SelectedTab = tabControl1.TabPages[0];
+            btnSalvarHTML.Visible = true;
 
+            if (mnuGraficoSeparado.Checked)
+            {
+                FormGrafico.CreateChart(paneCopia);
+                FormGrafico.Show();
+            }
         }
 
         private GraphPane CreateChart(Object[] coisas, ZedGraphControl zgc, bool ZeroBased)
@@ -640,7 +659,7 @@ namespace Ipen.SSID.UI
             else
                 sol = ResolverPorAdamsM(YDot, QuantFuncoes, y0, Inicio, Final, Passo);
 
-            txtSaida.Clear();
+            //txtSaida.Clear();
 
             for (int i = 0; i < sol.GetLength(0); i++)
             {
@@ -664,12 +683,12 @@ namespace Ipen.SSID.UI
                             valorInstanteCompartimento = sol[i, c];
 
                         str.Append("\t" + valorInstanteCompartimento.ToString("e10"));
-                        ((PointPairList)ListaDeParesDePontos[(int)Caixa.Tag]).Add(sol[i, 0], valorInstanteCompartimento);
+                        ((PointPairList)ListaDeParesDePontos[(int)Caixa.Tag]).Add(sol[i, 0], valorInstanteCompartimento, "Compartimento: " + Caixa.Nome + "\nTempo: " + sol[i, 0] + "\nValor: " + valorInstanteCompartimento);
                     }
                 }
                 str.Append("\t soma = " + soma.ToString("e10"));
             }
-            txtSaida.Text = str.ToString();
+            //txtSaida.Text = str.ToString();
 
             GraphPane pane = CreateChart(ListaDeParesDePontos, zedGraphControl1,true);
             GraphPane paneCopia = pane.Clone();
@@ -734,6 +753,57 @@ namespace Ipen.SSID.UI
             TimeSpan Duration = stopTime - startTime;
             lblTempoDecorrido.Text = Duration.Hours.ToString("00") + ":" + Duration.Minutes.ToString("00") + ":" + Duration.Seconds.ToString("00") + ":" + Duration.Milliseconds.ToString("000");
         }
+
+        private void SetSize()
+        {
+            zg1.Location = new Point(10, 10);
+            // Leave a small margin around the outside of the control
+            zg1.Size = new Size(ClientRectangle.Width - 20, ClientRectangle.Height - 20);
+        }
+
+
+
+        public void CreateChart(GraphPane pane)
+        {
+            ZedGraphControl zgc = zg1;
+            GraphPane myPane = pane;
+            zgc.GraphPane = myPane;
+
+            zgc.IsShowPointValues = true;
+
+            // Calculate the Axis Scale Ranges
+            zgc.AxisChange();
+
+            SetSize();
+        }
+
+        private void frmCalculo_Resize(object sender, EventArgs e)
+        {
+            SetSize();
+        }
+
+        private void mnuGraficoSeparado_Click(object sender, EventArgs e)
+        {
+            mnuGraficoSeparado.Checked = !mnuGraficoSeparado.Checked;
+        }
+
+        private void btnSalvarHTML_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog saveFileDialog1 = new SaveFileDialog();
+            saveFileDialog1.Filter = "Página da Web somente HTML|*.html;*.htm";
+            saveFileDialog1.Title = "Salvar Relatório";
+            saveFileDialog1.ShowDialog();
+
+            if (saveFileDialog1.FileName != "")
+            {
+                System.IO.TextWriter tw = new System.IO.StreamWriter(saveFileDialog1.FileName);
+                tw.Write(Browser.DocumentText);
+                tw.Close();
+
+            }
+        }
+
+
     }
 }
 
