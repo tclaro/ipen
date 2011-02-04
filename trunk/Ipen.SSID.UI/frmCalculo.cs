@@ -35,7 +35,7 @@ namespace Ipen.SSID.UI
         private void btnCalcular_Click(object sender, EventArgs e)
         {
 
-            if (!rdoBirchall.Checked)
+            if (!mnuBirchall.Checked)
             {
                 ResolverOutrosMetodos();
                 return;
@@ -62,7 +62,7 @@ namespace Ipen.SSID.UI
 
             Final = Final / Passo;
             Tempo = 0;
-            LerModelo(idModeloAberto);
+
             MeiaVida = ModeloAberto.meiaVida;
 
             if (MeiaVida > 0)
@@ -562,6 +562,11 @@ namespace Ipen.SSID.UI
                     GravarSettings("XMLPath", openFile.FileName);
 
                 btnCalcular.Enabled = true;
+                LerModelo(idModeloAberto);
+
+                lblModelo.Text = ModeloAberto.nmModelo;
+                lblDescricao.Text = ModeloAberto.Descricao;
+                lblMeiaVida.Text = ModeloAberto.meiaVida.ToString() + " dias";
             }
         }
 
@@ -584,6 +589,12 @@ namespace Ipen.SSID.UI
                 frmModelos F = new frmModelos(openFile.FileName, this);
                 F.ShowDialog();
                 btnCalcular.Enabled = true;
+
+                LerModelo(idModeloAberto);
+
+                lblModelo.Text = ModeloAberto.nmModelo;
+                lblDescricao.Text = ModeloAberto.Descricao;
+                lblMeiaVida.Text = ModeloAberto.meiaVida.ToString() + " dias";
             }
         }
 
@@ -652,9 +663,9 @@ namespace Ipen.SSID.UI
             OdeFunction YDot = new OdeFunction(MontarEquacao);
             double[,] sol;
 
-            if (rdoKutta5.Checked)
+            if (mnuRungeKutta5.Checked)
                 sol = ResolverPorKutta5(YDot, QuantFuncoes, y0, Inicio, Final, Passo);
-            else if (rdoKutta45.Checked)
+            else if (mnuRungeKutta45.Checked)
                 sol = ResolverPorKutta45(YDot, QuantFuncoes, y0, Inicio, Final, Passo);
             else
                 sol = ResolverPorAdamsM(YDot, QuantFuncoes, y0, Inicio, Final, Passo);
@@ -723,23 +734,26 @@ namespace Ipen.SSID.UI
 
         private double[] MontarEquacao(double T, double[] Y)
         {
+            //adicionar o compartimento q simula o decaimento radioativo aqui
 
             int Tamanho = R.GetLength(0);
 
             double[] ydot = new double[Tamanho];
 
-           
             for (int l = 0; l < Tamanho; l++)
-                for (int c = 0; c < Tamanho; c++)
-                    ydot[l] += R[l,c] * Y[c];
+            {
+                ydot[l] = -1 * 0.693/ModeloAberto.meiaVida * Y[l];
 
+                for (int c = 0; c < Tamanho; c++)
+                    ydot[l] += R[l, c] * Y[c];
+            }
             return ydot;
         }
 
 
         private void ResolverOutrosMetodos()
         {
-            LerModelo(idModeloAberto);
+ 
             PreencherMatrizR(true);
 
             //Muda cursor pra ampulheta
@@ -801,6 +815,46 @@ namespace Ipen.SSID.UI
                 tw.Close();
 
             }
+        }
+
+        private void mnuBirchall_Click(object sender, EventArgs e)
+        {
+            mnuBirchall.Checked = true;
+            mnuRungeKutta45.Checked = false;
+            mnuRungeKutta5.Checked = false;
+            mnuAdamsMoulton.Checked = false;
+
+            lblMetodo.Text = "Birchall";
+        }
+
+        private void mnuRungeKutta5_Click(object sender, EventArgs e)
+        {
+            mnuBirchall.Checked = false;
+            mnuRungeKutta45.Checked = false;
+            mnuRungeKutta5.Checked = true;
+            mnuAdamsMoulton.Checked = false;
+
+            lblMetodo.Text = "Runge-Kutta 5";
+        }
+
+        private void mnuRungeKutta45_Click(object sender, EventArgs e)
+        {
+            mnuBirchall.Checked = false;
+            mnuRungeKutta45.Checked = true;
+            mnuRungeKutta5.Checked = false;
+            mnuAdamsMoulton.Checked = false;
+
+            lblMetodo.Text = "Runge-Kutta 45";
+        }
+
+        private void mnuAdamsMoulton_Click(object sender, EventArgs e)
+        {
+            mnuBirchall.Checked = false;
+            mnuRungeKutta45.Checked = false;
+            mnuRungeKutta5.Checked = false;
+            mnuAdamsMoulton.Checked = true;
+
+            lblMetodo.Text = "Adams Moulton";
         }
 
 

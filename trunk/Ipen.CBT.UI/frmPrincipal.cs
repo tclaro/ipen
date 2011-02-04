@@ -683,6 +683,8 @@ namespace Ipen.CBT.UI
             cboCompartA.SelectedItem = null;
             cboCompartB.SelectedItem = null;
             cboCompartA.Focus();
+
+            btnAddLig.Text = "Adicionar";
         }
 
         private void btnAddLig_Click(object sender, EventArgs e)
@@ -802,6 +804,7 @@ namespace Ipen.CBT.UI
         private void cmdLimparLig_Click(object sender, EventArgs e)
         {
             LimparTelaLigacao();
+
         }
 
         private void btnRemLig_Click(object sender, EventArgs e)
@@ -872,11 +875,18 @@ namespace Ipen.CBT.UI
                 else
                     txtValorAB.Text = LinhaExistente.ValorBA.ToString();
                 btnCorLig.BackColor = LinhaExistente.BackColor;
+
+                if (txtValorAB.Text == string.Empty || txtValorAB.Text  == "0")
+                    btnAddLig.Text = "Adicionar";
+                else
+                    btnAddLig.Text = "Alterar";
             }
             else
             {
                 txtValorAB.Text = "";
                 btnCorLig.BackColor = Linhas.CorPadrao;
+
+                btnAddLig.Text = "Adicionar";
             }
         }
 
@@ -1149,6 +1159,8 @@ namespace Ipen.CBT.UI
 
             if (item == null)
                 return;
+
+            btnAddLig.Text = "Alterar";
 
             Linhas Ln = (Linhas)item.Tag;
             if (Ln.CaixaInicio.Nome == item.SubItems[1].Text)
