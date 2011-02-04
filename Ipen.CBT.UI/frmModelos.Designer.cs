@@ -51,7 +51,7 @@ namespace Ipen.CBT.UI
             this.dgvModelos.Name = "dgvModelos";
             this.dgvModelos.ReadOnly = true;
             this.dgvModelos.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvModelos.Size = new System.Drawing.Size(589, 273);
+            this.dgvModelos.Size = new System.Drawing.Size(589, 290);
             this.dgvModelos.TabIndex = 1;
             this.dgvModelos.DoubleClick += new System.EventHandler(this.btnAlterar_Click);
             // 
@@ -66,7 +66,7 @@ namespace Ipen.CBT.UI
             this.btnNovo.TabIndex = 2;
             this.btnNovo.Text = "&Novo";
             this.btnNovo.UseVisualStyleBackColor = true;
-            
+            // 
             // btnAlterar
             // 
             this.btnAlterar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
@@ -75,7 +75,7 @@ namespace Ipen.CBT.UI
             this.btnAlterar.Name = "btnAlterar";
             this.btnAlterar.Size = new System.Drawing.Size(75, 23);
             this.btnAlterar.TabIndex = 3;
-            this.btnAlterar.Text = "&Alterar";
+            this.btnAlterar.Text = "&Abrir";
             this.btnAlterar.UseVisualStyleBackColor = true;
             this.btnAlterar.Click += new System.EventHandler(this.btnAlterar_Click);
             // 

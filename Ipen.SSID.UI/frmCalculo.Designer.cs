@@ -42,24 +42,29 @@ namespace Ipen.SSID.UI
             this.carregarMDBToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.configuraçõesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuGraficoSeparado = new System.Windows.Forms.ToolStripMenuItem();
+            this.métodoDeSoluçãoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuBirchall = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuRungeKutta5 = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuRungeKutta45 = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuAdamsMoulton = new System.Windows.Forms.ToolStripMenuItem();
             this.sairToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.sairDoSistemaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.lblTempoDecorrido = new System.Windows.Forms.Label();
-            this.rdoBirchall = new System.Windows.Forms.RadioButton();
-            this.rdoKutta5 = new System.Windows.Forms.RadioButton();
-            this.rdoKutta45 = new System.Windows.Forms.RadioButton();
-            this.rdoAdams = new System.Windows.Forms.RadioButton();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.label1 = new System.Windows.Forms.Label();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.btnSalvarHTML = new System.Windows.Forms.Button();
             this.Browser = new System.Windows.Forms.WebBrowser();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.zg1 = new ZedGraph.ZedGraphControl();
-            this.btnSalvarHTML = new System.Windows.Forms.Button();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.lblMetodo = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.lblMeiaVida = new System.Windows.Forms.Label();
+            this.lblModelo = new System.Windows.Forms.Label();
+            this.lblDescricao = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
-            this.groupBox1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -144,50 +149,92 @@ namespace Ipen.SSID.UI
             this.carregarXMLToolStripMenuItem,
             this.carregarMDBToolStripMenuItem});
             this.modelosToolStripMenuItem.Name = "modelosToolStripMenuItem";
-            this.modelosToolStripMenuItem.Size = new System.Drawing.Size(65, 20);
+            this.modelosToolStripMenuItem.Size = new System.Drawing.Size(58, 20);
             this.modelosToolStripMenuItem.Text = "Modelos";
             // 
             // carregarXMLToolStripMenuItem
             // 
             this.carregarXMLToolStripMenuItem.Name = "carregarXMLToolStripMenuItem";
-            this.carregarXMLToolStripMenuItem.Size = new System.Drawing.Size(157, 22);
+            this.carregarXMLToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
             this.carregarXMLToolStripMenuItem.Text = "Carregar XML...";
             this.carregarXMLToolStripMenuItem.Click += new System.EventHandler(this.carregarXMLToolStripMenuItem_Click);
             // 
             // carregarMDBToolStripMenuItem
             // 
             this.carregarMDBToolStripMenuItem.Name = "carregarMDBToolStripMenuItem";
-            this.carregarMDBToolStripMenuItem.Size = new System.Drawing.Size(157, 22);
+            this.carregarMDBToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
             this.carregarMDBToolStripMenuItem.Text = "Carregar MDB...";
             this.carregarMDBToolStripMenuItem.Click += new System.EventHandler(this.carregarMDBToolStripMenuItem_Click);
             // 
             // configuraçõesToolStripMenuItem
             // 
             this.configuraçõesToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.mnuGraficoSeparado});
+            this.mnuGraficoSeparado,
+            this.métodoDeSoluçãoToolStripMenuItem});
             this.configuraçõesToolStripMenuItem.Name = "configuraçõesToolStripMenuItem";
-            this.configuraçõesToolStripMenuItem.Size = new System.Drawing.Size(96, 20);
+            this.configuraçõesToolStripMenuItem.Size = new System.Drawing.Size(88, 20);
             this.configuraçõesToolStripMenuItem.Text = "Configurações";
             // 
             // mnuGraficoSeparado
             // 
             this.mnuGraficoSeparado.Name = "mnuGraficoSeparado";
-            this.mnuGraficoSeparado.Size = new System.Drawing.Size(246, 22);
+            this.mnuGraficoSeparado.Size = new System.Drawing.Size(245, 22);
             this.mnuGraficoSeparado.Text = "Gerar gráfico em janela separada";
             this.mnuGraficoSeparado.Click += new System.EventHandler(this.mnuGraficoSeparado_Click);
+            // 
+            // métodoDeSoluçãoToolStripMenuItem
+            // 
+            this.métodoDeSoluçãoToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mnuBirchall,
+            this.mnuRungeKutta5,
+            this.mnuRungeKutta45,
+            this.mnuAdamsMoulton});
+            this.métodoDeSoluçãoToolStripMenuItem.Name = "métodoDeSoluçãoToolStripMenuItem";
+            this.métodoDeSoluçãoToolStripMenuItem.Size = new System.Drawing.Size(245, 22);
+            this.métodoDeSoluçãoToolStripMenuItem.Text = "Método de Solução";
+            // 
+            // mnuBirchall
+            // 
+            this.mnuBirchall.Name = "mnuBirchall";
+            this.mnuBirchall.Size = new System.Drawing.Size(161, 22);
+            this.mnuBirchall.Text = "Birchall";
+            this.mnuBirchall.Click += new System.EventHandler(this.mnuBirchall_Click);
+            // 
+            // mnuRungeKutta5
+            // 
+            this.mnuRungeKutta5.Name = "mnuRungeKutta5";
+            this.mnuRungeKutta5.Size = new System.Drawing.Size(161, 22);
+            this.mnuRungeKutta5.Text = "Runge-Kutta 5";
+            this.mnuRungeKutta5.Click += new System.EventHandler(this.mnuRungeKutta5_Click);
+            // 
+            // mnuRungeKutta45
+            // 
+            this.mnuRungeKutta45.Checked = true;
+            this.mnuRungeKutta45.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.mnuRungeKutta45.Name = "mnuRungeKutta45";
+            this.mnuRungeKutta45.Size = new System.Drawing.Size(161, 22);
+            this.mnuRungeKutta45.Text = "Runge-Kutta 45";
+            this.mnuRungeKutta45.Click += new System.EventHandler(this.mnuRungeKutta45_Click);
+            // 
+            // mnuAdamsMoulton
+            // 
+            this.mnuAdamsMoulton.Name = "mnuAdamsMoulton";
+            this.mnuAdamsMoulton.Size = new System.Drawing.Size(161, 22);
+            this.mnuAdamsMoulton.Text = "Adams-Moulton";
+            this.mnuAdamsMoulton.Click += new System.EventHandler(this.mnuAdamsMoulton_Click);
             // 
             // sairToolStripMenuItem
             // 
             this.sairToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.sairDoSistemaToolStripMenuItem});
             this.sairToolStripMenuItem.Name = "sairToolStripMenuItem";
-            this.sairToolStripMenuItem.Size = new System.Drawing.Size(38, 20);
+            this.sairToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
             this.sairToolStripMenuItem.Text = "Sair";
             // 
             // sairDoSistemaToolStripMenuItem
             // 
             this.sairDoSistemaToolStripMenuItem.Name = "sairDoSistemaToolStripMenuItem";
-            this.sairDoSistemaToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
+            this.sairDoSistemaToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
             this.sairDoSistemaToolStripMenuItem.Text = "Sair do Sistema";
             this.sairDoSistemaToolStripMenuItem.Click += new System.EventHandler(this.sairDoSistemaToolStripMenuItem_Click);
             // 
@@ -200,61 +247,6 @@ namespace Ipen.SSID.UI
             this.lblTempoDecorrido.Size = new System.Drawing.Size(70, 13);
             this.lblTempoDecorrido.TabIndex = 15;
             this.lblTempoDecorrido.Text = "00:00:00:000";
-            // 
-            // rdoBirchall
-            // 
-            this.rdoBirchall.AutoSize = true;
-            this.rdoBirchall.Checked = true;
-            this.rdoBirchall.Location = new System.Drawing.Point(31, 24);
-            this.rdoBirchall.Name = "rdoBirchall";
-            this.rdoBirchall.Size = new System.Drawing.Size(59, 17);
-            this.rdoBirchall.TabIndex = 17;
-            this.rdoBirchall.TabStop = true;
-            this.rdoBirchall.Text = "Birchall";
-            this.rdoBirchall.UseVisualStyleBackColor = true;
-            // 
-            // rdoKutta5
-            // 
-            this.rdoKutta5.AutoSize = true;
-            this.rdoKutta5.Location = new System.Drawing.Point(31, 43);
-            this.rdoKutta5.Name = "rdoKutta5";
-            this.rdoKutta5.Size = new System.Drawing.Size(94, 17);
-            this.rdoKutta5.TabIndex = 18;
-            this.rdoKutta5.Text = "Runge-Kutta 5";
-            this.rdoKutta5.UseVisualStyleBackColor = true;
-            // 
-            // rdoKutta45
-            // 
-            this.rdoKutta45.AutoSize = true;
-            this.rdoKutta45.Location = new System.Drawing.Point(31, 63);
-            this.rdoKutta45.Name = "rdoKutta45";
-            this.rdoKutta45.Size = new System.Drawing.Size(100, 17);
-            this.rdoKutta45.TabIndex = 19;
-            this.rdoKutta45.Text = "Runge-Kutta 45";
-            this.rdoKutta45.UseVisualStyleBackColor = true;
-            // 
-            // rdoAdams
-            // 
-            this.rdoAdams.AutoSize = true;
-            this.rdoAdams.Location = new System.Drawing.Point(31, 81);
-            this.rdoAdams.Name = "rdoAdams";
-            this.rdoAdams.Size = new System.Drawing.Size(101, 17);
-            this.rdoAdams.TabIndex = 20;
-            this.rdoAdams.Text = "Adams-Moulton ";
-            this.rdoAdams.UseVisualStyleBackColor = true;
-            // 
-            // groupBox1
-            // 
-            this.groupBox1.Controls.Add(this.rdoAdams);
-            this.groupBox1.Controls.Add(this.rdoKutta45);
-            this.groupBox1.Controls.Add(this.rdoKutta5);
-            this.groupBox1.Controls.Add(this.rdoBirchall);
-            this.groupBox1.Location = new System.Drawing.Point(260, 23);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(150, 103);
-            this.groupBox1.TabIndex = 21;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Método de Solução";
             // 
             // label1
             // 
@@ -273,7 +265,7 @@ namespace Ipen.SSID.UI
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
-            this.tabControl1.Location = new System.Drawing.Point(6, 132);
+            this.tabControl1.Location = new System.Drawing.Point(6, 128);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(738, 352);
@@ -290,6 +282,20 @@ namespace Ipen.SSID.UI
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Relatório";
             this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // btnSalvarHTML
+            // 
+            this.btnSalvarHTML.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnSalvarHTML.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnSalvarHTML.BackgroundImage")));
+            this.btnSalvarHTML.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btnSalvarHTML.Location = new System.Drawing.Point(637, 6);
+            this.btnSalvarHTML.Name = "btnSalvarHTML";
+            this.btnSalvarHTML.Size = new System.Drawing.Size(63, 62);
+            this.btnSalvarHTML.TabIndex = 24;
+            this.toolTip1.SetToolTip(this.btnSalvarHTML, "Salvar em arquivo HTML");
+            this.btnSalvarHTML.UseVisualStyleBackColor = true;
+            this.btnSalvarHTML.Visible = false;
+            this.btnSalvarHTML.Click += new System.EventHandler(this.btnSalvarHTML_Click);
             // 
             // Browser
             // 
@@ -325,32 +331,75 @@ namespace Ipen.SSID.UI
             this.zg1.Size = new System.Drawing.Size(308, 265);
             this.zg1.TabIndex = 1;
             // 
-            // btnSalvarHTML
-            // 
-            this.btnSalvarHTML.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSalvarHTML.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnSalvarHTML.BackgroundImage")));
-            this.btnSalvarHTML.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btnSalvarHTML.Location = new System.Drawing.Point(637, 6);
-            this.btnSalvarHTML.Name = "btnSalvarHTML";
-            this.btnSalvarHTML.Size = new System.Drawing.Size(63, 62);
-            this.btnSalvarHTML.TabIndex = 24;
-            this.toolTip1.SetToolTip(this.btnSalvarHTML, "Salvar em arquivo HTML");
-            this.btnSalvarHTML.UseVisualStyleBackColor = true;
-            this.btnSalvarHTML.Visible = false;
-            this.btnSalvarHTML.Click += new System.EventHandler(this.btnSalvarHTML_Click);
-            // 
             // toolTip1
             // 
             this.toolTip1.IsBalloon = true;
+            // 
+            // lblMetodo
+            // 
+            this.lblMetodo.AutoSize = true;
+            this.lblMetodo.Location = new System.Drawing.Point(341, 40);
+            this.lblMetodo.Name = "lblMetodo";
+            this.lblMetodo.Size = new System.Drawing.Size(82, 13);
+            this.lblMetodo.TabIndex = 24;
+            this.lblMetodo.Text = "Runge-Kutta 45";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(224, 40);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(111, 13);
+            this.label4.TabIndex = 25;
+            this.label4.Text = "Método Selecionado: ";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(224, 66);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(45, 13);
+            this.label5.TabIndex = 26;
+            this.label5.Text = "Modelo:";
+            // 
+            // lblMeiaVida
+            // 
+            this.lblMeiaVida.AutoSize = true;
+            this.lblMeiaVida.Location = new System.Drawing.Point(476, 40);
+            this.lblMeiaVida.Name = "lblMeiaVida";
+            this.lblMeiaVida.Size = new System.Drawing.Size(57, 13);
+            this.lblMeiaVida.TabIndex = 27;
+            this.lblMeiaVida.Text = "Meia Vida:";
+            // 
+            // lblModelo
+            // 
+            this.lblModelo.AutoSize = true;
+            this.lblModelo.Location = new System.Drawing.Point(275, 66);
+            this.lblModelo.Name = "lblModelo";
+            this.lblModelo.Size = new System.Drawing.Size(108, 13);
+            this.lblModelo.TabIndex = 28;
+            this.lblModelo.Text = "Selecione um modelo";
+            // 
+            // lblDescricao
+            // 
+            this.lblDescricao.Location = new System.Drawing.Point(275, 88);
+            this.lblDescricao.Name = "lblDescricao";
+            this.lblDescricao.Size = new System.Drawing.Size(306, 44);
+            this.lblDescricao.TabIndex = 29;
             // 
             // frmCalculo
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(758, 492);
+            this.Controls.Add(this.lblDescricao);
+            this.Controls.Add(this.lblModelo);
+            this.Controls.Add(this.lblMeiaVida);
+            this.Controls.Add(this.label5);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.lblMetodo);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.lblTempoDecorrido);
             this.Controls.Add(this.zedGraphControl1);
             this.Controls.Add(this.label3);
@@ -363,12 +412,10 @@ namespace Ipen.SSID.UI
             this.MainMenuStrip = this.menuStrip1;
             this.MinimumSize = new System.Drawing.Size(591, 465);
             this.Name = "frmCalculo";
-            this.Text = " ";
+            this.Text = " Smart Software for Internal Dosimetry";
             this.Resize += new System.EventHandler(this.frmCalculo_Resize);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage2.ResumeLayout(false);
@@ -392,11 +439,6 @@ namespace Ipen.SSID.UI
         private System.Windows.Forms.ToolStripMenuItem sairToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem sairDoSistemaToolStripMenuItem;
         private System.Windows.Forms.Label lblTempoDecorrido;
-        private System.Windows.Forms.RadioButton rdoBirchall;
-        private System.Windows.Forms.RadioButton rdoKutta5;
-        private System.Windows.Forms.RadioButton rdoKutta45;
-        private System.Windows.Forms.RadioButton rdoAdams;
-        private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tabPage1;
@@ -407,6 +449,17 @@ namespace Ipen.SSID.UI
         private System.Windows.Forms.ToolStripMenuItem mnuGraficoSeparado;
         private System.Windows.Forms.Button btnSalvarHTML;
         private System.Windows.Forms.ToolTip toolTip1;
+        private System.Windows.Forms.ToolStripMenuItem métodoDeSoluçãoToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem mnuBirchall;
+        private System.Windows.Forms.ToolStripMenuItem mnuRungeKutta5;
+        private System.Windows.Forms.ToolStripMenuItem mnuRungeKutta45;
+        private System.Windows.Forms.ToolStripMenuItem mnuAdamsMoulton;
+        private System.Windows.Forms.Label lblMetodo;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label lblMeiaVida;
+        private System.Windows.Forms.Label lblModelo;
+        private System.Windows.Forms.Label lblDescricao;
     }
 }
 
