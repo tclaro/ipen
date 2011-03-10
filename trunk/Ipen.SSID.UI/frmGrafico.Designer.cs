@@ -54,7 +54,7 @@ namespace Ipen.SSID.UI
             this.Controls.Add(this.zg1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "frmGrafico";
-            this.Text = "Gráfico";
+            this.Text = "SSID - Gráfico";
             this.Resize += new System.EventHandler(this.frmGrafico_Resize);
             this.ResumeLayout(false);
 

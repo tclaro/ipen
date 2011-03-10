@@ -178,9 +178,9 @@ namespace Ipen.SSID.UI
             myPane.CurveList.Clear();
 
             // Set the titles and axis labels
-            myPane.Title.Text = "Análise Compartimental";
-            myPane.XAxis.Title.Text = "Tempo";
-            myPane.YAxis.Title.Text = "Quantidade";
+            myPane.Title.Text = "Análise Compartimental - " + ModeloAberto.nmModelo;
+            myPane.XAxis.Title.Text = "Tempo (dias)";
+            myPane.YAxis.Title.Text = "Quantidade (Fração da Incorporação)";
 
             int Limite;
             if (ZeroBased)
@@ -493,7 +493,6 @@ namespace Ipen.SSID.UI
                         if (Linha.ValorAB != 0)
                             R[l, c] = Linha.ValorAB;
                     }
-                    
                 }
             }
 
