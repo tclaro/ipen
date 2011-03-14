@@ -40,6 +40,7 @@ namespace Ipen.CBT.UI
             dgvModelos.Columns["dtAlteracao"].HeaderText = "Última Alteração";
             dgvModelos.Columns["Descricao"].HeaderText = "Descrição";
             dgvModelos.Columns["nmTipoModelo"].HeaderText = "Tipo";
+            dgvModelos.Columns["meiaVida"].HeaderText = "Meia Vida";
         }
 
         private void btnAlterar_Click(object sender, EventArgs e)

@@ -4,6 +4,8 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Text;
+using System.Web;
+using System.Web.UI;
 using System.Windows.Forms;
 using System.Collections;
 using ZedGraph;
@@ -80,10 +82,17 @@ namespace Ipen.SSID.UI
             StringBuilder str = new StringBuilder();
 
             Object[] ListaDeParesDePontos = new Object[n];
-            str.Append("<html><body><h1>Relatório</h1>");
-            str.Append(ModeloAberto.nmModelo + " - Gerado em: " + DateTime.Now.ToString());
-            str.Append("</br>Resolvido pelo método: Birchall</br>");
-            str.Append("<table border='1' bordercolor='#000099' style='background-color:#EFFFFF' width='100%' cellpadding='3' cellspacing='3'><tr><b>");
+            
+            str.Append("<html><body style='font-family: Arial, Helvetica, sans-serif;'><h1>Relat&oacuterio</h1>");
+            str.Append("<table border='0' width='100%' cellpadding='1' cellspacing='1'>");
+                
+            str.Append("<tr><td>Modelo: " +  HttpUtility.HtmlEncode(ModeloAberto.nmModelo) + "</td>");
+            str.Append("<td rowspan='3' style='text-align:right'>" + ModeloAberto.Descricao + "</td></tr>");
+            str.Append("<tr><td>Gerado em: " + DateTime.Now.ToString("dd/MM/yyyy HH:mm") + "</td></tr>");
+            str.Append("<tr><td>Resolvido pelo m&eacutetodo: Birchall</td></tr>");
+            str.Append("</Table>");
+
+            str.Append("<table border='1' bordercolor='#000099' style='background-color:#EFFFFF' width='100%' cellpadding='2' cellspacing='2'><tr><b>");
             str.Append("<td><b>Tempo</b></td>");
 
             foreach (CompartimentalModel.Caixas C in TodosCompartimentos)
@@ -93,7 +102,7 @@ namespace Ipen.SSID.UI
                     PointPairList list = new PointPairList();
                     ListaDeParesDePontos[(int)C.Tag] = list;
                     str.Append("<td><b>");
-                    str.Append(C.Nome);
+                    str.Append(HttpUtility.HtmlEncode(C.Nome));
                     str.Append("</b></td>");
                 }
             }
@@ -153,7 +162,7 @@ namespace Ipen.SSID.UI
             str.Append("</table><br/>Tempo de processamento: " + lblTempoDecorrido.Text + "</body></html>");
 
            // txtSaida.Text = str.ToString();
-            Browser.DocumentText = str.ToString();
+            Browser.DocumentText =str.ToString();
 
             this.Cursor = Cursors.Default;
             
@@ -433,6 +442,8 @@ namespace Ipen.SSID.UI
             R = new double[n, n];
             int Contador = 1;
 
+            TodosCompartimentos.Clear();
+
             foreach (CompartimentalModel.Caixas Caixa in ModeloAberto.Colecao.Caixas)
             {
                 Caixa.Tag = Contador++;
@@ -565,7 +576,7 @@ namespace Ipen.SSID.UI
 
                 lblModelo.Text = ModeloAberto.nmModelo;
                 lblDescricao.Text = ModeloAberto.Descricao;
-                lblMeiaVida.Text = ModeloAberto.meiaVida.ToString() + " dias";
+                lblMeiaVida.Text = "Meia vida: " + ModeloAberto.meiaVida.ToString() + " dias";
             }
         }
 
@@ -593,7 +604,7 @@ namespace Ipen.SSID.UI
 
                 lblModelo.Text = ModeloAberto.nmModelo;
                 lblDescricao.Text = ModeloAberto.Descricao;
-                lblMeiaVida.Text = ModeloAberto.meiaVida.ToString() + " dias";
+                lblMeiaVida.Text = "Meia vida: " + ModeloAberto.meiaVida.ToString() + " dias";
             }
         }
 
@@ -635,9 +646,11 @@ namespace Ipen.SSID.UI
                 return;
             }
 
-           
+            DateTime startTime = DateTime.Now;
+
             StringBuilder str = new StringBuilder();
-                        
+            
+           
             double[] y0 = new double[ModeloAberto.Colecao.Caixas.Count];
             foreach (CompartimentalModel.Caixas Caixa in ModeloAberto.Colecao.Caixas)
             {
@@ -645,7 +658,39 @@ namespace Ipen.SSID.UI
                 QuantFuncoes++;
                 
             }
-            str.Append ("\n");
+
+                        
+            OdeFunction YDot = new OdeFunction(MontarEquacao);
+            double[,] sol;
+            string nomeMetodo = "";
+
+            if (mnuRungeKutta5.Checked)
+            {
+                sol = ResolverPorKutta5(YDot, QuantFuncoes, y0, Inicio, Final, Passo);
+                nomeMetodo = mnuRungeKutta5.Text;
+            }
+            else if (mnuRungeKutta45.Checked)
+            {
+                sol = ResolverPorKutta45(YDot, QuantFuncoes, y0, Inicio, Final, Passo);
+                nomeMetodo = mnuRungeKutta45.Text;
+            }
+            else
+            {
+                sol = ResolverPorAdamsM(YDot, QuantFuncoes, y0, Inicio, Final, Passo);
+                nomeMetodo = mnuAdamsMoulton.Text;
+            }
+
+            str.Append("<html><body style='font-family: Arial, Helvetica, sans-serif;'><h1>Relat&oacuterio</h1>");
+            str.Append("<table border='0' width='100%' cellpadding='1' cellspacing='1'>");
+
+            str.Append("<tr><td>Modelo: " + HttpUtility.HtmlEncode(ModeloAberto.nmModelo) + "</td>");
+            str.Append("<td rowspan='3' style='text-align:right'>" + ModeloAberto.Descricao + "</td></tr>");
+            str.Append("<tr><td>Gerado em: " + DateTime.Now.ToString("dd/MM/yyyy HH:mm") + "</td></tr>");
+            str.Append("<tr><td>Resolvido pelo m&eacutetodo: " + HttpUtility.HtmlEncode(nomeMetodo) + "</td></tr>");
+            str.Append("</Table>");
+
+            str.Append("<table border='1' bordercolor='#000099' style='background-color:#EFFFFF' width='100%' cellpadding='2' cellspacing='2'><tr><b>");
+            str.Append("<td><b>Tempo</b></td>");
 
             Object[] ListaDeParesDePontos = new Object[QuantFuncoes];
 
@@ -655,26 +700,22 @@ namespace Ipen.SSID.UI
                 {
                     PointPairList list = new PointPairList();
                     ListaDeParesDePontos[(int)Caixa.Tag] = list;
-                    str.Append(Caixa.Nome + "\t");
+                    str.Append("<td><b>");
+                    str.Append(HttpUtility.HtmlEncode(Caixa.Nome));
+                    str.Append("</td></b>");
                 }
             }
-                        
-            OdeFunction YDot = new OdeFunction(MontarEquacao);
-            double[,] sol;
 
-            if (mnuRungeKutta5.Checked)
-                sol = ResolverPorKutta5(YDot, QuantFuncoes, y0, Inicio, Final, Passo);
-            else if (mnuRungeKutta45.Checked)
-                sol = ResolverPorKutta45(YDot, QuantFuncoes, y0, Inicio, Final, Passo);
-            else
-                sol = ResolverPorAdamsM(YDot, QuantFuncoes, y0, Inicio, Final, Passo);
-
-            //txtSaida.Clear();
+            str.Append("<td><b>");
+            str.Append("Total");
+            str.Append("</b></td></b></tr>");
 
             for (int i = 0; i < sol.GetLength(0); i++)
             {
                 double soma =0;
-                str.Append("\nT = " + sol[i, 0].ToString());
+                str.Append("<tr><td>");
+                str.Append(sol[i, 0].ToString()); //tempo
+                str.Append("</td>");
                
                 for (int c = 1; c < sol.GetLength(1); c++)
                 {
@@ -692,19 +733,39 @@ namespace Ipen.SSID.UI
                         else
                             valorInstanteCompartimento = sol[i, c];
 
-                        str.Append("\t" + valorInstanteCompartimento.ToString("e10"));
+                        str.Append("<td>");
+                        str.Append(valorInstanteCompartimento.ToString("e10"));
+                        str.Append("</td>");
                         ((PointPairList)ListaDeParesDePontos[(int)Caixa.Tag]).Add(sol[i, 0], valorInstanteCompartimento, "Compartimento: " + Caixa.Nome + "\nTempo: " + sol[i, 0] + "\nValor: " + valorInstanteCompartimento);
                     }
                 }
-                str.Append("\t soma = " + soma.ToString("e10"));
+
+                str.Append("<td>");
+                str.Append(soma.ToString("e10"));
+                str.Append("</td></tr>");
             }
-            //txtSaida.Text = str.ToString();
+
+
+            DateTime stopTime = DateTime.Now;
+            TimeSpan Duration = stopTime - startTime;
+            lblTempoDecorrido.Text = Duration.Hours.ToString("00") + ":" + Duration.Minutes.ToString("00") + ":" + Duration.Seconds.ToString("00") + ":" + Duration.Milliseconds.ToString("000");
+
+            str.Append("</table><br/>Tempo de processamento: " + lblTempoDecorrido.Text + "</body></html>");
+            Browser.DocumentText = str.ToString();
+
 
             GraphPane pane = CreateChart(ListaDeParesDePontos, zedGraphControl1,true);
             GraphPane paneCopia = pane.Clone();
             frmGrafico FormGrafico = new frmGrafico();
-            FormGrafico.CreateChart(paneCopia);
-            FormGrafico.Show();
+            this.CreateChart(paneCopia);
+            tabControl1.SelectedTab = tabControl1.TabPages[0];
+            btnSalvarHTML.Visible = true;
+
+            if (mnuGraficoSeparado.Checked)
+            {
+                FormGrafico.CreateChart(paneCopia);
+                FormGrafico.Show();
+            }
         }
 
         private double[,] ResolverPorKutta5(OdeFunction YDot, int QuantidadeFuncoes, double[] EstadoInicial, double Inicio, double Final,double Passo)
@@ -757,14 +818,10 @@ namespace Ipen.SSID.UI
 
             //Muda cursor pra ampulheta
             this.Cursor = Cursors.WaitCursor;
-            DateTime startTime = DateTime.Now;
 
             SolveRungeKutta();
 
             this.Cursor = Cursors.Default;
-            DateTime stopTime = DateTime.Now;
-            TimeSpan Duration = stopTime - startTime;
-            lblTempoDecorrido.Text = Duration.Hours.ToString("00") + ":" + Duration.Minutes.ToString("00") + ":" + Duration.Seconds.ToString("00") + ":" + Duration.Milliseconds.ToString("000");
         }
 
         private void SetSize()

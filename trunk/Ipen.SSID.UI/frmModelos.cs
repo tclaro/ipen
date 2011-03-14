@@ -29,6 +29,12 @@ namespace Ipen.SSID.UI
             DataTable dt = DataBD.SelecionarModelos();
             dgvModelos.DataSource = null;
             dgvModelos.DataSource = dt;
+            dgvModelos.Columns["idModelo"].HeaderText = "Código";
+            dgvModelos.Columns["nmModelo"].HeaderText = "Nome";
+            dgvModelos.Columns["dtAlteracao"].HeaderText = "Última Alteração";
+            dgvModelos.Columns["Descricao"].HeaderText = "Descrição";
+            dgvModelos.Columns["nmTipoModelo"].HeaderText = "Tipo";
+            dgvModelos.Columns["meiaVida"].HeaderText = "Meia Vida";
         }
 
         private void btnAlterar_Click(object sender, EventArgs e)
