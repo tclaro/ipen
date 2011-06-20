@@ -792,17 +792,23 @@ namespace Ipen.SSID.UI
             return sol;
         }
 
+        /// <summary>
+        /// Percorre a matriz R preenchida com os lambdas, e monta o sistemas de equações ydot
+        /// </summary>
+        /// <param name="T"></param>
+        /// <param name="Y"></param>
+        /// <returns>Retorna o sistema de equações diferenciais yDot que será enviado ao método numérico selecionado</returns>
         private double[] MontarEquacao(double T, double[] Y)
         {
-            //adicionar o compartimento q simula o decaimento radioativo aqui
-
             int Tamanho = R.GetLength(0);
 
             double[] ydot = new double[Tamanho];
 
             for (int l = 0; l < Tamanho; l++)
             {
-                ydot[l] = -1 * 0.693/ModeloAberto.meiaVida * Y[l];
+                //compartimento q simula o decaimento radioativo
+                if (ModeloAberto.meiaVida != 0)
+                    ydot[l] = -1 * 0.693/ModeloAberto.meiaVida * Y[l];
 
                 for (int c = 0; c < Tamanho; c++)
                     ydot[l] += R[l, c] * Y[c];

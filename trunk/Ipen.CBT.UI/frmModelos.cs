@@ -36,11 +36,13 @@ namespace Ipen.CBT.UI
             dgvModelos.DataSource = null;
             dgvModelos.DataSource = dt;
             dgvModelos.Columns["idModelo"].HeaderText = "Código";
+            dgvModelos.Columns["idModelo"].Width = 50;
             dgvModelos.Columns["nmModelo"].HeaderText = "Nome";
             dgvModelos.Columns["dtAlteracao"].HeaderText = "Última Alteração";
             dgvModelos.Columns["Descricao"].HeaderText = "Descrição";
             dgvModelos.Columns["nmTipoModelo"].HeaderText = "Tipo";
             dgvModelos.Columns["meiaVida"].HeaderText = "Meia Vida";
+            dgvModelos.Columns["meiaVida"].Width = 90;
         }
 
         private void btnAlterar_Click(object sender, EventArgs e)
