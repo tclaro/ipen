@@ -113,6 +113,7 @@ namespace Ipen.CBT.UI
             this.Controls.Add(this.btnNovo);
             this.Controls.Add(this.dgvModelos);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MinimumSize = new System.Drawing.Size(623, 380);
             this.Name = "frmModelos";
             this.Text = "Modelos";
             ((System.ComponentModel.ISupportInitialize)(this.dgvModelos)).EndInit();

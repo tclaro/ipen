@@ -319,7 +319,9 @@ namespace Ipen.SSID.UI
             // 
             // zg1
             // 
-            this.zg1.Location = new System.Drawing.Point(46, 24);
+            this.zg1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.zg1.IsAntiAlias = true;
+            this.zg1.Location = new System.Drawing.Point(3, 3);
             this.zg1.Name = "zg1";
             this.zg1.ScrollGrace = 0D;
             this.zg1.ScrollMaxX = 0D;
@@ -328,7 +330,7 @@ namespace Ipen.SSID.UI
             this.zg1.ScrollMinX = 0D;
             this.zg1.ScrollMinY = 0D;
             this.zg1.ScrollMinY2 = 0D;
-            this.zg1.Size = new System.Drawing.Size(308, 265);
+            this.zg1.Size = new System.Drawing.Size(724, 320);
             this.zg1.TabIndex = 1;
             // 
             // toolTip1
