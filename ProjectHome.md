@@ -1,0 +1,1 @@
+A generic tool to build compartimental models and save in mdb or xml, to future use in another analitical aplications.
