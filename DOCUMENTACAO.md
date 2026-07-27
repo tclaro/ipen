@@ -527,9 +527,9 @@ btnCalcular_Click
 
 Achados classificados por severidade, com referência a arquivo e linha.
 
-> **Status.** Fase 1 corrigida e compilando: **C-1**, **C-3**, **C-4**, **G-5**, **G-7**.
-> **G-1 foi refutado** por teste empírico — não era defeito. **G-8** foi encontrado em
-> uso real e corrigido.
+> **Status.** Fase 1 corrigida, compilando e **validada numericamente**: **C-1**,
+> **C-3**, **C-4**, **G-5**, **G-7**. **G-1 foi refutado** por teste empírico — não era
+> defeito. **G-8** foi encontrado em uso real e corrigido.
 > Fora da Fase 1, já concluídos: migração para **x64 + .NET 4.8 + ACE OLEDB**
 > ([§11.2](#112-plataforma-x64)) e conversão dos fontes para **UTF-8**
 > ([§10.5](#105-estilo-e-manutenibilidade)). Os demais achados seguem abertos.
@@ -892,10 +892,18 @@ faz a persistência de preferências falhar silenciosamente.
 
 ## 12. Recomendações priorizadas
 
-### Fase 1 — Correções de correção científica ✅ CONCLUÍDA
+### Fase 1 — Correções de correção científica ✅ CONCLUÍDA E VALIDADA
 
 Esses defeitos produzem **números errados sem sinalizar erro** — a categoria mais
 perigosa em software de dosimetria.
+
+**Validação numérica.** [`tools/validate`](tools/validate) compara os quatro métodos
+de resolução contra soluções analíticas fechadas de modelos compartimentais simples —
+decaimento puro, transferência entre compartimentos, e um caso com duas vias de
+eliminação simultâneas (o cenário exato do C-4). Birchall bate a analítica com erro
+relativo entre `1e-11` e `3e-8`; RK5/RK45/Adams-Moulton, dentro do erro de
+discretização esperado para integradores de passo fixo. 474 verificações, 0 falhas.
+Ver [`tools/validate/README.md`](tools/validate/README.md) para o detalhamento.
 
 1. **C-4** — `QuantAnt` por compartimento. Sem isso, todo modelo com mais de uma via de
    excreção reporta valores inválidos.
@@ -926,13 +934,16 @@ perigosa em software de dosimetria.
 
 ### Fase 4 — Modernização
 
-18. ~~`PlatformTarget = x86`~~ ✅ **FEITO** (global, todas as configurações). Resta a
-    migração para ACE.OLEDB + `.accdb` como solução definitiva.
-19. Projeto de testes com casos analíticos conhecidos: decaimento de compartimento único
-    (`q(t) = q₀·e^{−λt}`), sistema de dois compartimentos com solução fechada, e
-    verificação de conservação de massa (Σ compartimentos + eliminados = 1,0).
-20. Extrair `Compartimento` POCO de `Caixas : Control` — pré-requisito para os testes
-    do item 19 e para qualquer portabilidade.
+18. ~~`PlatformTarget = x64` + ACE OLEDB.~~ ✅ **FEITO.** O `.mdb` foi lido diretamente
+    pelo ACE sem precisar converter para `.accdb`.
+19. ~~Projeto de testes com casos analíticos conhecidos~~ ✅ **FEITO** —
+    [`tools/validate`](tools/validate): decaimento de compartimento único, transferência
+    entre dois compartimentos e duas vias de eliminação simultâneas, contra solução
+    fechada, nos quatro solvers. Falta ainda a verificação de conservação de massa
+    (Σ compartimentos + eliminados = 1,0) como caso de regressão contínuo, e cobrir os
+    demais achados abertos (G-2, G-3, G-4, G-6) com casos automatizados.
+20. Extrair `Compartimento` POCO de `Caixas : Control` — pré-requisito para testar a
+    UI/desenho isoladamente e para qualquer portabilidade.
 21. Eliminar o singleton `Sistema`; `Modelos` passa a possuir sua própria `Sistema`.
 22. Unificar `frmEditModelo` e `frmPrincipal`.
 23. Extrair o solver de `frmCalculo` para uma classe `Solver` sem dependência de UI —
@@ -985,6 +996,5 @@ perigosa em software de dosimetria.
 *Documento gerado por análise do código-fonte. A maior parte dos defeitos foi
 identificada por leitura, não por execução — e o caso do **G-1**, refutado quando
 finalmente pôde ser testado contra o banco, mostra por que isso importa. Os itens
-numéricos da Fase 1 (**C-4** e **G-5**) alteram resultados de cálculo e **ainda não foram
-validados numericamente**: convém rodar um modelo de referência e comparar os valores
-antes de confiar neles.*
+numéricos da Fase 1 (**C-4** e **G-5**) foram desde então validados contra solução
+analítica em [`tools/validate`](tools/validate) — ver a nota na Fase 1, §12.*
