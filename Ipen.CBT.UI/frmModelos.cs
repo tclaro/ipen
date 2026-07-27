@@ -48,6 +48,9 @@ namespace Ipen.CBT.UI
         private void btnAlterar_Click(object sender, EventArgs e)
         {
             //Pega o código da linha selecionada
+            if (dgvModelos.CurrentRow == null)
+                return;
+
             _idModelo = (int)dgvModelos.CurrentRow.Cells["idModelo"].Value;
             this.DialogResult = DialogResult.Yes;
             this.Close();
@@ -61,6 +64,9 @@ namespace Ipen.CBT.UI
         private void btnExcluir_Click(object sender, EventArgs e)
         {
             //Pega o código da linha selecionada
+            if (dgvModelos.CurrentRow == null)
+                return;
+
             int idModelo = (int)dgvModelos.CurrentRow.Cells["idModelo"].Value;
             string nmModelo = dgvModelos.CurrentRow.Cells["nmModelo"].Value.ToString();
 

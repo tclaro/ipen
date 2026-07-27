@@ -39,15 +39,23 @@ namespace Ipen.SSID.UI
 
         private void btnAlterar_Click(object sender, EventArgs e)
         {
+            //CurrentRow fica nulo com a grade vazia, ou num duplo clique no cabeçalho
+            if (dgvModelos.CurrentRow == null)
+                return;
+
             //Pega o código da linha selecionada
             int idModelo = (int)dgvModelos.CurrentRow.Cells["idModelo"].Value;
-            //FormOrigem.LerModelo(idModelo);
             FormOrigem.idModeloAberto = idModelo;
+
+            //Sinaliza que houve escolha de verdade. Sem isto, quem abriu o diálogo
+            //não tem como distinguir "escolheu" de "fechou sem escolher".
+            this.DialogResult = DialogResult.OK;
             this.Close();
         }
 
         private void btnFechar_Click(object sender, EventArgs e)
         {
+            this.DialogResult = DialogResult.Cancel;
             this.Close();
         }
     }

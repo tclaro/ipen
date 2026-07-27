@@ -603,7 +603,12 @@ namespace Ipen.SSID.UI
                 if (openFile.FileName != caminhoInicial)
                     GravarSettings("MDBPath", openFile.FileName);
                 frmModelos F = new frmModelos(openFile.FileName, this);
-                F.ShowDialog();
+
+                //Fechar o diálogo sem escolher deixava idModeloAberto em 0, e
+                //LerModelo(0) estourava com IndexOutOfRangeException dentro do DataBD.
+                if (F.ShowDialog() != DialogResult.OK)
+                    return;
+
                 btnCalcular.Enabled = true;
 
                 LerModelo(idModeloAberto);

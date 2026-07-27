@@ -223,10 +223,16 @@ namespace Ipen.CompartimentalModel
             OleDbDataAdapter da = new OleDbDataAdapter(cmd);
             DataTable resultado = new DataTable();
             da.Fill(resultado);
-            
-            DataRow drow = resultado.Rows[0];
             cn.Close();
             cn.Dispose();
+
+            //Antes ia direto em Rows[0]: um código inexistente virava
+            //IndexOutOfRangeException opaco, e a conexão ficava aberta.
+            if (resultado.Rows.Count == 0)
+                throw new InvalidOperationException(
+                    "Não existe modelo com o código " + cod + " no banco de dados.");
+
+            DataRow drow = resultado.Rows[0];
             Modelo.idModelo = (int)drow["idModelo"];
             Modelo.nmModelo = drow["nmModelo"].ToString();
             Modelo.dtCriacao = (DateTime)drow["dtCriacao"];
