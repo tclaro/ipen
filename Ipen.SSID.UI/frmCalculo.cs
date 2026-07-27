@@ -4,8 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Text;
-using System.Web;
-using System.Web.UI;
+using System.Net;
 using System.Windows.Forms;
 using System.Collections;
 using ZedGraph;
@@ -89,7 +88,7 @@ namespace Ipen.SSID.UI
             str.Append("<html><body style='font-family: Arial, Helvetica, sans-serif;'><h1>Relat&oacuterio</h1>");
             str.Append("<table border='0' width='100%' cellpadding='1' cellspacing='1'>");
                 
-            str.Append("<tr><td>Modelo: " +  HttpUtility.HtmlEncode(ModeloAberto.nmModelo) + "</td>");
+            str.Append("<tr><td>Modelo: " +  WebUtility.HtmlEncode(ModeloAberto.nmModelo) + "</td>");
             str.Append("<td rowspan='3' style='text-align:right'>" + ModeloAberto.Descricao + "</td></tr>");
             str.Append("<tr><td>Gerado em: " + DateTime.Now.ToString("dd/MM/yyyy HH:mm") + "</td></tr>");
             str.Append("<tr><td>Resolvido pelo m&eacutetodo: Birchall</td></tr>");
@@ -105,7 +104,7 @@ namespace Ipen.SSID.UI
                     PointPairList list = new PointPairList();
                     ListaDeParesDePontos[(int)C.Tag] = list;
                     str.Append("<td><b>");
-                    str.Append(HttpUtility.HtmlEncode(C.Nome));
+                    str.Append(WebUtility.HtmlEncode(C.Nome));
                     str.Append("</b></td>");
                 }
             }
@@ -691,10 +690,10 @@ namespace Ipen.SSID.UI
             str.Append("<html><body style='font-family: Arial, Helvetica, sans-serif;'><h1>Relat&oacuterio</h1>");
             str.Append("<table border='0' width='100%' cellpadding='1' cellspacing='1'>");
 
-            str.Append("<tr><td>Modelo: " + HttpUtility.HtmlEncode(ModeloAberto.nmModelo) + "</td>");
+            str.Append("<tr><td>Modelo: " + WebUtility.HtmlEncode(ModeloAberto.nmModelo) + "</td>");
             str.Append("<td rowspan='3' style='text-align:right'>" + ModeloAberto.Descricao + "</td></tr>");
             str.Append("<tr><td>Gerado em: " + DateTime.Now.ToString("dd/MM/yyyy HH:mm") + "</td></tr>");
-            str.Append("<tr><td>Resolvido pelo m&eacutetodo: " + HttpUtility.HtmlEncode(nomeMetodo) + "</td></tr>");
+            str.Append("<tr><td>Resolvido pelo m&eacutetodo: " + WebUtility.HtmlEncode(nomeMetodo) + "</td></tr>");
             str.Append("</Table>");
 
             str.Append("<table border='1' bordercolor='#000099' style='background-color:#EFFFFF' width='100%' cellpadding='2' cellspacing='2'><tr><b>");
@@ -709,7 +708,7 @@ namespace Ipen.SSID.UI
                     PointPairList list = new PointPairList();
                     ListaDeParesDePontos[(int)Caixa.Tag] = list;
                     str.Append("<td><b>");
-                    str.Append(HttpUtility.HtmlEncode(Caixa.Nome));
+                    str.Append(WebUtility.HtmlEncode(Caixa.Nome));
                     str.Append("</td></b>");
                 }
             }
