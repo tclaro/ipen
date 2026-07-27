@@ -204,6 +204,13 @@ namespace Ipen.CBT.UI
 
                 interfaceXML.ImportarXML();
 
+                //Sem esta atribuição o modelo importado é descartado: as caixas só
+                //apareciam por efeito colateral do singleton Sistema, enquanto nome,
+                //descrição, tipo e meia-vida ficavam com os valores antigos (zerados).
+                this.Modelo = interfaceXML.Modelo;
+                AtualizarTelaDoModelo();
+                this.splitContainer1.Panel1.Enabled = true;
+
                 this.PnlCanvas.SuspendLayout();
                 foreach (Caixas cx in this.Modelo.Colecao.Caixas)
                     this.PnlCanvas.IncluirCaixa(cx);
@@ -902,7 +909,17 @@ namespace Ipen.CBT.UI
             //Ei, sr. modelo, pega la suas caixas e linhas...
             Modelo.PreencherCaixasLinhas();
 
-            //Agora preenche a list e as 2 combos com as caixas...
+            AtualizarTelaDoModelo();
+        }
+
+        /// <summary>
+        /// Reflete na tela o modelo que JÁ está em memória, sem reler do banco.
+        /// CarregarTela() não serve para o import de XML porque
+        /// PreencherCaixasLinhas() limpa a coleção e a repopula a partir do MDB.
+        /// </summary>
+        private void AtualizarTelaDoModelo()
+        {
+            //Preenche a list e as 2 combos com as caixas...
             RefazBind();
 
             //e a listview com as linhas!
@@ -913,7 +930,9 @@ namespace Ipen.CBT.UI
             txtDescricao.Text = Modelo.Descricao;
             txtMeiaVida.Text = Modelo.meiaVida.ToString();
             cboTipo.DataBindings.Clear();
-            cboTipo.DataBindings.Add(new Binding("SelectedValue", Modelo.Tipo, "idTipoModelo"));
+            //Só há o que vincular se o banco de tipos já foi carregado.
+            if (cboTipo.DataSource != null)
+                cboTipo.DataBindings.Add(new Binding("SelectedValue", Modelo.Tipo, "idTipoModelo"));
         }
 
         private void SincronizarColecoes()
@@ -1200,8 +1219,13 @@ namespace Ipen.CBT.UI
                 GravarSettings("XMLPath", openFile.FileName);
 
                 DataXML interfaceXML = new DataXML(openFile.FileName);
-                
+
                 interfaceXML.ImportarXML();
+
+                //Ver comentário em mnuArquivoImportar_Click.
+                this.Modelo = interfaceXML.Modelo;
+                AtualizarTelaDoModelo();
+                this.splitContainer1.Panel1.Enabled = true;
 
                 this.PnlCanvas.SuspendLayout();
                 foreach (Caixas cx in this.Modelo.Colecao.Caixas)

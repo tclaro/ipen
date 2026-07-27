@@ -73,11 +73,14 @@ namespace Ipen.SSID.UI
                 lam = 0;
 
             terr = 1E-10;
-            double QuantAnt = 0;
-
 
             PreencherMatrizR();
             Init();
+
+            //Valor do passo anterior de CADA compartimento de eliminação.
+            //Precisa ser por compartimento: com uma única variável, um modelo
+            //com mais de uma via de excreção subtrai o valor do compartimento errado.
+            double[] QuantAnt = new double[n];
 
             StringBuilder str = new StringBuilder();
 
@@ -134,8 +137,8 @@ namespace Ipen.SSID.UI
 
                         if (C.Eliminacao)
                         {
-                            valorInstanteCompartimento = xt[indice] - QuantAnt;
-                            QuantAnt = xt[indice];
+                            valorInstanteCompartimento = xt[indice] - QuantAnt[indice];
+                            QuantAnt[indice] = xt[indice];
                         }
                         else
                             valorInstanteCompartimento = xt[indice];
@@ -325,7 +328,7 @@ namespace Ipen.SSID.UI
                     for (int j = 1; j < n; j++)
                     {
                         if (sum[i, j] != 0)
-                            if (term[i, j] / sum[i, j] > terr)
+                            if (Math.Abs(term[i, j] / sum[i, j]) > terr)
                                 goto volta;
                     }
                 goto exit;
@@ -471,7 +474,11 @@ namespace Ipen.SSID.UI
         {
             int Tamanho = ModeloAberto.Colecao.Caixas.Count;
             R = new double[Tamanho, Tamanho];
-            
+
+            //Sem isto a lista acumula os compartimentos de todas as execuções
+            //anteriores, e o gráfico passa a associar curvas ao compartimento errado.
+            TodosCompartimentos.Clear();
+
             int contador = 0;
             foreach (CompartimentalModel.Caixas Caixa in ModeloAberto.Colecao.Caixas)
             {
@@ -632,7 +639,8 @@ namespace Ipen.SSID.UI
             double Final = 0, Passo = 0;
             double Inicio = 0;
             double MeiaVida = 0;
-            double QuantAnt = 0;
+            //Um acumulador por compartimento de eliminação (ver comentário em btnCalcular_Click).
+            double[] QuantAnt = new double[ModeloAberto.Colecao.Caixas.Count];
             int QuantFuncoes = 0;
             try
             {
@@ -727,8 +735,8 @@ namespace Ipen.SSID.UI
 
                         if (Caixa.Eliminacao)
                         {
-                            valorInstanteCompartimento = sol[i, c] - QuantAnt;
-                            QuantAnt = sol[i, c];
+                            valorInstanteCompartimento = sol[i, c] - QuantAnt[(int)Caixa.Tag];
+                            QuantAnt[(int)Caixa.Tag] = sol[i, c];
                         }
                         else
                             valorInstanteCompartimento = sol[i, c];
@@ -808,7 +816,7 @@ namespace Ipen.SSID.UI
             {
                 //compartimento q simula o decaimento radioativo
                 if (ModeloAberto.meiaVida != 0)
-                    ydot[l] = -1 * 0.693/ModeloAberto.meiaVida * Y[l];
+                    ydot[l] = -1 * Math.Log(2) / ModeloAberto.meiaVida * Y[l];
 
                 for (int c = 0; c < Tamanho; c++)
                     ydot[l] += R[l, c] * Y[c];
