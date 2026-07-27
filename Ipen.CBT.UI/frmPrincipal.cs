@@ -1,4 +1,4 @@
-using System;
+Ôªøusing System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -18,7 +18,7 @@ namespace Ipen.CBT.UI
         private Caixas criaLinha2;
 
         //Objeto principal do form, que guarda o modelo sendo editado.
-        //Dentro de modelo est„o as coleÁıes de caixas e linhas.
+        //Dentro de modelo est√£o as cole√ß√µes de caixas e linhas.
         private Modelos Modelo;
         
         private enum StatusPossiveis
@@ -58,7 +58,7 @@ namespace Ipen.CBT.UI
                 catch (System.Data.OleDb.OleDbException)
                 {
                     Configuracoes.Arquivo = null;
-                    MessageBox.Show("N„o foi possÌvel conectar no banco de dados previamente configurado.\nUse a opÁ„o \"Configurar banco de dados\" no menu ferramentas", "AtenÁ„o", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    MessageBox.Show("N√£o foi poss√≠vel conectar no banco de dados previamente configurado.\nUse a op√ß√£o \"Configurar banco de dados\" no menu ferramentas", "Aten√ß√£o", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 }
             }
         }
@@ -74,7 +74,7 @@ namespace Ipen.CBT.UI
             PnlCanvas.SistemaCompartimental.BoxClick += new EventHandler(SistemaCompartimental_BoxClick);
 
             //Panel1 = cima, texto e Painel2 = baixo, grafico.
-            //N„o sei renomear estes panels
+            //N√£o sei renomear estes panels
             this.splitContainer1.Panel2.Controls.Add(this.PnlCanvas);
             this.splitContainer1.Panel1.Enabled = false;
         }
@@ -82,25 +82,25 @@ namespace Ipen.CBT.UI
         private void AjustarRotulos()
         {
             bool Exibir = Convert.ToBoolean(LerSettings("Rotulos"));
-            exibirRÛtuloDeTransferÍnciasToolStripMenuItem.Checked = Exibir;
+            exibirR√≥tuloDeTransfer√™nciasToolStripMenuItem.Checked = Exibir;
             Configuracoes.ExibirRotulos = Exibir;
         }
 
         private void AjustarSetas()
         {
             bool Exibir = Convert.ToBoolean(LerSettings("Setas"));
-            exibirSetasDeDireÁ„oToolStripMenuItem.Checked = Exibir;
+            exibirSetasDeDire√ß√£oToolStripMenuItem.Checked = Exibir;
             Configuracoes.ExibirSetas = Exibir;
         }
 
         private void AjustarLigacoes()
         {
             bool Exibir = Convert.ToBoolean(LerSettings("Ligacoes"));
-            exibirApenasLigaÁıesDoCompartimentoSelecionadoToolStripMenuItem.Checked = Exibir;
+            exibirApenasLiga√ß√µesDoCompartimentoSelecionadoToolStripMenuItem.Checked = Exibir;
             Configuracoes.ExibirTodasLigacoes = Exibir;
         }
         
-        #region MÈtodos de eventos
+        #region M√©todos de eventos
         void pnlCanvas_BoxModifyRequest(Caixas cx)
         {
             SelecionarCaixa(cx);
@@ -126,7 +126,7 @@ namespace Ipen.CBT.UI
         {
             if (Configuracoes.Arquivo == null || Configuracoes.Arquivo == "")
             {
-                MessageBox.Show("Antes, use a opÁ„o \"Configurar banco de dados\" no menu ferramentas", "AtenÁ„o", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                MessageBox.Show("Antes, use a op√ß√£o \"Configurar banco de dados\" no menu ferramentas", "Aten√ß√£o", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 return;
             }
 
@@ -136,7 +136,7 @@ namespace Ipen.CBT.UI
             if (dlgForm == DialogResult.Yes)
             {
                 //Caso algum modelo ja esteja aberto, ele fecha.
-                //Sen„o, pelo menos ja instancia o objeto modelo...
+                //Sen√£o, pelo menos ja instancia o objeto modelo...
                 FecharModelo();
 
                 this.splitContainer1.Panel1.Enabled = true;
@@ -157,7 +157,7 @@ namespace Ipen.CBT.UI
         {
             if (txtNome.Text != this.Modelo.nmModelo)
             {
-                DialogResult resposta = MessageBox.Show("Este modelo ir· sobrescrever o modelo \"" + this.Modelo.nmModelo + "\"\nConfirma a gravaÁ„o?", "AtenÁ„o", MessageBoxButtons.OKCancel, MessageBoxIcon.Exclamation);
+                DialogResult resposta = MessageBox.Show("Este modelo ir√° sobrescrever o modelo \"" + this.Modelo.nmModelo + "\"\nConfirma a grava√ß√£o?", "Aten√ß√£o", MessageBoxButtons.OKCancel, MessageBoxIcon.Exclamation);
                 if (resposta == DialogResult.Cancel)
                     return;
             }
@@ -169,7 +169,7 @@ namespace Ipen.CBT.UI
         {
             if (txtNome.Text == this.Modelo.nmModelo)
             {
-                MessageBox.Show("Altere o nome do modelo para criar uma cÛpia dele", "AtenÁ„o", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                MessageBox.Show("Altere o nome do modelo para criar uma c√≥pia dele", "Aten√ß√£o", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 return;
             }
 
@@ -204,9 +204,9 @@ namespace Ipen.CBT.UI
 
                 interfaceXML.ImportarXML();
 
-                //Sem esta atribuiÁ„o o modelo importado È descartado: as caixas sÛ
+                //Sem esta atribui√ß√£o o modelo importado √© descartado: as caixas s√≥
                 //apareciam por efeito colateral do singleton Sistema, enquanto nome,
-                //descriÁ„o, tipo e meia-vida ficavam com os valores antigos (zerados).
+                //descri√ß√£o, tipo e meia-vida ficavam com os valores antigos (zerados).
                 this.Modelo = interfaceXML.Modelo;
                 AtualizarTelaDoModelo();
                 this.splitContainer1.Panel1.Enabled = true;
@@ -293,10 +293,10 @@ namespace Ipen.CBT.UI
             cboTipo.ValueMember = "idTipoModelo";
         }
 
-        private void exibirRÛtuloDeTransferÍnciasToolStripMenuItem_Click(object sender, EventArgs e)
+        private void exibirR√≥tuloDeTransfer√™nciasToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            bool Exibir = !exibirRÛtuloDeTransferÍnciasToolStripMenuItem.Checked;
-            exibirRÛtuloDeTransferÍnciasToolStripMenuItem.Checked = Exibir;
+            bool Exibir = !exibirR√≥tuloDeTransfer√™nciasToolStripMenuItem.Checked;
+            exibirR√≥tuloDeTransfer√™nciasToolStripMenuItem.Checked = Exibir;
             CompartimentalModel.Configuracoes.ExibirRotulos = Exibir;
             this.PnlCanvas.Refresh();
             GravarSettings("Rotulos", Exibir.ToString());
@@ -376,7 +376,7 @@ namespace Ipen.CBT.UI
         {
             if (Configuracoes.Arquivo == null)
             {
-                MessageBox.Show("Antes, use a opÁ„o \"Configurar banco de dados\" no menu ferramentas", "AtenÁ„o", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                MessageBox.Show("Antes, use a op√ß√£o \"Configurar banco de dados\" no menu ferramentas", "Aten√ß√£o", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 return;
             }
             frmModelos Fmodelo = new frmModelos();
@@ -398,7 +398,7 @@ namespace Ipen.CBT.UI
         {
             if (Configuracoes.Arquivo == null)
             {
-                MessageBox.Show("Antes, use a opÁ„o \"Configurar banco de dados\" no menu ferramentas", "AtenÁ„o", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                MessageBox.Show("Antes, use a op√ß√£o \"Configurar banco de dados\" no menu ferramentas", "Aten√ß√£o", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 return;
             }
             frmModelos Fmodelo = new frmModelos();
@@ -421,7 +421,7 @@ namespace Ipen.CBT.UI
         #endregion
 
         /// <summary>
-        /// Limpa a coleÁ„o e a tela
+        /// Limpa a cole√ß√£o e a tela
         /// </summary>
         private void LimparColecao()
         {
@@ -553,14 +553,14 @@ namespace Ipen.CBT.UI
 
         #endregion
 
-        #region CÛdigo do form editar modelo
+        #region C√≥digo do form editar modelo
 
         private Caixas CaixaAlterando;
 
         private CaixasCollection colCaixasA = new CaixasCollection();
         private CaixasCollection colCaixasB = new CaixasCollection();
 
-        #region MÈtodos dos Compartimentos
+        #region M√©todos dos Compartimentos
 
         private void cmdLimparComp_Click(object sender, EventArgs e)
         {
@@ -583,7 +583,7 @@ namespace Ipen.CBT.UI
 
             if (NomeComp == "")
             {
-                MessageBox.Show("Informe o nome do compartimento", "AtenÁ„o", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                MessageBox.Show("Informe o nome do compartimento", "Aten√ß√£o", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 txtCompartimento.Focus();
                 return;
             }
@@ -599,7 +599,7 @@ namespace Ipen.CBT.UI
                 {
                     if (!(ModoAlterar && item.Numero == CaixaAlterando.Numero))
                     {
-                        MessageBox.Show("Ja existe um compartimento chamado \"" + NomeComp + "\"", "AtenÁ„o", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                        MessageBox.Show("Ja existe um compartimento chamado \"" + NomeComp + "\"", "Aten√ß√£o", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                         txtCompartimento.Focus();
                         return;
                     }
@@ -651,7 +651,7 @@ namespace Ipen.CBT.UI
             int quantLigacoes = Modelo.Colecao.ContarLigacoesAssociadas(CaixaRemovendo);
             if ( quantLigacoes > 0)
             {
-                DialogResult resposta = MessageBox.Show("Existem " + quantLigacoes.ToString() + " ligaÁıes associadas a este compartimento que tambÈm ser„o removidas\nDeseja continuar?", "AtenÁ„o", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                DialogResult resposta = MessageBox.Show("Existem " + quantLigacoes.ToString() + " liga√ß√µes associadas a este compartimento que tamb√©m ser√£o removidas\nDeseja continuar?", "Aten√ß√£o", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                 if (resposta == DialogResult.No)
                     return;
 
@@ -666,7 +666,7 @@ namespace Ipen.CBT.UI
 
         #endregion
 
-        #region MÈtodos das LigaÁıes
+        #region M√©todos das Liga√ß√µes
         
         private void ConfigurarListView()
         {
@@ -677,10 +677,10 @@ namespace Ipen.CBT.UI
             lvwLigacoes.LabelEdit = false;
             lvwLigacoes.LabelWrap = false;
             lvwLigacoes.Columns.Add("", 0);
-            lvwLigacoes.Columns.Add("Compartimento SaÌda", 185, HorizontalAlignment.Right);
+            lvwLigacoes.Columns.Add("Compartimento Sa√≠da", 185, HorizontalAlignment.Right);
             lvwLigacoes.Columns.Add("", 30, HorizontalAlignment.Center);
             lvwLigacoes.Columns.Add("Compartimento Entrada", 185, HorizontalAlignment.Left);
-            lvwLigacoes.Columns.Add("Valor de TransferÍncia", 150, HorizontalAlignment.Left);
+            lvwLigacoes.Columns.Add("Valor de Transfer√™ncia", 150, HorizontalAlignment.Left);
         }
 
         private void LimparTelaLigacao()
@@ -704,7 +704,7 @@ namespace Ipen.CBT.UI
             float Valor;
             if (!float.TryParse(txtValorAB.Text, out Valor))
             {
-                MessageBox.Show("Valor " + txtValorAB.Text + " Inv·lido", "AtenÁ„o", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                MessageBox.Show("Valor " + txtValorAB.Text + " Inv√°lido", "Aten√ß√£o", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 txtValorAB.Focus();
                 return;
             }
@@ -720,9 +720,9 @@ namespace Ipen.CBT.UI
                     || LinhaExistente.DirecaoDaLinha == Linhas.Direcao.Ambos)
                 {
                     //Alterar?
-                    DialogResult Resposta = MessageBox.Show("J· existe uma ligaÁ„o entre esses compartimentos, deseja alter·-lo?", "AtenÁ„o", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                    DialogResult Resposta = MessageBox.Show("J√° existe uma liga√ß√£o entre esses compartimentos, deseja alter√°-lo?", "Aten√ß√£o", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                     if (Resposta == DialogResult.No)
-                        //N„o Alterar
+                        //N√£o Alterar
                         return; //Fim
                     else
                     {//Sim, alterar!
@@ -819,7 +819,7 @@ namespace Ipen.CBT.UI
             ListView.SelectedListViewItemCollection Items = lvwLigacoes.SelectedItems;
             if (Items == null || Items.Count < 1)
             {
-                MessageBox.Show("Selecione abaixo a ligaÁ„o que deseja remover", "AtenÁ„o", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                MessageBox.Show("Selecione abaixo a liga√ß√£o que deseja remover", "Aten√ß√£o", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 return;
             }
 
@@ -850,21 +850,21 @@ namespace Ipen.CBT.UI
 
             if (cboCompartA.SelectedItem == null || cboCompartB.SelectedItem == null)
             {
-                MessageBox.Show("Selecione dois compartimentos para estabelecer uma ligaÁ„o", "AtenÁ„o", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                MessageBox.Show("Selecione dois compartimentos para estabelecer uma liga√ß√£o", "Aten√ß√£o", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 cboCompartA.Focus();
                 return false;
             }
 
             if (cboCompartA.SelectedItem == cboCompartB.SelectedItem)
             {
-                MessageBox.Show("Selecione compartimentos diferentes para estabelecer uma ligaÁ„o", "AtenÁ„o", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                MessageBox.Show("Selecione compartimentos diferentes para estabelecer uma liga√ß√£o", "Aten√ß√£o", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 cboCompartA.Focus();
                 return false;
             }
 
             if (txtValorAB.Text == "")
             {
-                MessageBox.Show("Informe o valor de transferÍncia para a ligaÁ„o A->B", "AtenÁ„o", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                MessageBox.Show("Informe o valor de transfer√™ncia para a liga√ß√£o A->B", "Aten√ß√£o", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 txtValorAB.Focus();
                 return false;
             }
@@ -899,10 +899,10 @@ namespace Ipen.CBT.UI
 
         #endregion
 
-        #region MÈtodos GenÈricos do Form
+        #region M√©todos Gen√©ricos do Form
 
         /// <summary>
-        /// SÛ È executado se chegou nesse form pelo "Alterar", ent„o o objeto Modelo ja tem coisa l·
+        /// S√≥ √© executado se chegou nesse form pelo "Alterar", ent√£o o objeto Modelo ja tem coisa l√°
         /// </summary>
         private void CarregarTela()
         {
@@ -913,9 +913,9 @@ namespace Ipen.CBT.UI
         }
 
         /// <summary>
-        /// Reflete na tela o modelo que J¡ est· em memÛria, sem reler do banco.
-        /// CarregarTela() n„o serve para o import de XML porque
-        /// PreencherCaixasLinhas() limpa a coleÁ„o e a repopula a partir do MDB.
+        /// Reflete na tela o modelo que J√Å est√° em mem√≥ria, sem reler do banco.
+        /// CarregarTela() n√£o serve para o import de XML porque
+        /// PreencherCaixasLinhas() limpa a cole√ß√£o e a repopula a partir do MDB.
         /// </summary>
         private void AtualizarTelaDoModelo()
         {
@@ -930,7 +930,7 @@ namespace Ipen.CBT.UI
             txtDescricao.Text = Modelo.Descricao;
             txtMeiaVida.Text = Modelo.meiaVida.ToString();
             cboTipo.DataBindings.Clear();
-            //SÛ h· o que vincular se o banco de tipos j· foi carregado.
+            //S√≥ h√° o que vincular se o banco de tipos j√° foi carregado.
             if (cboTipo.DataSource != null)
                 cboTipo.DataBindings.Add(new Binding("SelectedValue", Modelo.Tipo, "idTipoModelo"));
         }
@@ -938,7 +938,7 @@ namespace Ipen.CBT.UI
         private void SincronizarColecoes()
         {
             /* Clona a collection de compartimentos para fazer bind 
-            nas comboboxes de ligacıes */
+            nas comboboxes de ligac√µes */
             colCaixasA.Clear();
             colCaixasB.Clear();
 
@@ -980,8 +980,8 @@ namespace Ipen.CBT.UI
 
         private void btnGamb_Click(object sender, EventArgs e)
         {
-            //O bot„o default est· escondido, e desempenha aÁ„o diferente
-            //de acordo com a tab que est· selecionada
+            //O bot√£o default est√° escondido, e desempenha a√ß√£o diferente
+            //de acordo com a tab que est√° selecionada
             if (tabControlModelo.SelectedTab.Text == "Compartimentos")
                 btnAddComp_Click(sender, e);
             else
@@ -999,7 +999,7 @@ namespace Ipen.CBT.UI
             //if (tabControlModelo.SelectedTab.Name == "tabPageCompart")
             //    lblContador.Text = "Total: " + Modelo.Colecao.Caixas.Count.ToString() + " compartimentos";
             //else
-            //    lblContador.Text = "Total: " + lvwLigacoes.Items.Count.ToString() + " transferÍncias em " + Modelo.Colecao.Linhas.Count.ToString() + " ligaÁıes";
+            //    lblContador.Text = "Total: " + lvwLigacoes.Items.Count.ToString() + " transfer√™ncias em " + Modelo.Colecao.Linhas.Count.ToString() + " liga√ß√µes";
             lblCompAdded.Text = "Compartimentos Adicionados (" + Modelo.Colecao.Caixas.Count.ToString() + ")";
 
         }
@@ -1042,7 +1042,7 @@ namespace Ipen.CBT.UI
         {
             if (txtNome.Text != this.Modelo.nmModelo)
             {
-                DialogResult resposta = MessageBox.Show("Este modelo ir· sobrescrever o modelo \"" + this.Modelo.nmModelo + "\"\nConfirma a gravaÁ„o?", "AtenÁ„o", MessageBoxButtons.OKCancel, MessageBoxIcon.Exclamation);
+                DialogResult resposta = MessageBox.Show("Este modelo ir√° sobrescrever o modelo \"" + this.Modelo.nmModelo + "\"\nConfirma a grava√ß√£o?", "Aten√ß√£o", MessageBoxButtons.OKCancel, MessageBoxIcon.Exclamation);
                 if (resposta == DialogResult.Cancel)
                     return;
             }
@@ -1054,7 +1054,7 @@ namespace Ipen.CBT.UI
         {
             if (txtNome.Text == this.Modelo.nmModelo)
             {
-                MessageBox.Show("Altere o nome do modelo para criar uma cÛpia dele", "AtenÁ„o", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                MessageBox.Show("Altere o nome do modelo para criar uma c√≥pia dele", "Aten√ß√£o", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 return;
             }
             
@@ -1067,18 +1067,18 @@ namespace Ipen.CBT.UI
         {
             if (txtNome.Text == "")
             {
-                MessageBox.Show("Digite um nome para este modelo.", "AtenÁ„o", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                MessageBox.Show("Digite um nome para este modelo.", "Aten√ß√£o", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 return;
             }
             if (cboTipo.SelectedValue == null)
             {
-                MessageBox.Show("Especifique o tipo de modelo.", "AtenÁ„o", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                MessageBox.Show("Especifique o tipo de modelo.", "Aten√ß√£o", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 return;
             }
 
             if (this.Modelo.Colecao.Caixas.Count < 1)
             {
-                MessageBox.Show("N„o existem compartimentos no seu modelo.", "AtenÁ„o", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                MessageBox.Show("N√£o existem compartimentos no seu modelo.", "Aten√ß√£o", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 return;
             }
             
@@ -1108,10 +1108,10 @@ namespace Ipen.CBT.UI
             this.ResumeLayout();
         }
 
-        private void exibirSetasDeDireÁ„oToolStripMenuItem_Click(object sender, EventArgs e)
+        private void exibirSetasDeDire√ß√£oToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            bool Exibir = !exibirSetasDeDireÁ„oToolStripMenuItem.Checked;
-            exibirSetasDeDireÁ„oToolStripMenuItem.Checked = Exibir;
+            bool Exibir = !exibirSetasDeDire√ß√£oToolStripMenuItem.Checked;
+            exibirSetasDeDire√ß√£oToolStripMenuItem.Checked = Exibir;
             CompartimentalModel.Configuracoes.ExibirSetas = Exibir;
             this.PnlCanvas.Refresh();
             GravarSettings("Setas", Exibir.ToString());
@@ -1142,12 +1142,12 @@ namespace Ipen.CBT.UI
                 }
         }
 
-        private void exibirApenasLigaÁıesDoCompartimentoSelecionadoToolStripMenuItem_Click(object sender, EventArgs e)
+        private void exibirApenasLiga√ß√µesDoCompartimentoSelecionadoToolStripMenuItem_Click(object sender, EventArgs e)
         {
             //MessageBox.Show(this.Size.Height.ToString() + " " + this.Size.Width.ToString());
             
-            bool Exibir = !exibirApenasLigaÁıesDoCompartimentoSelecionadoToolStripMenuItem.Checked;
-            exibirApenasLigaÁıesDoCompartimentoSelecionadoToolStripMenuItem.Checked = Exibir;
+            bool Exibir = !exibirApenasLiga√ß√µesDoCompartimentoSelecionadoToolStripMenuItem.Checked;
+            exibirApenasLiga√ß√µesDoCompartimentoSelecionadoToolStripMenuItem.Checked = Exibir;
             CompartimentalModel.Configuracoes.ExibirTodasLigacoes = Exibir;
             this.PnlCanvas.Refresh();
             GravarSettings("Ligacoes", Exibir.ToString());
@@ -1222,7 +1222,7 @@ namespace Ipen.CBT.UI
 
                 interfaceXML.ImportarXML();
 
-                //Ver coment·rio em mnuArquivoImportar_Click.
+                //Ver coment√°rio em mnuArquivoImportar_Click.
                 this.Modelo = interfaceXML.Modelo;
                 AtualizarTelaDoModelo();
                 this.splitContainer1.Panel1.Enabled = true;

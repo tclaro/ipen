@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Windows.Forms;
@@ -14,7 +14,7 @@ namespace Ipen.CompartimentalModel
         }
         #endregion
 
-        #region Override de métodos na base
+        #region Override de mÃ©todos na base
         public new void Add(Caixas cx)
         {
             base.Add(cx);
@@ -102,7 +102,7 @@ namespace Ipen.CompartimentalModel
         }
         #endregion
 
-        #region Métodos para eventos
+        #region MÃ©todos para eventos
         void cx_Move(object sender, EventArgs e)
         {
             OnBoxMove(sender, e);
@@ -145,7 +145,7 @@ namespace Ipen.CompartimentalModel
         }
         #endregion
 
-        #region Métodos internos
+        #region MÃ©todos internos
         private void Reindex()
         {
             for (int i = 0; i < this.Count; i++)

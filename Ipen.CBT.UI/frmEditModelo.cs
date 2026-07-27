@@ -1,4 +1,4 @@
-using System;
+Ôªøusing System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -34,7 +34,7 @@ namespace Ipen.CBT.UI
         }
         #endregion
 
-        #region MÈtodos dos Compartimentos
+        #region M√©todos dos Compartimentos
 
         private void lstCompartimentos_DoubleClick(object sender, EventArgs e)
         {
@@ -72,7 +72,7 @@ namespace Ipen.CBT.UI
 
             if (NomeComp == "")
             {
-                MessageBox.Show("Informe o nome do compartimento", "AtenÁ„o", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                MessageBox.Show("Informe o nome do compartimento", "Aten√ß√£o", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 txtCompartimento.Focus();
                 return;
             }
@@ -88,7 +88,7 @@ namespace Ipen.CBT.UI
                 {
                     if (!(ModoAlterar && item.Numero == CaixaAlterando.Numero))
                     {
-                        MessageBox.Show("Ja existe um compartimento chamado \"" + NomeComp + "\"", "AtenÁ„o", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                        MessageBox.Show("Ja existe um compartimento chamado \"" + NomeComp + "\"", "Aten√ß√£o", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                         txtCompartimento.Focus();
                         return;
                     }
@@ -137,7 +137,7 @@ namespace Ipen.CBT.UI
             int quantLigacoes = Modelo.Colecao.ContarLigacoesAssociadas(CaixaRemovendo);
             if ( quantLigacoes > 0)
             {
-                DialogResult resposta = MessageBox.Show("Existem " + quantLigacoes.ToString() + " ligaÁıes associadas a este compartimento que tambÈm ser„o removidas\nDeseja continuar?", "AtenÁ„o", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                DialogResult resposta = MessageBox.Show("Existem " + quantLigacoes.ToString() + " liga√ß√µes associadas a este compartimento que tamb√©m ser√£o removidas\nDeseja continuar?", "Aten√ß√£o", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                 if (resposta == DialogResult.No)
                     return;
 
@@ -151,7 +151,7 @@ namespace Ipen.CBT.UI
 
         #endregion
 
-        #region MÈtodos das LigaÁıes
+        #region M√©todos das Liga√ß√µes
         
         private void ConfigurarListView()
         {
@@ -162,10 +162,10 @@ namespace Ipen.CBT.UI
             lvwLigacoes.LabelEdit = false;
             lvwLigacoes.LabelWrap = false;
             lvwLigacoes.Columns.Add("", 0);
-            lvwLigacoes.Columns.Add("Compartimento SaÌda", 185, HorizontalAlignment.Right);
+            lvwLigacoes.Columns.Add("Compartimento Sa√≠da", 185, HorizontalAlignment.Right);
             lvwLigacoes.Columns.Add("", 30, HorizontalAlignment.Center);
             lvwLigacoes.Columns.Add("Compartimento Entrada", 185, HorizontalAlignment.Left);
-            lvwLigacoes.Columns.Add("Valor de TransferÍncia", 150, HorizontalAlignment.Left);
+            lvwLigacoes.Columns.Add("Valor de Transfer√™ncia", 150, HorizontalAlignment.Left);
         }
 
         private void LimparTelaLigacao()
@@ -187,7 +187,7 @@ namespace Ipen.CBT.UI
             float Valor;
             if (!float.TryParse(txtValorAB.Text, out Valor))
             {
-                MessageBox.Show("Valor " + txtValorAB.Text + " Inv·lido", "AtenÁ„o", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                MessageBox.Show("Valor " + txtValorAB.Text + " Inv√°lido", "Aten√ß√£o", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 txtValorAB.Focus();
                 return;
             }
@@ -203,9 +203,9 @@ namespace Ipen.CBT.UI
                     || LinhaExistente.DirecaoDaLinha == Linhas.Direcao.Ambos)
                 {
                     //Alterar?
-                    DialogResult Resposta = MessageBox.Show("J· existe uma ligaÁ„o entre esses compartimentos, deseja alter·-lo?", "AtenÁ„o", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                    DialogResult Resposta = MessageBox.Show("J√° existe uma liga√ß√£o entre esses compartimentos, deseja alter√°-lo?", "Aten√ß√£o", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                     if (Resposta == DialogResult.No)
-                        //N„o Alterar
+                        //N√£o Alterar
                         return; //Fim
                     else
                     {//Sim, alterar!
@@ -312,7 +312,7 @@ namespace Ipen.CBT.UI
             ListView.SelectedListViewItemCollection Items = lvwLigacoes.SelectedItems;
             if (Items == null || Items.Count < 1)
             {
-                MessageBox.Show("Selecione abaixo a ligaÁ„o que deseja remover", "AtenÁ„o", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                MessageBox.Show("Selecione abaixo a liga√ß√£o que deseja remover", "Aten√ß√£o", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 return;
             }
 
@@ -342,21 +342,21 @@ namespace Ipen.CBT.UI
 
             if (cboCompartA.SelectedItem == null || cboCompartB.SelectedItem == null)
             {
-                MessageBox.Show("Selecione dois compartimentos para estabelecer uma ligaÁ„o", "AtenÁ„o", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                MessageBox.Show("Selecione dois compartimentos para estabelecer uma liga√ß√£o", "Aten√ß√£o", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 cboCompartA.Focus();
                 return false;
             }
 
             if (cboCompartA.SelectedItem == cboCompartB.SelectedItem)
             {
-                MessageBox.Show("Selecione compartimentos diferentes para estabelecer uma ligaÁ„o", "AtenÁ„o", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                MessageBox.Show("Selecione compartimentos diferentes para estabelecer uma liga√ß√£o", "Aten√ß√£o", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 cboCompartA.Focus();
                 return false;
             }
 
             if (txtValorAB.Text == "")
             {
-                MessageBox.Show("Informe o valor de transferÍncia para a ligaÁ„o A->B", "AtenÁ„o", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                MessageBox.Show("Informe o valor de transfer√™ncia para a liga√ß√£o A->B", "Aten√ß√£o", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 txtValorAB.Focus();
                 return false;
             }
@@ -384,10 +384,10 @@ namespace Ipen.CBT.UI
 
         #endregion
 
-        #region MÈtodos GenÈricos do Form
+        #region M√©todos Gen√©ricos do Form
 
         /// <summary>
-        /// SÛ È executado se chegou nesse form pelo "Alterar", ent„o o objeto Modelo ja tem coisa l·
+        /// S√≥ √© executado se chegou nesse form pelo "Alterar", ent√£o o objeto Modelo ja tem coisa l√°
         /// </summary>
         private void CarregarTela()
         {
@@ -409,7 +409,7 @@ namespace Ipen.CBT.UI
         private void SincronizarColecoes()
         {
             /* Clona a collection de compartimentos para fazer bind 
-            nas comboboxes de ligacıes */
+            nas comboboxes de ligac√µes */
             colCaixasA.Clear();
             colCaixasB.Clear();
 
@@ -451,8 +451,8 @@ namespace Ipen.CBT.UI
 
         private void btnGamb_Click(object sender, EventArgs e)
         {
-            //O bot„o default est· escondido, e desempenha aÁ„o diferente
-            //de acordo com a tab que est· selecionada
+            //O bot√£o default est√° escondido, e desempenha a√ß√£o diferente
+            //de acordo com a tab que est√° selecionada
             if (tabControlModelo.SelectedTab.Text == "Compartimentos")
                 btnAddComp_Click(sender, e);
             else
@@ -469,7 +469,7 @@ namespace Ipen.CBT.UI
             if (tabControlModelo.SelectedTab.Name == "tabPageCompart")
                 lblContador.Text = "Total: " + Modelo.Colecao.Caixas.Count.ToString() + " compartimentos";
             else
-                lblContador.Text = "Total: " + lvwLigacoes.Items.Count.ToString() + " transferÍncias em " + Modelo.Colecao.Linhas.Count.ToString() + " ligaÁıes";
+                lblContador.Text = "Total: " + lvwLigacoes.Items.Count.ToString() + " transfer√™ncias em " + Modelo.Colecao.Linhas.Count.ToString() + " liga√ß√µes";
         }
 
         private void tabControlModelo_Selected(object sender, TabControlEventArgs e)

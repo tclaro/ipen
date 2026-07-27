@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Windows.Forms;
@@ -34,7 +34,7 @@ namespace Ipen.CBT.UI
          
         #endregion
 
-        #region Propriedades públicas
+        #region Propriedades pÃºblicas
         public Sistema SistemaCompartimental
         {
             get { return _sistemaCompartimental; }
@@ -42,7 +42,7 @@ namespace Ipen.CBT.UI
         }
         #endregion
 
-        #region Métodos públicos
+        #region MÃ©todos pÃºblicos
         public void IncluirCaixa(Caixas cx)
         {
             //_sistemaCompartimental.Caixas.Add(cx);
@@ -81,7 +81,7 @@ namespace Ipen.CBT.UI
         }
         #endregion
 
-        #region Métodos de eventos
+        #region MÃ©todos de eventos
         void _sistemaCompartimental_BoxPropertyChanged(Caixas.BoxEventArgs be)
         {
             this.Refresh();
@@ -104,7 +104,7 @@ namespace Ipen.CBT.UI
             Caixas cx = (Caixas)sender;
             if (e.KeyCode == Keys.Delete)
             {
-                DialogResult dlgResposta = MessageBox.Show(string.Format("Tem certeza que deseja excluir o compartimento {0} ({1}) e todas as suas ligações?", cx.Numero, cx.Nome), "Exclusão de compartimento", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2);
+                DialogResult dlgResposta = MessageBox.Show(string.Format("Tem certeza que deseja excluir o compartimento {0} ({1}) e todas as suas ligaÃ§Ãµes?", cx.Numero, cx.Nome), "ExclusÃ£o de compartimento", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2);
                 if (dlgResposta == DialogResult.Yes)
                     _sistemaCompartimental.Caixas.Remove(cx);
             }
@@ -142,7 +142,7 @@ namespace Ipen.CBT.UI
         }
         #endregion
 
-        #region Métodos internos
+        #region MÃ©todos internos
         public void VerificarCaixasSobrepostas(Caixas cx)
         {
             while (ObterCaixaPorClique(cx.PontosExtremos, cx) != null)
@@ -183,7 +183,7 @@ namespace Ipen.CBT.UI
         {
             //this.SuspendLayout();
             
-            #region Configurar gráficos
+            #region Configurar grÃ¡ficos
 
             e.Graphics.CompositingQuality = CompositingQuality.HighSpeed;
             e.Graphics.InterpolationMode = InterpolationMode.Default;
@@ -224,7 +224,7 @@ namespace Ipen.CBT.UI
                     //Tentativa com curve no lugar de line
                    //e.Graphics.DrawCurve(new Pen(ln.ForeColor, EspessuraDaLinha), new Point[2]{ln.PontoInicio, ln.PontoFim},0 );
 
-                    //Rótulo da Linha
+                    //RÃ³tulo da Linha
                     if (Configuracoes.ExibirRotulos)
                     {
                         if (ln.DirecaoDaLinha != Linhas.Direcao.Ambos)

@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Windows.Forms;
@@ -98,7 +98,7 @@ namespace Ipen.CompartimentalModel
         }
         #endregion
 
-        #region Métodos de eventos
+        #region MÃ©todos de eventos
         void _caixas_BoxPropertyChanged(Caixas.BoxEventArgs be)
         {
             OnBoxPropertyChanged(be);
@@ -155,7 +155,7 @@ namespace Ipen.CompartimentalModel
         }
         #endregion
 
-        #region Métodos
+        #region MÃ©todos
 
         public Linhas ObterLinhaPorCaixas(Caixas cx1, Caixas cx2)
         {

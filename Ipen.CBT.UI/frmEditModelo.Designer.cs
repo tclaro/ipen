@@ -1,4 +1,4 @@
-namespace Ipen.CBT.UI
+ï»¿namespace Ipen.CBT.UI
 {
     partial class frmEditModelo
     {
@@ -118,7 +118,7 @@ namespace Ipen.CBT.UI
             this.lblFracao.Name = "lblFracao";
             this.lblFracao.Size = new System.Drawing.Size(43, 13);
             this.lblFracao.TabIndex = 14;
-            this.lblFracao.Text = "&Fração:";
+            this.lblFracao.Text = "&FraÃ§Ã£o:";
             // 
             // txtFracao
             // 
@@ -138,7 +138,7 @@ namespace Ipen.CBT.UI
             this.chkIncorporacao.Name = "chkIncorporacao";
             this.chkIncorporacao.Size = new System.Drawing.Size(89, 17);
             this.chkIncorporacao.TabIndex = 12;
-            this.chkIncorporacao.Text = "&Incorporação";
+            this.chkIncorporacao.Text = "&IncorporaÃ§Ã£o";
             this.chkIncorporacao.UseVisualStyleBackColor = true;
             this.chkIncorporacao.CheckedChanged += new System.EventHandler(this.chkIncorporacao_CheckedChanged);
             // 
@@ -202,7 +202,7 @@ namespace Ipen.CBT.UI
             this.chkEliminacao.Name = "chkEliminacao";
             this.chkEliminacao.Size = new System.Drawing.Size(77, 17);
             this.chkEliminacao.TabIndex = 5;
-            this.chkEliminacao.Text = "&Eliminação";
+            this.chkEliminacao.Text = "&EliminaÃ§Ã£o";
             this.chkEliminacao.UseVisualStyleBackColor = true;
             // 
             // btnCorComp
@@ -268,7 +268,7 @@ namespace Ipen.CBT.UI
             this.tabPageLigacoes.Padding = new System.Windows.Forms.Padding(3);
             this.tabPageLigacoes.Size = new System.Drawing.Size(600, 268);
             this.tabPageLigacoes.TabIndex = 1;
-            this.tabPageLigacoes.Text = "Ligações";
+            this.tabPageLigacoes.Text = "LigaÃ§Ãµes";
             this.tabPageLigacoes.UseVisualStyleBackColor = true;
             // 
             // lblValor
@@ -348,7 +348,7 @@ namespace Ipen.CBT.UI
             this.lvwLigacoes.Name = "lvwLigacoes";
             this.lvwLigacoes.Size = new System.Drawing.Size(574, 145);
             this.lvwLigacoes.TabIndex = 11;
-            this.toolTipComp.SetToolTip(this.lvwLigacoes, "Duplo Clique para alterar uma ligação");
+            this.toolTipComp.SetToolTip(this.lvwLigacoes, "Duplo Clique para alterar uma ligaÃ§Ã£o");
             this.lvwLigacoes.UseCompatibleStateImageBehavior = false;
             this.lvwLigacoes.DoubleClick += new System.EventHandler(this.lvwLigacoes_DoubleClick);
             // 
@@ -424,7 +424,7 @@ namespace Ipen.CBT.UI
             this.lblDescricao.Name = "lblDescricao";
             this.lblDescricao.Size = new System.Drawing.Size(58, 13);
             this.lblDescricao.TabIndex = 2;
-            this.lblDescricao.Text = "Descrição:";
+            this.lblDescricao.Text = "DescriÃ§Ã£o:";
             // 
             // btnGamb
             // 
@@ -474,7 +474,7 @@ namespace Ipen.CBT.UI
             this.Controls.Add(this.btnGamb);
             this.MinimumSize = new System.Drawing.Size(640, 398);
             this.Name = "frmEditModelo";
-            this.Text = "Edição Modelos";
+            this.Text = "EdiÃ§Ã£o Modelos";
             this.Load += new System.EventHandler(this.frmEditModelo_Load);
             this.tabControlModelo.ResumeLayout(false);
             this.tabPageCompart.ResumeLayout(false);

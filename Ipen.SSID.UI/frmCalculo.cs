@@ -1,4 +1,4 @@
-using System;
+Ôªøusing System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -54,7 +54,7 @@ namespace Ipen.SSID.UI
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Erro de convers„o\n" + ex.Message, "Stupid Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Erro de convers√£o\n" + ex.Message, "Stupid Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
@@ -77,9 +77,9 @@ namespace Ipen.SSID.UI
             PreencherMatrizR();
             Init();
 
-            //Valor do passo anterior de CADA compartimento de eliminaÁ„o.
-            //Precisa ser por compartimento: com uma ˙nica vari·vel, um modelo
-            //com mais de uma via de excreÁ„o subtrai o valor do compartimento errado.
+            //Valor do passo anterior de CADA compartimento de elimina√ß√£o.
+            //Precisa ser por compartimento: com uma √∫nica vari√°vel, um modelo
+            //com mais de uma via de excre√ß√£o subtrai o valor do compartimento errado.
             double[] QuantAnt = new double[n];
 
             StringBuilder str = new StringBuilder();
@@ -190,9 +190,9 @@ namespace Ipen.SSID.UI
             myPane.CurveList.Clear();
 
             // Set the titles and axis labels
-            myPane.Title.Text = "An·lise Compartimental - " + ModeloAberto.nmModelo;
+            myPane.Title.Text = "An√°lise Compartimental - " + ModeloAberto.nmModelo;
             myPane.XAxis.Title.Text = "Tempo (dias)";
-            myPane.YAxis.Title.Text = "Quantidade (FraÁ„o da IncorporaÁ„o)";
+            myPane.YAxis.Title.Text = "Quantidade (Fra√ß√£o da Incorpora√ß√£o)";
 
             int Limite;
             if (ZeroBased)
@@ -440,7 +440,7 @@ namespace Ipen.SSID.UI
 
         public void PreencherMatrizR()
         {
-            int Tamanho = ModeloAberto.Colecao.Caixas.Count + 1;  //+ 1 pq o elemento zero nao È utilizado
+            int Tamanho = ModeloAberto.Colecao.Caixas.Count + 1;  //+ 1 pq o elemento zero nao √© utilizado
 
             n = Tamanho;
             R = new double[n, n];
@@ -475,8 +475,8 @@ namespace Ipen.SSID.UI
             int Tamanho = ModeloAberto.Colecao.Caixas.Count;
             R = new double[Tamanho, Tamanho];
 
-            //Sem isto a lista acumula os compartimentos de todas as execuÁıes
-            //anteriores, e o gr·fico passa a associar curvas ao compartimento errado.
+            //Sem isto a lista acumula os compartimentos de todas as execu√ß√µes
+            //anteriores, e o gr√°fico passa a associar curvas ao compartimento errado.
             TodosCompartimentos.Clear();
 
             int contador = 0;
@@ -522,11 +522,11 @@ namespace Ipen.SSID.UI
         /*
         public void LerDataSet(DataSet ds)
         {
-            int Tamanho = ds.Tables["TableCaixas"].Rows.Count + 1;  //+ 1 pq o elemento zero nao È utilizado
+            int Tamanho = ds.Tables["TableCaixas"].Rows.Count + 1;  //+ 1 pq o elemento zero nao √© utilizado
 
             n = Tamanho;
             R = new double[n, n];
-            R[1, 1] = 1; //Plasma È o 4
+            R[1, 1] = 1; //Plasma √© o 4
 
             ModeloCompartimental.Clear();
             int Contador = 1;
@@ -639,7 +639,7 @@ namespace Ipen.SSID.UI
             double Final = 0, Passo = 0;
             double Inicio = 0;
             double MeiaVida = 0;
-            //Um acumulador por compartimento de eliminaÁ„o (ver coment·rio em btnCalcular_Click).
+            //Um acumulador por compartimento de elimina√ß√£o (ver coment√°rio em btnCalcular_Click).
             double[] QuantAnt = new double[ModeloAberto.Colecao.Caixas.Count];
             int QuantFuncoes = 0;
             try
@@ -650,7 +650,7 @@ namespace Ipen.SSID.UI
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Erro de convers„o\n" + ex.Message, "Stupid Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Erro de convers√£o\n" + ex.Message, "Stupid Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
@@ -801,11 +801,11 @@ namespace Ipen.SSID.UI
         }
 
         /// <summary>
-        /// Percorre a matriz R preenchida com os lambdas, e monta o sistemas de equaÁıes ydot
+        /// Percorre a matriz R preenchida com os lambdas, e monta o sistemas de equa√ß√µes ydot
         /// </summary>
         /// <param name="T"></param>
         /// <param name="Y"></param>
-        /// <returns>Retorna o sistema de equaÁıes diferenciais yDot que ser· enviado ao mÈtodo numÈrico selecionado</returns>
+        /// <returns>Retorna o sistema de equa√ß√µes diferenciais yDot que ser√° enviado ao m√©todo num√©rico selecionado</returns>
         private double[] MontarEquacao(double T, double[] Y)
         {
             int Tamanho = R.GetLength(0);
@@ -874,8 +874,8 @@ namespace Ipen.SSID.UI
         private void btnSalvarHTML_Click(object sender, EventArgs e)
         {
             SaveFileDialog saveFileDialog1 = new SaveFileDialog();
-            saveFileDialog1.Filter = "P·gina da Web somente HTML|*.html;*.htm";
-            saveFileDialog1.Title = "Salvar RelatÛrio";
+            saveFileDialog1.Filter = "P√°gina da Web somente HTML|*.html;*.htm";
+            saveFileDialog1.Title = "Salvar Relat√≥rio";
             saveFileDialog1.ShowDialog();
 
             if (saveFileDialog1.FileName != "")

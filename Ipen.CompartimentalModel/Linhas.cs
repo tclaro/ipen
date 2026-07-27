@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
@@ -55,7 +55,7 @@ namespace Ipen.CompartimentalModel
         }
 		#endregion
 
-		#region Métodos públicos
+		#region MÃ©todos pÃºblicos
 		public bool PontoNessaLinha(System.Drawing.Point pto)
 		{
 			float m = this.CoeficienteAngular;

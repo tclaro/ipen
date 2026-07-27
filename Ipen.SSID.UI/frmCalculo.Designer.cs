@@ -1,4 +1,4 @@
-namespace Ipen.SSID.UI
+ï»¿namespace Ipen.SSID.UI
 {
     partial class frmCalculo
     {
@@ -40,9 +40,9 @@ namespace Ipen.SSID.UI
             this.modelosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.carregarXMLToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.carregarMDBToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.configuraçõesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.configuraÃ§ÃµesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuGraficoSeparado = new System.Windows.Forms.ToolStripMenuItem();
-            this.métodoDeSoluçãoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.mÃ©todoDeSoluÃ§Ã£oToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuBirchall = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuRungeKutta5 = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuRungeKutta45 = new System.Windows.Forms.ToolStripMenuItem();
@@ -135,7 +135,7 @@ namespace Ipen.SSID.UI
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.modelosToolStripMenuItem,
-            this.configuraçõesToolStripMenuItem,
+            this.configuraÃ§ÃµesToolStripMenuItem,
             this.sairToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
@@ -166,32 +166,32 @@ namespace Ipen.SSID.UI
             this.carregarMDBToolStripMenuItem.Text = "Carregar MDB...";
             this.carregarMDBToolStripMenuItem.Click += new System.EventHandler(this.carregarMDBToolStripMenuItem_Click);
             // 
-            // configuraçõesToolStripMenuItem
+            // configuraÃ§ÃµesToolStripMenuItem
             // 
-            this.configuraçõesToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.configuraÃ§ÃµesToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.mnuGraficoSeparado,
-            this.métodoDeSoluçãoToolStripMenuItem});
-            this.configuraçõesToolStripMenuItem.Name = "configuraçõesToolStripMenuItem";
-            this.configuraçõesToolStripMenuItem.Size = new System.Drawing.Size(88, 20);
-            this.configuraçõesToolStripMenuItem.Text = "Configurações";
+            this.mÃ©todoDeSoluÃ§Ã£oToolStripMenuItem});
+            this.configuraÃ§ÃµesToolStripMenuItem.Name = "configuraÃ§ÃµesToolStripMenuItem";
+            this.configuraÃ§ÃµesToolStripMenuItem.Size = new System.Drawing.Size(88, 20);
+            this.configuraÃ§ÃµesToolStripMenuItem.Text = "ConfiguraÃ§Ãµes";
             // 
             // mnuGraficoSeparado
             // 
             this.mnuGraficoSeparado.Name = "mnuGraficoSeparado";
             this.mnuGraficoSeparado.Size = new System.Drawing.Size(245, 22);
-            this.mnuGraficoSeparado.Text = "Gerar gráfico em janela separada";
+            this.mnuGraficoSeparado.Text = "Gerar grÃ¡fico em janela separada";
             this.mnuGraficoSeparado.Click += new System.EventHandler(this.mnuGraficoSeparado_Click);
             // 
-            // métodoDeSoluçãoToolStripMenuItem
+            // mÃ©todoDeSoluÃ§Ã£oToolStripMenuItem
             // 
-            this.métodoDeSoluçãoToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mÃ©todoDeSoluÃ§Ã£oToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.mnuBirchall,
             this.mnuRungeKutta5,
             this.mnuRungeKutta45,
             this.mnuAdamsMoulton});
-            this.métodoDeSoluçãoToolStripMenuItem.Name = "métodoDeSoluçãoToolStripMenuItem";
-            this.métodoDeSoluçãoToolStripMenuItem.Size = new System.Drawing.Size(245, 22);
-            this.métodoDeSoluçãoToolStripMenuItem.Text = "Método de Solução";
+            this.mÃ©todoDeSoluÃ§Ã£oToolStripMenuItem.Name = "mÃ©todoDeSoluÃ§Ã£oToolStripMenuItem";
+            this.mÃ©todoDeSoluÃ§Ã£oToolStripMenuItem.Size = new System.Drawing.Size(245, 22);
+            this.mÃ©todoDeSoluÃ§Ã£oToolStripMenuItem.Text = "MÃ©todo de SoluÃ§Ã£o";
             // 
             // mnuBirchall
             // 
@@ -280,7 +280,7 @@ namespace Ipen.SSID.UI
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage1.Size = new System.Drawing.Size(730, 326);
             this.tabPage1.TabIndex = 0;
-            this.tabPage1.Text = "Relatório";
+            this.tabPage1.Text = "RelatÃ³rio";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
             // btnSalvarHTML
@@ -314,7 +314,7 @@ namespace Ipen.SSID.UI
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage2.Size = new System.Drawing.Size(730, 326);
             this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "Gráfico";
+            this.tabPage2.Text = "GrÃ¡fico";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
             // zg1
@@ -353,7 +353,7 @@ namespace Ipen.SSID.UI
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(111, 13);
             this.label4.TabIndex = 25;
-            this.label4.Text = "Método Selecionado: ";
+            this.label4.Text = "MÃ©todo Selecionado: ";
             // 
             // label5
             // 
@@ -447,11 +447,11 @@ namespace Ipen.SSID.UI
         private System.Windows.Forms.WebBrowser Browser;
         private System.Windows.Forms.TabPage tabPage2;
         private ZedGraph.ZedGraphControl zg1;
-        private System.Windows.Forms.ToolStripMenuItem configuraçõesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem configuraÃ§ÃµesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem mnuGraficoSeparado;
         private System.Windows.Forms.Button btnSalvarHTML;
         private System.Windows.Forms.ToolTip toolTip1;
-        private System.Windows.Forms.ToolStripMenuItem métodoDeSoluçãoToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem mÃ©todoDeSoluÃ§Ã£oToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem mnuBirchall;
         private System.Windows.Forms.ToolStripMenuItem mnuRungeKutta5;
         private System.Windows.Forms.ToolStripMenuItem mnuRungeKutta45;

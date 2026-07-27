@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
@@ -29,7 +29,7 @@ namespace Ipen.CompartimentalModel
 		#endregion
 
 		#region Construtor
-        public Caixas() : this(0, "[Sem Título]", new Point(0,0), CorPadrao, false, false, false, 0) { }
+        public Caixas() : this(0, "[Sem TÃ­tulo]", new Point(0,0), CorPadrao, false, false, false, 0) { }
         public Caixas(string Texto, System.Drawing.Color Cor, bool Acompanhar, bool Eliminacao) : this(0, Texto, new Point(0, 0), Cor, Acompanhar, Eliminacao, false, 0) { }
         public Caixas(string Texto, System.Drawing.Color Cor, bool Acompanhar, bool Eliminacao, bool Incorporacao, double Fracao) : this(0, Texto, new Point(0, 0), Cor, Acompanhar, Eliminacao, Incorporacao, Fracao) { }
         public Caixas(int Numero, string Texto, System.Drawing.Point Posicao, System.Drawing.Color Cor) : this(Numero, Texto, new Point(0, 0), Cor, false, false, false, 0) { }
@@ -57,7 +57,7 @@ namespace Ipen.CompartimentalModel
         }
         #endregion
 
-        #region Propriedades públicas
+        #region Propriedades pÃºblicas
 
         #region Override na base
         [DefaultValue(typeof(Size), "60,35")]
@@ -266,7 +266,7 @@ namespace Ipen.CompartimentalModel
         }
         #endregion
 
-        #region Override de métodos de eventos
+        #region Override de mÃ©todos de eventos
         protected override void OnMouseDown(MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
@@ -329,7 +329,7 @@ namespace Ipen.CompartimentalModel
                 Graphics g = Graphics.FromImage(BackBuffer);
                 g.Clear((this.Parent == null) ? Color.Transparent : this.Parent.BackColor);
 
-                #region Cria e configura o gráfico e as variáveis
+                #region Cria e configura o grÃ¡fico e as variÃ¡veis
                 g.CompositingQuality = CompositingQuality.HighQuality;
                 g.InterpolationMode = InterpolationMode.HighQualityBicubic;
                 g.SmoothingMode = SmoothingMode.AntiAlias;
@@ -339,7 +339,7 @@ namespace Ipen.CompartimentalModel
                 Color gradientBottom = DrawingUtils.ColorFromAhsb(255, this.BackColor.GetHue(), this.BackColor.GetSaturation() * 1.2F, this.BackColor.GetBrightness() * 1.2F);
                 #endregion
 
-                #region Retângulo arredondado externo em Gradiente
+                #region RetÃ¢ngulo arredondado externo em Gradiente
                 Rectangle outerRect = new Rectangle(0, 0, this.Width - 1, this.Height - 1);
                 
                 using (GraphicsPath outerPath = DrawingUtils.RoundedRectangle(outerRect, 5, 0))
@@ -371,7 +371,7 @@ namespace Ipen.CompartimentalModel
                 #region Texto
                 Font MinhaFonte = this.Font;
 
-                //Caixas de incorporação aparecem sublinhadas
+                //Caixas de incorporaÃ§Ã£o aparecem sublinhadas
                 if (this.Incorporacao)
                     MinhaFonte = new Font(this.Font, FontStyle.Underline);
                 
@@ -405,7 +405,7 @@ namespace Ipen.CompartimentalModel
         }
         #endregion
 
-        #region Métodos públicos
+        #region MÃ©todos pÃºblicos
         public bool PontoNessaCaixa(System.Drawing.Point pto)
         {
             if (pto.X >= this.Left && pto.X <= (this.Left + this.Width) &&
@@ -424,7 +424,7 @@ namespace Ipen.CompartimentalModel
         }
         #endregion
 
-        #region Métodos internos
+        #region MÃ©todos internos
         private void VerificarTamanho()
         {
             if (this.Width < System.Windows.Forms.TextRenderer.MeasureText(this._Nome, this.Font).Width + 10)

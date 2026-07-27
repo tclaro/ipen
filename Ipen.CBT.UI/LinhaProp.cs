@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Drawing;
 using System.Collections;
 using System.ComponentModel;
@@ -181,7 +181,7 @@ namespace Ipen.CBT.UI
             this.lblDirecao.Name = "lblDirecao";
             this.lblDirecao.Size = new System.Drawing.Size(89, 13);
             this.lblDirecao.TabIndex = 8;
-            this.lblDirecao.Text = "Direção do fluxo:";
+            this.lblDirecao.Text = "DireÃ§Ã£o do fluxo:";
             // 
             // lblCaixaInicio
             // 
@@ -283,7 +283,7 @@ namespace Ipen.CBT.UI
 		#endregion
 		#endregion
 
-        #region Métodos
+        #region MÃ©todos
         private Linhas.Direcao DirecaoDeString(string Seta)
         {
             switch (Seta)
@@ -303,7 +303,7 @@ namespace Ipen.CBT.UI
         }
         #endregion
 
-        #region Métodos de Eventos
+        #region MÃ©todos de Eventos
         private void btnCor_Click(object sender, System.EventArgs e)
 		{
 			this.dlgCor.Color = this.btnCor.BackColor;
@@ -352,7 +352,7 @@ namespace Ipen.CBT.UI
 				if (this.txtNome.Text.Trim().Length > 0)
 					return this.txtNome.Text.Trim();
 				else
-					return "[Sem título]";
+					return "[Sem tÃ­tulo]";
 			}
 		}
 		public System.Drawing.Color CorDaLinha

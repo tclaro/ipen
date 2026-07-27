@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -35,11 +35,11 @@ namespace Ipen.CBT.UI
             DataTable dt = DataBD.SelecionarModelos();
             dgvModelos.DataSource = null;
             dgvModelos.DataSource = dt;
-            dgvModelos.Columns["idModelo"].HeaderText = "Código";
+            dgvModelos.Columns["idModelo"].HeaderText = "CÃ³digo";
             dgvModelos.Columns["idModelo"].Width = 50;
             dgvModelos.Columns["nmModelo"].HeaderText = "Nome";
-            dgvModelos.Columns["dtAlteracao"].HeaderText = "Última Alteração";
-            dgvModelos.Columns["Descricao"].HeaderText = "Descrição";
+            dgvModelos.Columns["dtAlteracao"].HeaderText = "Ãšltima AlteraÃ§Ã£o";
+            dgvModelos.Columns["Descricao"].HeaderText = "DescriÃ§Ã£o";
             dgvModelos.Columns["nmTipoModelo"].HeaderText = "Tipo";
             dgvModelos.Columns["meiaVida"].HeaderText = "Meia Vida";
             dgvModelos.Columns["meiaVida"].Width = 90;
@@ -47,7 +47,7 @@ namespace Ipen.CBT.UI
 
         private void btnAlterar_Click(object sender, EventArgs e)
         {
-            //Pega o código da linha selecionada
+            //Pega o cÃ³digo da linha selecionada
             _idModelo = (int)dgvModelos.CurrentRow.Cells["idModelo"].Value;
             this.DialogResult = DialogResult.Yes;
             this.Close();
@@ -60,11 +60,11 @@ namespace Ipen.CBT.UI
 
         private void btnExcluir_Click(object sender, EventArgs e)
         {
-            //Pega o código da linha selecionada
+            //Pega o cÃ³digo da linha selecionada
             int idModelo = (int)dgvModelos.CurrentRow.Cells["idModelo"].Value;
             string nmModelo = dgvModelos.CurrentRow.Cells["nmModelo"].Value.ToString();
 
-            DialogResult Resposta = MessageBox.Show("Tem certeza que deseja excluir o modelo " + nmModelo + "?\nEsta operação não poderá ser desfeita", "Atenção", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            DialogResult Resposta = MessageBox.Show("Tem certeza que deseja excluir o modelo " + nmModelo + "?\nEsta operaÃ§Ã£o nÃ£o poderÃ¡ ser desfeita", "AtenÃ§Ã£o", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (Resposta == DialogResult.No)
                 return;
 

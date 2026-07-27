@@ -1,4 +1,4 @@
-using System.Windows.Forms;
+ï»¿using System.Windows.Forms;
 namespace Ipen.CBT.UI
 {
     partial class frmPrincipal
@@ -56,9 +56,9 @@ namespace Ipen.CBT.UI
             this.mnuFerramentas = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuFerramentasPersonalizar = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuFerramentasOpcoes = new System.Windows.Forms.ToolStripMenuItem();
-            this.exibirRótuloDeTransferênciasToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.exibirSetasDeDireçãoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.exibirApenasLigaçõesDoCompartimentoSelecionadoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.exibirRÃ³tuloDeTransferÃªnciasToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.exibirSetasDeDireÃ§Ã£oToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.exibirApenasLigaÃ§ÃµesDoCompartimentoSelecionadoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.configurarBancoDeDadosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.cadastrarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.modelosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -217,7 +217,7 @@ namespace Ipen.CBT.UI
             this.mnuArquivoVisualizarImpressao.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.mnuArquivoVisualizarImpressao.Name = "mnuArquivoVisualizarImpressao";
             this.mnuArquivoVisualizarImpressao.Size = new System.Drawing.Size(180, 22);
-            this.mnuArquivoVisualizarImpressao.Text = "Visuali&zar impressão";
+            this.mnuArquivoVisualizarImpressao.Text = "Visuali&zar impressÃ£o";
             this.mnuArquivoVisualizarImpressao.Click += new System.EventHandler(this.mnuArquivoVisualizarImpressao_Click);
             // 
             // mnuArquivoImprimir
@@ -332,38 +332,38 @@ namespace Ipen.CBT.UI
             // mnuFerramentasOpcoes
             // 
             this.mnuFerramentasOpcoes.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.exibirRótuloDeTransferênciasToolStripMenuItem,
-            this.exibirSetasDeDireçãoToolStripMenuItem,
-            this.exibirApenasLigaçõesDoCompartimentoSelecionadoToolStripMenuItem});
+            this.exibirRÃ³tuloDeTransferÃªnciasToolStripMenuItem,
+            this.exibirSetasDeDireÃ§Ã£oToolStripMenuItem,
+            this.exibirApenasLigaÃ§ÃµesDoCompartimentoSelecionadoToolStripMenuItem});
             this.mnuFerramentasOpcoes.Name = "mnuFerramentasOpcoes";
             this.mnuFerramentasOpcoes.Size = new System.Drawing.Size(228, 22);
-            this.mnuFerramentasOpcoes.Text = "&Opções";
+            this.mnuFerramentasOpcoes.Text = "&OpÃ§Ãµes";
             this.mnuFerramentasOpcoes.Click += new System.EventHandler(this.mnuFerramentasOpcoes_Click);
             // 
-            // exibirRótuloDeTransferênciasToolStripMenuItem
+            // exibirRÃ³tuloDeTransferÃªnciasToolStripMenuItem
             // 
-            this.exibirRótuloDeTransferênciasToolStripMenuItem.Checked = true;
-            this.exibirRótuloDeTransferênciasToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.exibirRótuloDeTransferênciasToolStripMenuItem.Name = "exibirRótuloDeTransferênciasToolStripMenuItem";
-            this.exibirRótuloDeTransferênciasToolStripMenuItem.Size = new System.Drawing.Size(345, 22);
-            this.exibirRótuloDeTransferênciasToolStripMenuItem.Text = "Exibir Rótulo de Transferências";
-            this.exibirRótuloDeTransferênciasToolStripMenuItem.Click += new System.EventHandler(this.exibirRótuloDeTransferênciasToolStripMenuItem_Click);
+            this.exibirRÃ³tuloDeTransferÃªnciasToolStripMenuItem.Checked = true;
+            this.exibirRÃ³tuloDeTransferÃªnciasToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.exibirRÃ³tuloDeTransferÃªnciasToolStripMenuItem.Name = "exibirRÃ³tuloDeTransferÃªnciasToolStripMenuItem";
+            this.exibirRÃ³tuloDeTransferÃªnciasToolStripMenuItem.Size = new System.Drawing.Size(345, 22);
+            this.exibirRÃ³tuloDeTransferÃªnciasToolStripMenuItem.Text = "Exibir RÃ³tulo de TransferÃªncias";
+            this.exibirRÃ³tuloDeTransferÃªnciasToolStripMenuItem.Click += new System.EventHandler(this.exibirRÃ³tuloDeTransferÃªnciasToolStripMenuItem_Click);
             // 
-            // exibirSetasDeDireçãoToolStripMenuItem
+            // exibirSetasDeDireÃ§Ã£oToolStripMenuItem
             // 
-            this.exibirSetasDeDireçãoToolStripMenuItem.Checked = true;
-            this.exibirSetasDeDireçãoToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.exibirSetasDeDireçãoToolStripMenuItem.Name = "exibirSetasDeDireçãoToolStripMenuItem";
-            this.exibirSetasDeDireçãoToolStripMenuItem.Size = new System.Drawing.Size(345, 22);
-            this.exibirSetasDeDireçãoToolStripMenuItem.Text = "Exibir Setas de Direção";
-            this.exibirSetasDeDireçãoToolStripMenuItem.Click += new System.EventHandler(this.exibirSetasDeDireçãoToolStripMenuItem_Click);
+            this.exibirSetasDeDireÃ§Ã£oToolStripMenuItem.Checked = true;
+            this.exibirSetasDeDireÃ§Ã£oToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.exibirSetasDeDireÃ§Ã£oToolStripMenuItem.Name = "exibirSetasDeDireÃ§Ã£oToolStripMenuItem";
+            this.exibirSetasDeDireÃ§Ã£oToolStripMenuItem.Size = new System.Drawing.Size(345, 22);
+            this.exibirSetasDeDireÃ§Ã£oToolStripMenuItem.Text = "Exibir Setas de DireÃ§Ã£o";
+            this.exibirSetasDeDireÃ§Ã£oToolStripMenuItem.Click += new System.EventHandler(this.exibirSetasDeDireÃ§Ã£oToolStripMenuItem_Click);
             // 
-            // exibirApenasLigaçõesDoCompartimentoSelecionadoToolStripMenuItem
+            // exibirApenasLigaÃ§ÃµesDoCompartimentoSelecionadoToolStripMenuItem
             // 
-            this.exibirApenasLigaçõesDoCompartimentoSelecionadoToolStripMenuItem.Name = "exibirApenasLigaçõesDoCompartimentoSelecionadoToolStripMenuItem";
-            this.exibirApenasLigaçõesDoCompartimentoSelecionadoToolStripMenuItem.Size = new System.Drawing.Size(345, 22);
-            this.exibirApenasLigaçõesDoCompartimentoSelecionadoToolStripMenuItem.Text = "Exibir Apenas Ligações do Compartimento Selecionado";
-            this.exibirApenasLigaçõesDoCompartimentoSelecionadoToolStripMenuItem.Click += new System.EventHandler(this.exibirApenasLigaçõesDoCompartimentoSelecionadoToolStripMenuItem_Click);
+            this.exibirApenasLigaÃ§ÃµesDoCompartimentoSelecionadoToolStripMenuItem.Name = "exibirApenasLigaÃ§ÃµesDoCompartimentoSelecionadoToolStripMenuItem";
+            this.exibirApenasLigaÃ§ÃµesDoCompartimentoSelecionadoToolStripMenuItem.Size = new System.Drawing.Size(345, 22);
+            this.exibirApenasLigaÃ§ÃµesDoCompartimentoSelecionadoToolStripMenuItem.Text = "Exibir Apenas LigaÃ§Ãµes do Compartimento Selecionado";
+            this.exibirApenasLigaÃ§ÃµesDoCompartimentoSelecionadoToolStripMenuItem.Click += new System.EventHandler(this.exibirApenasLigaÃ§ÃµesDoCompartimentoSelecionadoToolStripMenuItem_Click);
             // 
             // configurarBancoDeDadosToolStripMenuItem
             // 
@@ -481,7 +481,7 @@ namespace Ipen.CBT.UI
             this.lblDescricao.Name = "lblDescricao";
             this.lblDescricao.Size = new System.Drawing.Size(58, 13);
             this.lblDescricao.TabIndex = 41;
-            this.lblDescricao.Text = "Descrição:";
+            this.lblDescricao.Text = "DescriÃ§Ã£o:";
             // 
             // lblNome
             // 
@@ -544,7 +544,7 @@ namespace Ipen.CBT.UI
             this.lblFracao.Name = "lblFracao";
             this.lblFracao.Size = new System.Drawing.Size(43, 13);
             this.lblFracao.TabIndex = 42;
-            this.lblFracao.Text = "&Fração:";
+            this.lblFracao.Text = "&FraÃ§Ã£o:";
             // 
             // txtFracao
             // 
@@ -564,7 +564,7 @@ namespace Ipen.CBT.UI
             this.chkIncorporacao.Name = "chkIncorporacao";
             this.chkIncorporacao.Size = new System.Drawing.Size(89, 17);
             this.chkIncorporacao.TabIndex = 40;
-            this.chkIncorporacao.Text = "&Incorporação";
+            this.chkIncorporacao.Text = "&IncorporaÃ§Ã£o";
             this.chkIncorporacao.UseVisualStyleBackColor = true;
             this.chkIncorporacao.CheckedChanged += new System.EventHandler(this.chkIncorporacao_CheckedChanged);
             // 
@@ -627,7 +627,7 @@ namespace Ipen.CBT.UI
             this.chkEliminacao.Name = "chkEliminacao";
             this.chkEliminacao.Size = new System.Drawing.Size(77, 17);
             this.chkEliminacao.TabIndex = 34;
-            this.chkEliminacao.Text = "&Eliminação";
+            this.chkEliminacao.Text = "&EliminaÃ§Ã£o";
             this.chkEliminacao.UseVisualStyleBackColor = true;
             // 
             // btnCorComp
@@ -692,7 +692,7 @@ namespace Ipen.CBT.UI
             this.tabPageLigacoes.Padding = new System.Windows.Forms.Padding(3);
             this.tabPageLigacoes.Size = new System.Drawing.Size(839, 113);
             this.tabPageLigacoes.TabIndex = 1;
-            this.tabPageLigacoes.Text = "Ligações";
+            this.tabPageLigacoes.Text = "LigaÃ§Ãµes";
             this.tabPageLigacoes.UseVisualStyleBackColor = true;
             // 
             // pictureBox1
@@ -872,7 +872,7 @@ namespace Ipen.CBT.UI
         private System.Windows.Forms.ToolStripMenuItem modelosToolStripMenuItem;
         private Panel panel1;
         private ToolStripMenuItem configurarBancoDeDadosToolStripMenuItem;
-        private ToolStripMenuItem exibirRótuloDeTransferênciasToolStripMenuItem;
+        private ToolStripMenuItem exibirRÃ³tuloDeTransferÃªnciasToolStripMenuItem;
         private ToolStripMenuItem modelosGraficamenteToolStripMenuItem;
         private SplitContainer splitContainer1;
         private ComboBox cboTipo;
@@ -910,8 +910,8 @@ namespace Ipen.CBT.UI
         private ComboBox cboCompartB;
         private ComboBox cboCompartA;
         private Button btnGamb;
-        private ToolStripMenuItem exibirSetasDeDireçãoToolStripMenuItem;
-        private ToolStripMenuItem exibirApenasLigaçõesDoCompartimentoSelecionadoToolStripMenuItem;
+        private ToolStripMenuItem exibirSetasDeDireÃ§Ã£oToolStripMenuItem;
+        private ToolStripMenuItem exibirApenasLigaÃ§ÃµesDoCompartimentoSelecionadoToolStripMenuItem;
         private ToolStripMenuItem mnuArquivoExportar;
         private ToolStripMenuItem mnuArquivoImportar;
         private ToolStripSeparator toolStripSeparator4;

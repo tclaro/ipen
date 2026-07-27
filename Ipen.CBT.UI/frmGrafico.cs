@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Drawing;
 using System.Collections;
 using System.ComponentModel;
@@ -193,7 +193,7 @@ namespace Ipen.CBT.UI
             this.mnuArquivoVisualizarImpressao.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.mnuArquivoVisualizarImpressao.Name = "mnuArquivoVisualizarImpressao";
             this.mnuArquivoVisualizarImpressao.Size = new System.Drawing.Size(180, 22);
-            this.mnuArquivoVisualizarImpressao.Text = "Visuali&zar impressão";
+            this.mnuArquivoVisualizarImpressao.Text = "Visuali&zar impressÃ£o";
             // 
             // mnuArquivoImprimir
             // 
@@ -300,7 +300,7 @@ namespace Ipen.CBT.UI
             // 
             this.mnuFerramentasOpcoes.Name = "mnuFerramentasOpcoes";
             this.mnuFerramentasOpcoes.Size = new System.Drawing.Size(155, 22);
-            this.mnuFerramentasOpcoes.Text = "&Opções...";
+            this.mnuFerramentasOpcoes.Text = "&OpÃ§Ãµes...";
             // 
             // cadastrarToolStripMenuItem
             // 
@@ -375,22 +375,22 @@ namespace Ipen.CBT.UI
         #endregion
         #endregion
 
-        #region Métodos públicos
+        #region MÃ©todos pÃºblicos
         public void ReverMenus()
         {
             if (this.canvas.BoxRequest)
-                this.mnuInserirLinha.Text = "Cancelar adição";
+                this.mnuInserirLinha.Text = "Cancelar adiÃ§Ã£o";
             else
                 this.mnuInserirLinha.Text = "&Linha";
         }
 
         #endregion
 
-        #region Métodos privados
+        #region MÃ©todos privados
 
         private void SolicitarNovaCaixa()
         {
-            CaixaProp novacaixaForm = new CaixaProp("[Sem título]", Caixas.CorPadrao, false, false);
+            CaixaProp novacaixaForm = new CaixaProp("[Sem tÃ­tulo]", Caixas.CorPadrao, false, false);
             System.Windows.Forms.DialogResult dlgResultado = novacaixaForm.ShowDialog();
             if (dlgResultado == System.Windows.Forms.DialogResult.Cancel)
                 return;
@@ -434,13 +434,13 @@ namespace Ipen.CBT.UI
                     objetotipo = "caixa e todas as linhas associadas";
                 if (this.canvas.ObjetoSelecionado is Linhas)
                     objetotipo = "linha";
-                if (MessageBox.Show("Você tem certeza que deseja excluir essa " + objetotipo + "?", "Exclusão de " + objetotipo, MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == DialogResult.Yes)
+                if (MessageBox.Show("VocÃª tem certeza que deseja excluir essa " + objetotipo + "?", "ExclusÃ£o de " + objetotipo, MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == DialogResult.Yes)
                     this.canvas.ExcluirSelecao();
             }
         }
         #endregion
 
-        #region Métodos de Eventos
+        #region MÃ©todos de Eventos
         private void mnuInserirCaixa_Click(object sender, EventArgs e)
         {
             SolicitarNovaCaixa();
@@ -519,7 +519,7 @@ namespace Ipen.CBT.UI
 
         private void mnuArquivoNovo_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show("Ao iniciar um novo modelo, todas as alterações no modelo atual que não foram salvas, serão perdidas.\nDeseja continuar?", "Novo modelo", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == DialogResult.Yes)
+            if (MessageBox.Show("Ao iniciar um novo modelo, todas as alteraÃ§Ãµes no modelo atual que nÃ£o foram salvas, serÃ£o perdidas.\nDeseja continuar?", "Novo modelo", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == DialogResult.Yes)
             {
                 this.canvas.LimparTudo();
                 this.Refresh();

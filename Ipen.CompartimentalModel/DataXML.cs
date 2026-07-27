@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -36,7 +36,7 @@ namespace Ipen.CompartimentalModel
 
         #endregion
 
-        #region M�todos
+        #region Métodos
         public void ExportarXML()
         {
             if (this.Modelo.Colecao.Caixas.Count == 0)

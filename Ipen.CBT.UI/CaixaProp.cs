@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Drawing;
 using System.Collections;
 using System.ComponentModel;
@@ -45,7 +45,7 @@ namespace Ipen.CBT.UI
 			InitializeComponent();
             this._caixaPropriedades = cx;
             if (_caixaPropriedades == null)
-                _caixaPropriedades = new Caixas("[Sem Título]", Caixas.CorPadrao, false, false);
+                _caixaPropriedades = new Caixas("[Sem TÃ­tulo]", Caixas.CorPadrao, false, false);
 
             PreencherRegistro();
  		}
@@ -161,7 +161,7 @@ namespace Ipen.CBT.UI
             this.chkEliminacao.Name = "chkEliminacao";
             this.chkEliminacao.Size = new System.Drawing.Size(75, 17);
             this.chkEliminacao.TabIndex = 6;
-            this.chkEliminacao.Text = "Eliminação";
+            this.chkEliminacao.Text = "EliminaÃ§Ã£o";
             this.chkEliminacao.UseVisualStyleBackColor = true;
             // 
             // chkIncorporacao
@@ -181,7 +181,7 @@ namespace Ipen.CBT.UI
             this.lblFracao.Name = "lblFracao";
             this.lblFracao.Size = new System.Drawing.Size(40, 13);
             this.lblFracao.TabIndex = 7;
-            this.lblFracao.Text = "Fração";
+            this.lblFracao.Text = "FraÃ§Ã£o";
             // 
             // txtFracao
             // 
@@ -220,7 +220,7 @@ namespace Ipen.CBT.UI
 		#endregion
 		#endregion
 
-		#region Métodos de Eventos
+		#region MÃ©todos de Eventos
 		private void btnCor_Click(object sender, System.EventArgs e)
 		{
 			this.dlgCor.Color = this.btnCor.BackColor;
@@ -257,7 +257,7 @@ namespace Ipen.CBT.UI
 				if (this.txtNome.Text.Trim().Length > 0)
 					return this.txtNome.Text.Trim();
 				else
-					return "[Sem título]";
+					return "[Sem tÃ­tulo]";
 			}
 		}
 		public System.Drawing.Color CorDaCaixa
