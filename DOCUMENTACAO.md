@@ -66,7 +66,7 @@ ipen-master/
 ├── SSID.sln                       # solução do solver (2 projetos) — VS 2010
 ├── CompartimentalModel.sln        # solução só da biblioteca — VC# Express 2008
 │
-├── Ipen.CompartimentalModel/      # [Library] Domínio + persistência — .NET 3.5
+├── Ipen.CompartimentalModel/      # [Library] Domínio + persistência — .NET 4.8
 │   ├── Caixas.cs                  #   compartimento (Control do WinForms)
 │   ├── CaixasCollection.cs        #   coleção de compartimentos + agregação de eventos
 │   ├── Linhas.cs                  #   ligação/transferência entre dois compartimentos
@@ -80,7 +80,7 @@ ipen-master/
 │   ├── Configuracoes.cs           #   estado global (conn string + flags de exibição)
 │   └── DrawingUtils.cs            #   utilitários GDI+ (HSB→RGB, retângulo arredondado)
 │
-├── Ipen.CBT.UI/                   # [WinExe] Editor gráfico — .NET 3.5
+├── Ipen.CBT.UI/                   # [WinExe] Editor gráfico — .NET 4.8
 │   ├── frmPrincipal.cs            #   1217 linhas — janela principal, faz quase tudo
 │   ├── Painel.cs                  #   canvas customizado: desenha linhas, setas, rótulos
 │   ├── CaixaProp.cs               #   diálogo de propriedades do compartimento
@@ -91,17 +91,16 @@ ipen-master/
 │   ├── Starter.cs                 #   ⚠ ÓRFÃO — 2º entry point, não compilado
 │   └── CBT.csproj                 #   ⚠ projeto antigo, obsoleto (o ativo é Ipen.CBT.UI.csproj)
 │
-├── Ipen.SSID.UI/                  # [WinExe] Solver — .NET 3.5
+├── Ipen.SSID.UI/                  # [WinExe] Solver — .NET 4.8
 │   ├── frmCalculo.cs              #   925 linhas — UI + 4 solvers + geração de relatório
 │   ├── frmGrafico.cs              #   janela de gráfico destacável
 │   ├── frmModelos.cs              #   seletor de modelos do banco
 │   ├── Compartimento.cs           #   ⚠ DTO legado, sem uso efetivo
-│   ├── Conexao.cs                 #   ⚠ conexão legada, substituída por Configuracoes
 │   ├── DotNumerics.dll            #   biblioteca de métodos numéricos (Runge-Kutta, Adams)
 │   └── ZedGraph.dll               #   biblioteca de gráficos v5.1.5
 │
 └── Database/
-    ├── Modelos.mdb                # banco Access (Jet 4.0) — repositório de modelos
+    ├── Modelos.mdb                # banco Access — lido via ACE OLEDB (formato .mdb mantido)
     ├── Iodo 131 Fast.xml          # modelo exemplo, schema v3 (único formato suportado)
     └── uranio234-s.html           # relatório HTML exportado (amostra)
 ```
@@ -115,7 +114,6 @@ Ipen.SSID.UI ─┘                                 System.Windows.Forms, System
      │
      ├──> DotNumerics.dll   (EDOs: Runge-Kutta 5, Runge-Kutta 45, Adams-Moulton)
      ├──> ZedGraph.dll      (gráficos científicos)
-     └──> System.Web        (apenas para HttpUtility.HtmlEncode)
 ```
 
 > **Observação arquitetural.** `Ipen.CompartimentalModel` referencia
@@ -403,8 +401,12 @@ a grandeza fisicamente mensurável em bioensaio — e não o acumulado
 
 ### 7.1 Access (`Modelos.mdb`) — repositório principal
 
-Provider: `Microsoft.Jet.OLEDB.4.0`. Caminho configurado em `app.config`
-(chave `MDBPath`) e mantido em `Configuracoes.Arquivo`.
+Provider: **`Microsoft.ACE.OLEDB.12.0`** (ou `16.0`), escolhido automaticamente em
+tempo de execução por `Configuracoes.ResolverProvider()` entre os que estiverem
+registrados na máquina. O `Microsoft.Jet.OLEDB.4.0` original foi abandonado por não
+existir em 64 bits. O ACE lê o `.mdb` diretamente — **não foi preciso converter o banco
+para `.accdb`**. Caminho configurado em `app.config` (chave `MDBPath`) e mantido em
+`Configuracoes.Arquivo`.
 
 **Esquema (4 tabelas):**
 
@@ -525,7 +527,12 @@ btnCalcular_Click
 
 Achados classificados por severidade, com referência a arquivo e linha.
 
-> **Status da Fase 1** — corrigidos e compilando: **C-1**, **C-3**, **C-4**, **G-5**, **G-7**.
+> **Status.** Fase 1 corrigida e compilando: **C-1**, **C-3**, **C-4**, **G-5**, **G-7**.
+> **G-1 foi refutado** por teste empírico — não era defeito. **G-8** foi encontrado em
+> uso real e corrigido.
+> Fora da Fase 1, já concluídos: migração para **x64 + .NET 4.8 + ACE OLEDB**
+> ([§11.2](#112-plataforma-x64)) e conversão dos fontes para **UTF-8**
+> ([§10.5](#105-estilo-e-manutenibilidade)). Os demais achados seguem abertos.
 > **C-2** foi mitigado pela remoção dos exemplos defasados, mas o importador continua sem
 > as guardas. Os demais achados seguem abertos.
 
@@ -629,17 +636,19 @@ indexado por compartimento.
 
 ### 9.2 Graves
 
-**G-1 · `SELECT` com palavras reservadas do Jet sem colchetes**
+**G-1 · ~~`SELECT` com palavras reservadas do Jet sem colchetes~~ — ❌ REFUTADO**
 [`DataBD.cs:286-290`](Ipen.CompartimentalModel/DataBD.cs:286)
 
 ```sql
 SELECT Numero, Nome, Left, Top, Width, Height, ...
 ```
 
-`Left` é **função** em Jet SQL; `Top` é palavra reservada. O `INSERT` correspondente
-([`DataBD.cs:132`](Ipen.CompartimentalModel/DataBD.cs:132)) usa corretamente `[Left]`,
-`[Top]`. A inconsistência indica que o caminho de leitura do Access provavelmente falha
-ou depende de tolerância do provider. *Correção:* colchetes em todos os identificadores.
+Levantado como suspeita por `Left` ser função e `Top` palavra reservada em Jet SQL,
+enquanto o `INSERT` correspondente escapa ambos com colchetes. **Testado empiricamente
+contra o ACE e funciona**: `PreencherCaixas(15)` devolveu 21 compartimentos e
+`PreencherLinhas` 33 ligações. O parser só trata esses nomes como função/palavra
+reservada em contextos ambíguos, não numa lista de projeção. Resta apenas uma
+inconsistência cosmética de estilo entre o `INSERT` e o `SELECT`.
 
 **G-2 · Auto-ligações produzem `CaixaFim` nulo**
 [`Reservatorio.cs:141-150`](Ipen.CompartimentalModel/Reservatorio.cs:141) e
@@ -682,6 +691,29 @@ Quando a razão é **negativa** (termos alternantes, comuns em matrizes com auto
 negativos — exatamente o caso aqui), o teste passa como convergido prematuramente. A
 série pode ser truncada cedo demais, **subestimando silenciosamente a exponencial**.
 *Correção:* `Math.Abs(term[i,j] / sum[i,j]) > terr`.
+
+**G-8 · Fechar o diálogo de modelos sem escolher derrubava o SSID** — ✅ CORRIGIDO
+[`frmCalculo.cs:609`](Ipen.SSID.UI/frmCalculo.cs:609), [`frmModelos.cs:41`](Ipen.SSID.UI/frmModelos.cs:41), [`DataBD.cs:227`](Ipen.CompartimentalModel/DataBD.cs:227)
+
+O `frmModelos` do SSID gravava `idModeloAberto` apenas no botão **Abrir** (e no duplo
+clique na linha), mas **nunca definia `DialogResult`**. O chamador ignorava o retorno de
+`ShowDialog()` e chamava `LerModelo(idModeloAberto)` incondicionalmente. Fechando o
+diálogo pelo botão *Fechar* ou pelo **X**, o campo permanecia `0`, e
+`SelecionarModelos(0)` ia direto a `resultado.Rows[0]` numa tabela vazia:
+
+```
+System.IndexOutOfRangeException: Não há linha na posição 0.
+   em Ipen.CompartimentalModel.DataBD.SelecionarModelos(Int32 cod)
+   em Ipen.SSID.UI.frmCalculo.LerModelo(Int32 idModelo)
+```
+
+Corrigido em três camadas: o diálogo passa a sinalizar `DialogResult.OK`/`Cancel`; o
+chamador só carrega o modelo quando houve escolha; e `SelecionarModelos(int)` lança uma
+mensagem útil quando o código não existe, além de fechar a conexão — que antes vazava
+quando a exceção disparava. Somou-se uma guarda de `CurrentRow == null` nos dois
+diálogos (CBT e SSID), para o duplo clique no cabeçalho da grade.
+
+---
 
 **G-6 · Vazamento de handles GDI+ no `OnPaint`**
 [`Painel.cs:222`](Ipen.CBT.UI/Painel.cs:222), [`234-247`](Ipen.CBT.UI/Painel.cs:234),
@@ -763,7 +795,6 @@ Efeitos observáveis:
 | `frmEditModelo` × `frmPrincipal` | ~400 linhas quase idênticas (gestão de compartimentos e ligações) |
 | `LerSettings` / `GravarSettings` | Reimplementados em `frmPrincipal` e `frmCalculo` |
 | Geração do relatório HTML | Blocos quase idênticos em `btnCalcular_Click` e `SolveRungeKutta` |
-| `Conexao.Conectar` × `Configuracoes.Conectar` | Duas conexões OleDb; a de `Conexao.cs` está morta |
 | `CreateChart` | Definido em `frmCalculo` e em `frmGrafico` |
 
 ### 10.4 Código morto versionado
@@ -774,7 +805,7 @@ Efeitos observáveis:
 | `Ipen.CBT.UI/Starter.cs` | Segundo entry point `Main()`, não compilado (colidiria com `Program.cs`) |
 | `Ipen.CBT.UI/CBT.csproj` | Projeto obsoleto; o ativo é `Ipen.CBT.UI.csproj` |
 | `Ipen.SSID.UI/Compartimento.cs` | DTO usado apenas por `LerDataSet`, que está inteiramente comentado |
-| `Ipen.SSID.UI/Conexao.cs` | Substituído por `Configuracoes.Conectar` |
+| ~~`Ipen.SSID.UI/Conexao.cs`~~ | ✅ **REMOVIDO** — morto e ainda com string de conexão Jet |
 | `frmCalculo.LerDataSet` | 30 linhas comentadas ([`frmCalculo.cs:515-544`](Ipen.SSID.UI/frmCalculo.cs:515)) |
 | ~15 handlers vazios | `mnuEditarLocalizar_Click`, `mnuFerramentasOpcoes_Click`, `novoToolStripMenuItem_Click`, etc. |
 
@@ -785,9 +816,11 @@ Efeitos observáveis:
   `volta:` e `desvio:` só existem para hospedar `int xxx = 0;` — um no-op.
 - **Nomes de uma letra** no núcleo matemático (`n`, `a`, `b`, `q`, `qi`, `xt`, `xo`, `u`,
   `lam`, `terr`, `iz`, `ir`, `id`) sem qualquer comentário explicativo.
-- **Encoding ISO-8859-1** em ~8 arquivos `.cs`, com o restante em ASCII. Sem BOM
-  consistente, ferramentas modernas (Git, VS Code, revisão em web) exibem mojibake nos
-  acentos. *Correção:* converter tudo para UTF-8 com BOM.
+- ~~**Encoding ISO-8859-1**~~ — ✅ **RESOLVIDO.** Os 40 arquivos `.cs` foram convertidos
+  para **UTF-8 com BOM** (18 tinham acentos em ISO-8859-1; nos 22 restantes, ASCII puro,
+  o BOM foi adicionado para padronizar). O BOM é obrigatório: sem ele o compilador do
+  .NET Framework lê o fonte usando o code page ANSI do sistema, e os acentos viram
+  mojibake em tempo de compilação.
 - **Estado global mutável** — `Configuracoes` expõe quatro campos `static` públicos
   (`Arquivo`, `ExibirRotulos`, `ExibirSetas`, `ExibirTodasLigacoes`).
 - **Sem testes.** Nenhum projeto de teste; nenhum caso de regressão para o solver.
@@ -805,30 +838,46 @@ Efeitos observáveis:
 
 | Item | Versão | Observação |
 |---|---|---|
-| .NET Framework | **3.5** | `TargetFrameworkVersion v3.5` nos três projetos |
+| .NET Framework | **4.8** | Acompanha o Windows 10 1903+ e o Windows 11 — sem instalação extra |
 | Visual Studio | 2010+ | `CBT.sln` e `CompartimentalModel.sln` já foram atualizados para o formato do VS 18; `SSID.sln` continua no formato do VS 2010 |
-| Microsoft Jet OLEDB | **4.0** | ⚠️ **Somente 32 bits** — ver 11.2 |
+| Microsoft ACE OLEDB | **12.0** ou **16.0**, **64 bits** | Acompanha o Office de 64 bits, ou o redistribuível *Access Database Engine* |
 | DotNumerics | 1.0.0.0 | Incluída em `Ipen.SSID.UI/DotNumerics.dll` |
 | ZedGraph | 5.1.5.28844 | Incluída em `Ipen.SSID.UI/ZedGraph.dll` |
 
-### 11.2 ⚠️ Bloqueio de plataforma 64 bits
+### 11.2 Plataforma: x64
 
-Os projetos têm `Platform = AnyCPU`. Em Windows 64 bits, o processo carrega como 64 bits
-e **`Microsoft.Jet.OLEDB.4.0` não existe em 64 bits** — não há e nunca haverá driver.
-Toda operação com o banco Access falha com `"The 'Microsoft.Jet.OLEDB.4.0' provider is
-not registered on the local machine"`.
+O `Microsoft.Jet.OLEDB.4.0` original **não existe em 64 bits** — não há e nunca haverá
+driver. Isso prendia o sistema a 32 bits.
 
-Duas saídas:
+✅ **Resolvido.** O acesso a dados migrou para o **ACE OLEDB**, que lê o `.mdb` diretamente,
+e os três projetos passaram a `<PlatformTarget>x64</PlatformTarget>` no `PropertyGroup`
+global. (Antes, `x86` estava presente **apenas na configuração Debug** — o Release saía
+AnyCPU e quebrava em 64 bits.)
 
-1. **Imediata** — marcar `<PlatformTarget>x86</PlatformTarget>` nos dois executáveis.
-2. **Preferível** — migrar para `Microsoft.ACE.OLEDB.12.0` e converter o `.mdb` para
-   `.accdb`, o que também destrava o Windows moderno.
+`Configuracoes.ResolverProvider()` escolhe o provider em tempo de execução entre os
+registrados na máquina, tentando `ACE.OLEDB.12.0` e depois `16.0`. A verificação usa
+`OleDbEnumerator`, e não uma tentativa de abrir o arquivo: assim um erro real do banco
+continua subindo como `OleDbException`, em vez de ser mascarado como "provider ausente".
+Se nenhum candidato existir, a exceção diz exatamente o que procurou e o que encontrou.
+
+Verificado de ponta a ponta num processo 64 bits: provider resolvido para
+`Microsoft.ACE.OLEDB.12.0`, `SelecionarModelos()` devolvendo os 7 modelos do banco.
+
+**Requisito de implantação:** a máquina precisa do ACE de **64 bits**. Quem tiver Office
+de 32 bits instalado terá apenas o ACE de 32 bits, e será preciso instalar o
+redistribuível *Microsoft Access Database Engine* de 64 bits.
 
 ### 11.3 Compilar
 
 ```bash
-msbuild CBT.sln /p:Configuration=Release /p:PlatformTarget=x86
+msbuild CBT.sln /t:Rebuild /p:Configuration=Release
 ```
+
+> Se o build falhar com **MSB3821** ("marca da Web"), a causa costuma ser um download em
+> ZIP: arquivos extraídos de `.zip` baixado carregam *Mark of the Web* e o `GenerateResource`
+> se recusa a processá-los. Resolva com `Get-ChildItem -Recurse | Unblock-File` e, em
+> seguida, encerre os processos `MSBuild` residuais — o *node reuse* mantém a decisão de
+> zona em cache e faz o erro persistir mesmo depois do desbloqueio.
 
 ### 11.4 Configurar antes do primeiro uso
 
@@ -871,13 +920,14 @@ perigosa em software de dosimetria.
 13. Adicionar `.gitignore` (`bin/`, `obj/`, `.vs/`, `*.user`, `Backup/`, `UpgradeLog.htm`).
 14. Adicionar `README.md` com propósito, requisitos e instruções de build.
 15. Remover código morto ([§10.4](#104-código-morto-versionado)) — `frmGrafico.cs`,
-    `Starter.cs`, `CBT.csproj`, `Compartimento.cs`, `Conexao.cs`, `LerDataSet`.
-16. Converter todos os `.cs` para UTF-8 com BOM.
+    `Starter.cs`, `CBT.csproj`, `Compartimento.cs`, `LerDataSet` (`Conexao.cs` já saiu).
+16. ~~Converter todos os `.cs` para UTF-8 com BOM.~~ ✅ **FEITO** (40 arquivos).
 17. Substituir o `MDBPath` versionado por caminho relativo (`.\Database\Modelos.mdb`).
 
 ### Fase 4 — Modernização
 
-18. `PlatformTarget = x86` (imediato) ou migração para ACE.OLEDB + `.accdb` (definitivo).
+18. ~~`PlatformTarget = x86`~~ ✅ **FEITO** (global, todas as configurações). Resta a
+    migração para ACE.OLEDB + `.accdb` como solução definitiva.
 19. Projeto de testes com casos analíticos conhecidos: decaimento de compartimento único
     (`q(t) = q₀·e^{−λt}`), sistema de dois compartimentos com solução fechada, e
     verificação de conservação de massa (Σ compartimentos + eliminados = 1,0).
@@ -887,8 +937,8 @@ perigosa em software de dosimetria.
 22. Unificar `frmEditModelo` e `frmPrincipal`.
 23. Extrair o solver de `frmCalculo` para uma classe `Solver` sem dependência de UI —
     hoje é impossível calcular sem abrir um formulário.
-24. Migrar o alvo para .NET Framework 4.8 (suportado no Windows atual) ou .NET 8 com
-    Windows Forms.
+24. ~~Migrar o alvo para .NET Framework 4.8.~~ ✅ **FEITO.** Migração futura para .NET 8+
+    com Windows Forms segue possível, mas exige converter os projetos ao formato SDK.
 
 ---
 
@@ -932,6 +982,9 @@ perigosa em software de dosimetria.
 
 ---
 
-*Documento gerado por análise estática do código-fonte. Os defeitos relatados foram
-identificados por leitura; recomenda-se validação experimental antes de correção,
-especialmente para os itens numéricos da Fase 1.*
+*Documento gerado por análise do código-fonte. A maior parte dos defeitos foi
+identificada por leitura, não por execução — e o caso do **G-1**, refutado quando
+finalmente pôde ser testado contra o banco, mostra por que isso importa. Os itens
+numéricos da Fase 1 (**C-4** e **G-5**) alteram resultados de cálculo e **ainda não foram
+validados numericamente**: convém rodar um modelo de referência e comparar os valores
+antes de confiar neles.*
