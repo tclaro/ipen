@@ -14,7 +14,7 @@ namespace Ipen.CompartimentalModel
             this.Tables["Modelo"].Columns.Add("nmModelo", typeof(string));
             this.Tables["Modelo"].Columns.Add("dtCriacao", typeof(DateTime));
             this.Tables["Modelo"].Columns.Add("Descricao", typeof(string));
-            this.Tables["Modelo"].Columns.Add("TipoModelo", typeof(string));
+            this.Tables["Modelo"].Columns.Add("TipoModelo", typeof(int));
             this.Tables["Modelo"].Columns.Add("meiaVida", typeof(double));
             
             this.Tables.Add("TableCaixas");
@@ -29,6 +29,8 @@ namespace Ipen.CompartimentalModel
             this.Tables["TableCaixas"].Columns.Add("CorB", typeof(byte));
             this.Tables["TableCaixas"].Columns.Add("Acompanhar", typeof(bool));
             this.Tables["TableCaixas"].Columns.Add("Eliminacao", typeof(bool));
+            this.Tables["TableCaixas"].Columns.Add("Incorporacao", typeof(bool));
+            this.Tables["TableCaixas"].Columns.Add("Fracao", typeof(string));
 
             this.Tables.Add("TableLinhas");
             this.Tables["TableLinhas"].Columns.Add("CaixaInicio", typeof(int));
@@ -48,7 +50,7 @@ namespace Ipen.CompartimentalModel
             dr["nmModelo"] = Modelo.nmModelo;
             dr["dtCriacao"] = Modelo.dtCriacao;
             dr["Descricao"] = Modelo.Descricao;
-            dr["TipoModelo"] = Modelo.Tipo.nmTipoModelo;
+            dr["TipoModelo"] = Modelo.Tipo.idTipoModelo;
             dr["meiaVida"] = Modelo.meiaVida;
             this.Tables["Modelo"].Rows.Add(dr);
 
@@ -75,6 +77,8 @@ namespace Ipen.CompartimentalModel
                 dr["CorB"] = cx.BackColor.B;
                 dr["Acompanhar"] = cx.Acompanhar;
                 dr["Eliminacao"] = cx.Eliminacao;
+                dr["Incorporacao"] = cx.Incorporacao;
+                dr["Fracao"] = cx.Fracao.ToString("0.####################", System.Globalization.CultureInfo.InvariantCulture);
                 this.Tables["TableCaixas"].Rows.Add(dr);
             }
         }
@@ -107,12 +111,25 @@ namespace Ipen.CompartimentalModel
                 Modelo.dtCriacao = (DateTime)dr["dtCriacao"];
                 Modelo.Descricao = dr["Descricao"].ToString();
                 Modelo.meiaVida = (double)dr["meiaVida"];
-                Modelo.Tipo.idTipoModelo = (int)dr["tipoModelo"];
+                Modelo.Tipo.idTipoModelo = Convert.ToInt32(dr["TipoModelo"]);
             }
+
+            bool temIncorporacao = ds.Tables["TableCaixas"].Columns.Contains("Incorporacao");
+            bool temFracao = ds.Tables["TableCaixas"].Columns.Contains("Fracao");
 
             foreach (System.Data.DataRow dr in ds.Tables["TableCaixas"].Rows)
             {
-                Caixas cx = new Caixas((int)dr["Numero"], (string)dr["Nome"], new System.Drawing.Point((int)dr["PosLeft"], (int)dr["PosTop"]), System.Drawing.Color.FromArgb((byte)dr["CorR"], (byte)dr["CorG"], (byte)dr["CorB"]), (bool)dr["Acompanhar"], (bool)dr["Eliminacao"]);
+                bool incorporacao = temIncorporacao ? (bool)dr["Incorporacao"] : false;
+                double fracao = 0.0;
+                if (temFracao)
+                {
+                    object valFracao = dr["Fracao"];
+                    if (valFracao is double)
+                        fracao = (double)valFracao;
+                    else
+                        fracao = double.Parse(valFracao.ToString(), System.Globalization.CultureInfo.InvariantCulture);
+                }
+                Caixas cx = new Caixas((int)dr["Numero"], (string)dr["Nome"], new System.Drawing.Point((int)dr["PosLeft"], (int)dr["PosTop"]), System.Drawing.Color.FromArgb((byte)dr["CorR"], (byte)dr["CorG"], (byte)dr["CorB"]), (bool)dr["Acompanhar"], (bool)dr["Eliminacao"], incorporacao, fracao);
                 Modelo.Colecao.Caixas.Add(cx);
             }
 

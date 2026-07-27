@@ -420,8 +420,9 @@ namespace Ipen.SSID.UI
 
         public void ImportarArquivo(string Arquivo)
         {
-            System.Data.DataSet ds = new System.Data.DataSet();
-            ds.ReadXml(Arquivo, System.Data.XmlReadMode.ReadSchema);
+            CompartimentalModel.DataXML interfaceXML = new CompartimentalModel.DataXML(Arquivo);
+            interfaceXML.ImportarXML();
+            ModeloAberto = interfaceXML.Modelo;
         }
 
         public void LerModelo(int idModelo)
@@ -572,7 +573,6 @@ namespace Ipen.SSID.UI
                     GravarSettings("XMLPath", openFile.FileName);
 
                 btnCalcular.Enabled = true;
-                LerModelo(idModeloAberto);
 
                 lblModelo.Text = ModeloAberto.nmModelo;
                 lblDescricao.Text = ModeloAberto.Descricao;
@@ -654,9 +654,9 @@ namespace Ipen.SSID.UI
             double[] y0 = new double[ModeloAberto.Colecao.Caixas.Count];
             foreach (CompartimentalModel.Caixas Caixa in ModeloAberto.Colecao.Caixas)
             {
-                y0[(int)Caixa.Tag] = Caixa.Fracao;
+                y0[(int)Caixa.Tag] = Caixa.Incorporacao ? Caixa.Fracao : 0d;
                 QuantFuncoes++;
-                
+
             }
 
                         
