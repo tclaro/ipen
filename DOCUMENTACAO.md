@@ -529,7 +529,8 @@ Achados classificados por severidade, com referência a arquivo e linha.
 
 > **Status.** Fase 1 corrigida, compilando e **validada numericamente**: **C-1**,
 > **C-3**, **C-4**, **G-5**, **G-7**. **G-1 foi refutado** por teste empírico — não era
-> defeito. **G-8** foi encontrado em uso real e corrigido.
+> defeito. **G-8** foi encontrado em uso real e corrigido. Da Fase 2, **G-3** e **G-4**
+> também já corrigidos.
 > Fora da Fase 1, já concluídos: migração para **x64 + .NET 4.8 + ACE OLEDB**
 > ([§11.2](#112-plataforma-x64)) e conversão dos fontes para **UTF-8**
 > ([§10.5](#105-estilo-e-manutenibilidade)). Os demais achados seguem abertos.
@@ -663,22 +664,35 @@ Se `CaixaInicio == CaixaFim`, `cxFim` fica `null`, e `Painel.OnPaint`
 ([`Painel.cs:202`](Ipen.CBT.UI/Painel.cs:202)) lança NRE ao desenhar.
 *Correção:* trocar `else if` por `if` independente.
 
-**G-3 · `double.Parse` sem validação em três pontos**
-[`frmPrincipal.cs:588`](Ipen.CBT.UI/frmPrincipal.cs:588),
-[`frmEditModelo.cs:84`](Ipen.CBT.UI/frmEditModelo.cs:84),
-[`CaixaProp.cs:237`](Ipen.CBT.UI/CaixaProp.cs:237)
+**G-3 · `double.Parse`/`Convert.ToDouble` sem validação em quatro pontos** — ✅ CORRIGIDO
+[`frmPrincipal.cs:595`](Ipen.CBT.UI/frmPrincipal.cs:595) (Fração do compartimento),
+[`frmPrincipal.cs:1095`](Ipen.CBT.UI/frmPrincipal.cs:1095) (meia-vida),
+[`frmEditModelo.cs:84`](Ipen.CBT.UI/frmEditModelo.cs:84) (Fração),
+[`CaixaProp.cs:237`](Ipen.CBT.UI/CaixaProp.cs:237) (Fração)
 
-Campo Fração vazio ou com texto inválido → `FormatException` não tratada → o aplicativo
-fecha. Note que `float.TryParse` **é** usado corretamente para o valor de transferência
-([`frmPrincipal.cs:698`](Ipen.CBT.UI/frmPrincipal.cs:698)) — a inconsistência é o problema.
-Mesmo vale para `Convert.ToDouble(txtMeiaVida.Text)` em
-[`frmPrincipal.cs:1070`](Ipen.CBT.UI/frmPrincipal.cs:1070).
+Campo vazio ou com texto inválido → `FormatException` não tratada → o aplicativo fecha.
+`float.TryParse` já era usado corretamente para o valor de transferência
+([`frmPrincipal.cs:698`](Ipen.CBT.UI/frmPrincipal.cs:698)) — a inconsistência era o
+problema. Trocado por `double.TryParse` nos quatro pontos, seguindo o mesmo padrão
+já usado no resto do arquivo (`MessageBox` + `Focus()` + `return`). Em `CaixaProp.cs`
+o botão OK tem `DialogResult=OK` fixado no designer, então a validação falhando
+também zera `this.DialogResult` para impedir o diálogo de fechar sozinho.
 
-**G-4 · NullReferenceException ao salvar sem modelo aberto**
-[`frmPrincipal.cs:158`](Ipen.CBT.UI/frmPrincipal.cs:158)
+**G-4 · NullReferenceException ao salvar sem modelo aberto** — ✅ CORRIGIDO
+[`frmPrincipal.cs:22`](Ipen.CBT.UI/frmPrincipal.cs:22)
 
-`this.Modelo` só é instanciado em `FecharModelo()`, chamado por *Novo* e *Abrir*.
-Acionar Salvar logo após abrir o aplicativo desreferencia `null`.
+`this.Modelo` só era instanciado em `FecharModelo()`, chamado por *Novo* e *Abrir*.
+O menu *Arquivo → Salvar* (atalho **Ctrl+S**) fica habilitado desde a abertura do
+form — não é filho do painel que `AjustarPainel()` desabilita — e nenhum outro
+`ToolStripMenuItem` de salvar/exportar é desabilitado nesse meio-tempo. Abrir o CBT
+e apertar Ctrl+S sem antes criar/abrir um modelo desreferenciava `null` em qualquer
+um dos ~8 pontos que leem `this.Modelo` na cadeia de salvamento/exportação.
+Corrigido inicializando o campo na própria declaração (`= new Modelos()`), a mesma
+invariante que `frmEditModelo` já seguia nos dois construtores — established once,
+em vez de espalhar guardas de nulo pelos oito pontos de uso. Verificado
+instanciando `frmPrincipal` de verdade (construtor real, sem Novo/Abrir) e lendo o
+campo por reflection: `Modelo` não é nulo e `Modelo.Colecao.Caixas.Count` — a leitura
+que crashava — resolve normalmente para `0`.
 
 **G-5 · Teste de convergência da série de Taylor sem valor absoluto** — ✅ CORRIGIDO
 [`frmCalculo.cs:327-329`](Ipen.SSID.UI/frmCalculo.cs:327)
@@ -916,10 +930,15 @@ Ver [`tools/validate/README.md`](tools/validate/README.md) para o detalhamento.
 ### Fase 2 — Robustez
 
 6. **C-2** — guardas para XML v1/v2, ou script de migração dos arquivos exemplo para v3.
-7. **G-3** — `TryParse` em todos os campos numéricos.
-8. **G-1** — colchetes nas palavras reservadas do Jet.
+7. ~~**G-3** — `TryParse` em todos os campos numéricos.~~ ✅ **FEITO** (4 pontos:
+   Fração em `frmPrincipal.cs`, `frmEditModelo.cs`, `CaixaProp.cs`; meia-vida em
+   `frmPrincipal.cs`).
+8. **G-1** — colchetes nas palavras reservadas do Jet (cosmético — já confirmado que
+   funciona com o ACE).
 9. **G-2** — `else if` → `if` no pareamento de caixas.
-10. **G-4** — instanciar `Modelo` no construtor de `frmPrincipal`.
+10. ~~**G-4** — instanciar `Modelo` no construtor de `frmPrincipal`.~~ ✅ **FEITO**
+    (inicializado na própria declaração do campo, mesma invariante que `frmEditModelo`
+    já seguia).
 11. **G-6** — `using` em todos os objetos GDI+ do `OnPaint`.
 12. **M-4/M-5** — `using` em conexões, comandos e readers OleDb.
 
@@ -941,7 +960,7 @@ Ver [`tools/validate/README.md`](tools/validate/README.md) para o detalhamento.
     entre dois compartimentos e duas vias de eliminação simultâneas, contra solução
     fechada, nos quatro solvers. Falta ainda a verificação de conservação de massa
     (Σ compartimentos + eliminados = 1,0) como caso de regressão contínuo, e cobrir os
-    demais achados abertos (G-2, G-3, G-4, G-6) com casos automatizados.
+    demais achados abertos (G-2, G-6 e os moderados M-1 a M-14) com casos automatizados.
 20. Extrair `Compartimento` POCO de `Caixas : Control` — pré-requisito para testar a
     UI/desenho isoladamente e para qualquer portabilidade.
 21. Eliminar o singleton `Sistema`; `Modelos` passa a possuir sua própria `Sistema`.

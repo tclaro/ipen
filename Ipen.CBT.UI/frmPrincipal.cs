@@ -19,7 +19,10 @@ namespace Ipen.CBT.UI
 
         //Objeto principal do form, que guarda o modelo sendo editado.
         //Dentro de modelo estão as coleções de caixas e linhas.
-        private Modelos Modelo;
+        //Precisa nascer não-nulo: o menu Salvar (Ctrl+S) fica habilitado desde a
+        //abertura do form, antes de Novo/Abrir/Importar rodarem, e Salvar() lê
+        //this.Modelo diretamente. frmEditModelo já segue essa mesma invariante.
+        private Modelos Modelo = new Modelos();
         
         private enum StatusPossiveis
         {
@@ -592,7 +595,13 @@ namespace Ipen.CBT.UI
             bool Acompanhar = chkAcompanhar.Checked;
             bool Eliminacao = chkEliminacao.Checked;
             bool Incorporacao = chkIncorporacao.Checked;
-            double Fracao = double.Parse(txtFracao.Text);
+            double Fracao;
+            if (!double.TryParse(txtFracao.Text, out Fracao))
+            {
+                MessageBox.Show("Valor de fração inválido", "Atenção", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                txtFracao.Focus();
+                return;
+            }
 
             foreach (Caixas item in Modelo.Colecao.Caixas)
                 if (item.Nome == NomeComp)
@@ -1081,12 +1090,19 @@ namespace Ipen.CBT.UI
                 MessageBox.Show("Não existem compartimentos no seu modelo.", "Atenção", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 return;
             }
-            
-            
+
+            double meiaVida;
+            if (!double.TryParse(txtMeiaVida.Text, out meiaVida))
+            {
+                MessageBox.Show("Meia-vida inválida.", "Atenção", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                txtMeiaVida.Focus();
+                return;
+            }
+
             this.Modelo.nmModelo = txtNome.Text;
             this.Modelo.Descricao = txtDescricao.Text;
             this.Modelo.Tipo.idTipoModelo = (int)cboTipo.SelectedValue;
-            this.Modelo.meiaVida = Convert.ToDouble(txtMeiaVida.Text);
+            this.Modelo.meiaVida = meiaVida;
             DataBD.GravarModelo(this.Modelo);
         }
 

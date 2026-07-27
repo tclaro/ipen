@@ -81,7 +81,13 @@ namespace Ipen.CBT.UI
             bool Acompanhar = chkAcompanhar.Checked;
             bool Eliminacao = chkEliminacao.Checked;
             bool Incorporacao = chkIncorporacao.Checked;
-            double Fracao = double.Parse(txtFracao.Text);
+            double Fracao;
+            if (!double.TryParse(txtFracao.Text, out Fracao))
+            {
+                MessageBox.Show("Valor de fração inválido", "Atenção", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                txtFracao.Focus();
+                return;
+            }
 
             foreach (Caixas item in Modelo.Colecao.Caixas)
                 if (item.Nome == NomeComp)

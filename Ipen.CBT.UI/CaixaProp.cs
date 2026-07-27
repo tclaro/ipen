@@ -229,12 +229,23 @@ namespace Ipen.CBT.UI
 		}
         private void btnOK_Click(object sender, EventArgs e)
         {
+            double fracao;
+            if (!double.TryParse(this.txtFracao.Text, out fracao))
+            {
+                MessageBox.Show("Valor de fração inválido", "Atenção", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                this.txtFracao.Focus();
+                //btnOK.DialogResult está setado para OK no designer, então o form fecha
+                //sozinho após este handler a menos que DialogResult seja zerado aqui.
+                this.DialogResult = DialogResult.None;
+                return;
+            }
+
             this._caixaPropriedades.Nome = this.txtNome.Text;
             this._caixaPropriedades.BackColor = this.dlgCor.Color;
             this._caixaPropriedades.Acompanhar = this.chkAcompanhar.Checked;
             this._caixaPropriedades.Eliminacao = this.chkEliminacao.Checked;
             this._caixaPropriedades.Incorporacao = this.chkIncorporacao.Checked;
-            this._caixaPropriedades.Fracao = double.Parse(this.txtFracao.Text);
+            this._caixaPropriedades.Fracao = fracao;
         }
         private void btnCancelar_Click(object sender, EventArgs e)
         {
