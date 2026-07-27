@@ -1,0 +1,18 @@
+# Saidas de build
+[Bb]in/
+[Oo]bj/
+
+# Visual Studio
+.vs/
+*.user
+*.suo
+*.userprefs
+UpgradeLog*.htm
+UpgradeLog*.XML
+Backup/
+_UpgradeReport_Files/
+
+# Diversos
+Thumbs.db
+*.ldb
+*.laccdb
