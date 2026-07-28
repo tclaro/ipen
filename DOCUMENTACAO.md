@@ -1,7 +1,8 @@
 # IPEN — Sistema de Modelagem Compartimental (CBT / SSID)
 
-> Documentação técnica gerada a partir da análise completa do código-fonte.
-> Referência: commit `b31c4a4` (2026-07-27). Repositório: `https://github.com/tclaro/ipen`.
+> Documentação técnica gerada a partir da análise completa do código-fonte, mantida
+> em sincronia com o código a cada mudança relevante — ver `git log DOCUMENTACAO.md`
+> para o histórico. Repositório: `https://github.com/tclaro/ipen`, branch `master`.
 
 ---
 
@@ -77,11 +78,11 @@ ipen-master/
 │   ├── Reservatorio.cs            #   DataSet tipado — mapeamento objeto ↔ XML
 │   ├── DataXML.cs                 #   fachada de import/export XML
 │   ├── DataBD.cs                  #   camada de acesso ao Access (OleDb)
-│   ├── Configuracoes.cs           #   estado global (conn string + flags de exibição)
+│   ├── Configuracoes.cs           #   flags de exibição + detecção do provider ACE em runtime
 │   └── DrawingUtils.cs            #   utilitários GDI+ (HSB→RGB, retângulo arredondado)
 │
 ├── Ipen.CBT.UI/                   # [WinExe] Editor gráfico — .NET 4.8
-│   ├── frmPrincipal.cs            #   1217 linhas — janela principal, faz quase tudo
+│   ├── frmPrincipal.cs            #   1257 linhas — janela principal, faz quase tudo
 │   ├── Painel.cs                  #   canvas customizado: desenha linhas, setas, rótulos
 │   ├── CaixaProp.cs               #   diálogo de propriedades do compartimento
 │   ├── LinhaProp.cs               #   diálogo de propriedades da ligação
@@ -92,12 +93,17 @@ ipen-master/
 │   └── CBT.csproj                 #   ⚠ projeto antigo, obsoleto (o ativo é Ipen.CBT.UI.csproj)
 │
 ├── Ipen.SSID.UI/                  # [WinExe] Solver — .NET 4.8
-│   ├── frmCalculo.cs              #   925 linhas — UI + 4 solvers + geração de relatório
+│   ├── frmCalculo.cs              #   937 linhas — UI + 4 solvers + geração de relatório
 │   ├── frmGrafico.cs              #   janela de gráfico destacável
 │   ├── frmModelos.cs              #   seletor de modelos do banco
 │   ├── Compartimento.cs           #   ⚠ DTO legado, sem uso efetivo
 │   ├── DotNumerics.dll            #   biblioteca de métodos numéricos (Runge-Kutta, Adams)
 │   └── ZedGraph.dll               #   biblioteca de gráficos v5.1.5
+│
+├── tools/validate/                # [Console, .NET 4.8] Validação numérica da Fase 1
+│   ├── Program.cs                 #   312 linhas — 3 casos analíticos × 4 solvers, via reflection
+│   ├── Validate.csproj
+│   └── README.md                  #   como rodar e o que cada caso cobre
 │
 └── Database/
     ├── Modelos.mdb                # banco Access — lido via ACE OLEDB (formato .mdb mantido)
@@ -232,17 +238,17 @@ todos os compartimentos.
 
 ### 4.1 `frmPrincipal` — a janela principal
 
-1217 linhas. Concentra edição, persistência, configuração e apresentação.
+1257 linhas. Concentra edição, persistência, configuração e apresentação.
 
 **Layout:** `SplitContainer` — painel superior com abas (*Compartimentos* / *Ligações*),
 painel inferior com o `Painel` (canvas de desenho).
 
 **Aba Compartimentos:** nome, cor, e os quatro flags (`Acompanhar`, `Eliminacao`,
 `Incorporacao`, `Fracao`). O campo Fração só é habilitado quando *Incorporação* está
-marcada ([`frmPrincipal.cs:1007`](Ipen.CBT.UI/frmPrincipal.cs:1007)).
+marcada ([`frmPrincipal.cs:1035`](Ipen.CBT.UI/frmPrincipal.cs:1035)).
 
 **Aba Ligações:** dois combos (origem/destino) + valor de transferência. A lógica de
-`btnAddLig_Click` ([`frmPrincipal.cs:690-759`](Ipen.CBT.UI/frmPrincipal.cs:690)) trata
+`btnAddLig_Click` ([`frmPrincipal.cs:706-775`](Ipen.CBT.UI/frmPrincipal.cs:706)) trata
 o caso de ligação já existente: se no mesmo sentido, pergunta se deseja alterar; se em
 sentido oposto, **promove automaticamente a ligação para bidirecional** (`Direcao.Ambos`)
 e grava o valor em `ValorBA`. É a parte mais sutil do editor.
@@ -250,8 +256,17 @@ e grava o valor em `ValorBA`. É a parte mais sutil do editor.
 **Menu Exibição:** três flags globais persistidos em `app.config` — exibir rótulos,
 exibir setas de direção, exibir apenas ligações do compartimento selecionado.
 
-**Máquina de estados de criação de ligação** ([`frmPrincipal.cs:461-510`](Ipen.CBT.UI/frmPrincipal.cs:461)):
+**Máquina de estados de criação de ligação** ([`frmPrincipal.cs:471-520`](Ipen.CBT.UI/frmPrincipal.cs:471)):
 `Normal → SolicitandoLinhaA → SolicitandoLinhaB → Normal`, com o cursor mudando para cruz.
+
+**Carregar o modelo na tela:** `CarregarTela()` relê o modelo do banco
+(`PreencherCaixasLinhas()`, que limpa a coleção e a repopula a partir do MDB) e chama
+`AtualizarTelaDoModelo()`, que só reflete em tela o que já está em memória — bind das
+listas/combos, `ListView` de ligações, campos de nome/descrição/meia-vida/tipo. Os dois
+handlers de importação de XML chamam `AtualizarTelaDoModelo()` diretamente, sem passar
+por `CarregarTela()`, porque um XML recém-importado já está em memória e um
+`PreencherCaixasLinhas()` o sobrescreveria com o que estiver no banco — ver
+[C-1](#91-críticos).
 
 ### 4.2 `Painel` — o canvas
 
@@ -284,13 +299,13 @@ Responsabilidades:
 
 ### 5.1 `frmCalculo`
 
-925 linhas. UI, quatro solvers, montagem da matriz e geração de relatório no mesmo arquivo.
+937 linhas. UI, quatro solvers, montagem da matriz e geração de relatório no mesmo arquivo.
 
 **Métodos numéricos disponíveis** (menu, mutuamente exclusivos):
 
 | Método | Implementação | Origem |
 |---|---|---|
-| **Birchall** | Manual, [`frmCalculo.cs:256-419`](Ipen.SSID.UI/frmCalculo.cs:256) | Código próprio |
+| **Birchall** | Manual, [`frmCalculo.cs:258-421`](Ipen.SSID.UI/frmCalculo.cs:258) | Código próprio |
 | **Runge-Kutta 5** (implícito) | `OdeImplicitRungeKutta5` | DotNumerics |
 | **Runge-Kutta 45** (explícito, passo adaptativo) | `OdeExplicitRungeKutta45` | DotNumerics |
 | **Adams-Moulton** | `OdeAdamsMoulton` | DotNumerics |
@@ -308,14 +323,14 @@ Responsabilidades:
 
 Existem **duas montagens incompatíveis** da matriz, escolhidas conforme o método:
 
-**`PreencherMatrizR()`** — para Birchall ([`frmCalculo.cs:438`](Ipen.SSID.UI/frmCalculo.cs:438)):
+**`PreencherMatrizR()`** — para Birchall ([`frmCalculo.cs:440`](Ipen.SSID.UI/frmCalculo.cs:440)):
 - Dimensão `(N+1) × (N+1)`; **índice 0 não é usado** (compartimentos são 1..N).
 - `R[i][j]` (i≠j) = taxa de transferência de i para j.
 - `R[i][i]` = **fração inicial** do compartimento i — a diagonal é reaproveitada para
   armazenar a condição inicial, que depois é extraída em `xo[i] = R[i,i]`
-  ([`frmCalculo.cs:278`](Ipen.SSID.UI/frmCalculo.cs:278)).
+  ([`frmCalculo.cs:280`](Ipen.SSID.UI/frmCalculo.cs:280)).
 
-**`PreencherMatrizR(bool)`** — para os métodos DotNumerics ([`frmCalculo.cs:470`](Ipen.SSID.UI/frmCalculo.cs:470)):
+**`PreencherMatrizR(bool)`** — para os métodos DotNumerics ([`frmCalculo.cs:472`](Ipen.SSID.UI/frmCalculo.cs:472)):
 - Dimensão `N × N`; índices **base 0**.
 - `R[i][i]` = −(soma de todas as taxas de saída de i) — diagonal é a taxa de perda.
 - `R[i][j]` = taxa de entrada em i vinda de j.
@@ -326,22 +341,23 @@ Existem **duas montagens incompatíveis** da matriz, escolhidas conforme o méto
 
 ### 5.3 `MontarEquacao` — o sistema de EDOs
 
-[`frmCalculo.cs:801-817`](Ipen.SSID.UI/frmCalculo.cs:801) — callback entregue ao DotNumerics:
+[`frmCalculo.cs:813-829`](Ipen.SSID.UI/frmCalculo.cs:813) — callback entregue ao DotNumerics:
 
 ```
 dyᵢ/dt = −λ·yᵢ + Σⱼ R[i][j]·yⱼ
 ```
 
-onde λ = 0,693/T½ é o decaimento radioativo, aplicado a todos os compartimentos.
+onde λ = ln(2)/T½ é o decaimento radioativo, aplicado a todos os compartimentos.
 
 ### 5.4 O algoritmo de Birchall
 
-Implementação da exponencial de matriz por **série de Taylor com scaling-and-squaring**:
+Implementação da exponencial de matriz por **série de Taylor com scaling-and-squaring**
+([`frmCalculo.cs:258-421`](Ipen.SSID.UI/frmCalculo.cs:258), `Calculo()` + `Inversao()`):
 
-1. **Montagem de A** ([`frmCalculo.cs:259-281`](Ipen.SSID.UI/frmCalculo.cs:259)) —
+1. **Montagem de A** ([`frmCalculo.cs:261-283`](Ipen.SSID.UI/frmCalculo.cs:261)) —
    `a[i][j] = R[j][i]` (transposta), e `a[i][i] = −λ − Σₖ≠ᵢ R[i][k]` (perdas).
 2. **Escalonamento** — `A ← A·t`, depois divide por 2^iz até que `‖A‖ < 0,2`, com
-   `iz` escolhido pelo laço em [`frmCalculo.cs:297`](Ipen.SSID.UI/frmCalculo.cs:297).
+   `iz` escolhido pelo laço em [`frmCalculo.cs:299`](Ipen.SSID.UI/frmCalculo.cs:299).
 3. **Série de Taylor** — `sum = I + A + A²/2! + A³/3! + …`, com no máximo 10 000 termos
    e tolerância relativa `terr = 1e-10`.
 4. **Squaring** — eleva o resultado ao quadrado `iz` vezes para desfazer o escalonamento.
@@ -533,7 +549,7 @@ Achados classificados por severidade, com referência a arquivo e linha.
 > também já corrigidos.
 > Fora da Fase 1, já concluídos: migração para **x64 + .NET 4.8 + ACE OLEDB**
 > ([§11.2](#112-plataforma-x64)) e conversão dos fontes para **UTF-8**
-> ([§10.5](#105-estilo-e-manutenibilidade)). Os demais achados seguem abertos.
+> ([§10.5](#105-estilo-e-manutenibilidade)).
 > **C-2** foi mitigado pela remoção dos exemplos defasados, mas o importador continua sem
 > as guardas. Os demais achados seguem abertos.
 
@@ -541,26 +557,30 @@ Achados classificados por severidade, com referência a arquivo e linha.
 
 ---
 
-**C-1 · Importar XML no CBT descarta todos os metadados do modelo** — ✅ CORRIGIDO
+**C-1 · Importar XML no CBT descartava todos os metadados do modelo** — ✅ CORRIGIDO
 
-[`frmPrincipal.cs:1202-1204`](Ipen.CBT.UI/frmPrincipal.cs:1202) e
-[`frmPrincipal.cs:203-205`](Ipen.CBT.UI/frmPrincipal.cs:203)
+[`frmPrincipal.cs:213`](Ipen.CBT.UI/frmPrincipal.cs:213) (`mnuArquivoImportar_Click`) e
+[`frmPrincipal.cs:1242`](Ipen.CBT.UI/frmPrincipal.cs:1242) (`importarToolStripMenuItem_Click`)
 
 ```csharp
 DataXML interfaceXML = new DataXML(openFile.FileName);
 interfaceXML.ImportarXML();
-// ← o Modelo importado NUNCA é atribuído a this.Modelo
-foreach (Caixas cx in this.Modelo.Colecao.Caixas)  // usa o objeto antigo
+// ← o Modelo importado nunca era atribuído a this.Modelo
+foreach (Caixas cx in this.Modelo.Colecao.Caixas)  // usava o objeto antigo
 ```
 
-As caixas aparecem na tela **apenas por acidente**: `DataXML` cria um `Modelos` interno
+As caixas apareciam na tela **apenas por acidente**: `DataXML` cria um `Modelos` interno
 cujo `Colecao` é o mesmo singleton `Sistema`. Mas `nmModelo`, `Descricao`, `meiaVida` e
-`Tipo` ficam com os valores anteriores (vazios). Importar um XML e salvar em seguida
-**grava um modelo sem nome, sem descrição e com meia-vida zero** — ou seja, o cálculo
-subsequente ignora o decaimento radioativo.
+`Tipo` ficavam com os valores anteriores (vazios). Importar um XML e salvar em seguida
+**gravava um modelo sem nome, sem descrição e com meia-vida zero** — ou seja, o cálculo
+subsequente ignorava o decaimento radioativo.
 
-*Correção:* `this.Modelo = interfaceXML.Modelo;` após `ImportarXML()`, seguido de
-`CarregarTela()` para refletir os campos na UI.
+Corrigido nos dois handlers: `this.Modelo = interfaceXML.Modelo;` logo após
+`ImportarXML()`. `CarregarTela()` não podia ser reaproveitada aqui porque
+`PreencherCaixasLinhas()` limpa a coleção e a repopula a partir do MDB, descartando o
+que acabou de ser importado — por isso a extração de `AtualizarTelaDoModelo()`
+([§4.1](#41-frmprincipal--a-janela-principal)), que só reflete na tela o modelo já em
+memória, reutilizada por `CarregarTela()` e pelos dois handlers de importação.
 
 ---
 
@@ -595,25 +615,26 @@ if (ds.Tables.Contains("Modelo"))
 
 ---
 
-**C-3 · `TodosCompartimentos` nunca é limpo no caminho dos métodos DotNumerics** — ✅ CORRIGIDO
+**C-3 · `TodosCompartimentos` nunca era limpo no caminho dos métodos DotNumerics** — ✅ CORRIGIDO
 
-[`frmCalculo.cs:470-481`](Ipen.SSID.UI/frmCalculo.cs:470)
+[`frmCalculo.cs:472-483`](Ipen.SSID.UI/frmCalculo.cs:472)
 
-`PreencherMatrizR()` (Birchall) chama `TodosCompartimentos.Clear()` na linha 446.
-A sobrecarga `PreencherMatrizR(bool)` **não chama**. Cada execução de Runge-Kutta ou
-Adams-Moulton **acrescenta** os compartimentos à lista já existente. Após carregar um
-segundo modelo, a lista contém caixas de ambos, e `CreateChart` associa curvas aos
-compartimentos errados ([`frmCalculo.cs:207`](Ipen.SSID.UI/frmCalculo.cs:207) —
-`C = TodosCompartimentos[i-1]`), produzindo **gráficos com nomes e cores trocados**.
+`PreencherMatrizR()` (Birchall) chama `TodosCompartimentos.Clear()` na linha 448.
+A sobrecarga `PreencherMatrizR(bool)` **não chamava**. Cada execução de Runge-Kutta ou
+Adams-Moulton **acrescentava** os compartimentos à lista já existente. Após carregar um
+segundo modelo, a lista continha caixas de ambos, e `CreateChart` associava curvas aos
+compartimentos errados ([`frmCalculo.cs:209`](Ipen.SSID.UI/frmCalculo.cs:209) —
+`C = TodosCompartimentos[i-1]`, no ramo `ZeroBased` usado por RK/Adams), produzindo
+**gráficos com nomes e cores trocados**.
 
-*Correção:* adicionar `TodosCompartimentos.Clear();` no início de `PreencherMatrizR(bool)`.
+Corrigido adicionando `TodosCompartimentos.Clear();` no início de `PreencherMatrizR(bool)`.
 
 ---
 
-**C-4 · `QuantAnt` é compartilhado entre todos os compartimentos de eliminação** — ✅ CORRIGIDO
+**C-4 · `QuantAnt` era compartilhado entre todos os compartimentos de eliminação** — ✅ CORRIGIDO
 
-[`frmCalculo.cs:76`](Ipen.SSID.UI/frmCalculo.cs:76) + [`135-139`](Ipen.SSID.UI/frmCalculo.cs:135)
-(Birchall) e [`frmCalculo.cs:635`](Ipen.SSID.UI/frmCalculo.cs:635) + [`728-732`](Ipen.SSID.UI/frmCalculo.cs:728) (RK/Adams)
+[`frmCalculo.cs:82`](Ipen.SSID.UI/frmCalculo.cs:82) + [`135-139`](Ipen.SSID.UI/frmCalculo.cs:135)
+(Birchall) e [`frmCalculo.cs:647`](Ipen.SSID.UI/frmCalculo.cs:647) + [`740-744`](Ipen.SSID.UI/frmCalculo.cs:740) (RK/Adams)
 
 ```csharp
 double QuantAnt = 0;                       // ← UMA variável para todos
@@ -625,20 +646,22 @@ foreach (Caixas C in TodosCompartimentos) {
 }
 ```
 
-Com **um** compartimento de eliminação o cálculo está correto. Com **dois ou mais**
-(cenário normal: urina + fezes), o incremento de cada um é calculado subtraindo o valor
-anterior do compartimento *errado*. Os valores de excreção do relatório ficam
+Com **um** compartimento de eliminação o cálculo estava correto. Com **dois ou mais**
+(cenário normal: urina + fezes), o incremento de cada um era calculado subtraindo o valor
+anterior do compartimento *errado*. Os valores de excreção do relatório ficavam
 **numericamente inválidos**, inclusive negativos.
 
-*Correção:* usar `Dictionary<Caixas,double>` ou `double[] quantAnt = new double[n]`,
-indexado por compartimento.
+Corrigido trocando a variável única por `double[] QuantAnt`, indexado por compartimento,
+nos dois caminhos (Birchall e RK/Adams). É exatamente o cenário coberto pela validação
+numérica com duas vias de eliminação simultâneas — ver [§12](#12-recomendações-priorizadas)
+e [`tools/validate/README.md`](tools/validate/README.md).
 
 ---
 
 ### 9.2 Graves
 
 **G-1 · ~~`SELECT` com palavras reservadas do Jet sem colchetes~~ — ❌ REFUTADO**
-[`DataBD.cs:286-290`](Ipen.CompartimentalModel/DataBD.cs:286)
+[`DataBD.cs:292-296`](Ipen.CompartimentalModel/DataBD.cs:292)
 
 ```sql
 SELECT Numero, Nome, Left, Top, Width, Height, ...
@@ -665,14 +688,14 @@ Se `CaixaInicio == CaixaFim`, `cxFim` fica `null`, e `Painel.OnPaint`
 *Correção:* trocar `else if` por `if` independente.
 
 **G-3 · `double.Parse`/`Convert.ToDouble` sem validação em quatro pontos** — ✅ CORRIGIDO
-[`frmPrincipal.cs:595`](Ipen.CBT.UI/frmPrincipal.cs:595) (Fração do compartimento),
+[`frmPrincipal.cs:598`](Ipen.CBT.UI/frmPrincipal.cs:598) (Fração do compartimento),
 [`frmPrincipal.cs:1095`](Ipen.CBT.UI/frmPrincipal.cs:1095) (meia-vida),
 [`frmEditModelo.cs:84`](Ipen.CBT.UI/frmEditModelo.cs:84) (Fração),
 [`CaixaProp.cs:237`](Ipen.CBT.UI/CaixaProp.cs:237) (Fração)
 
 Campo vazio ou com texto inválido → `FormatException` não tratada → o aplicativo fecha.
 `float.TryParse` já era usado corretamente para o valor de transferência
-([`frmPrincipal.cs:698`](Ipen.CBT.UI/frmPrincipal.cs:698)) — a inconsistência era o
+([`frmPrincipal.cs:714`](Ipen.CBT.UI/frmPrincipal.cs:714)) — a inconsistência era o
 problema. Trocado por `double.TryParse` nos quatro pontos, seguindo o mesmo padrão
 já usado no resto do arquivo (`MessageBox` + `Focus()` + `return`). Em `CaixaProp.cs`
 o botão OK tem `DialogResult=OK` fixado no designer, então a validação falhando
@@ -695,19 +718,19 @@ campo por reflection: `Modelo` não é nulo e `Modelo.Colecao.Caixas.Count` — 
 que crashava — resolve normalmente para `0`.
 
 **G-5 · Teste de convergência da série de Taylor sem valor absoluto** — ✅ CORRIGIDO
-[`frmCalculo.cs:327-329`](Ipen.SSID.UI/frmCalculo.cs:327)
+[`frmCalculo.cs:329-331`](Ipen.SSID.UI/frmCalculo.cs:329)
 
 ```csharp
 if (term[i, j] / sum[i, j] > terr)  goto volta;
 ```
 
-Quando a razão é **negativa** (termos alternantes, comuns em matrizes com autovalores
-negativos — exatamente o caso aqui), o teste passa como convergido prematuramente. A
-série pode ser truncada cedo demais, **subestimando silenciosamente a exponencial**.
-*Correção:* `Math.Abs(term[i,j] / sum[i,j]) > terr`.
+Quando a razão era **negativa** (termos alternantes, comuns em matrizes com autovalores
+negativos — exatamente o caso aqui), o teste passava como convergido prematuramente. A
+série podia ser truncada cedo demais, **subestimando silenciosamente a exponencial**.
+Corrigido para `Math.Abs(term[i,j] / sum[i,j]) > terr`.
 
 **G-8 · Fechar o diálogo de modelos sem escolher derrubava o SSID** — ✅ CORRIGIDO
-[`frmCalculo.cs:609`](Ipen.SSID.UI/frmCalculo.cs:609), [`frmModelos.cs:41`](Ipen.SSID.UI/frmModelos.cs:41), [`DataBD.cs:227`](Ipen.CompartimentalModel/DataBD.cs:227)
+[`frmCalculo.cs:609`](Ipen.SSID.UI/frmCalculo.cs:609), [`frmModelos.cs:40`](Ipen.SSID.UI/frmModelos.cs:40), [`DataBD.cs:231`](Ipen.CompartimentalModel/DataBD.cs:231)
 
 O `frmModelos` do SSID gravava `idModeloAberto` apenas no botão **Abrir** (e no duplo
 clique na linha), mas **nunca definia `DialogResult`**. O chamador ignorava o retorno de
@@ -739,13 +762,14 @@ cada movimento do mouse, o consumo de handles GDI cresce continuamente até a de
 ou o limite de 10 000 handles por processo. *Correção:* envolver em `using`, ou promover
 a campos reutilizáveis.
 
-**G-7 · Constante de decaimento divergente entre solvers** — ✅ CORRIGIDO
-[`frmCalculo.cs:71`](Ipen.SSID.UI/frmCalculo.cs:71) vs
-[`frmCalculo.cs:811`](Ipen.SSID.UI/frmCalculo.cs:811)
+**G-7 · Constante de decaimento divergia entre solvers** — ✅ CORRIGIDO
+[`frmCalculo.cs:70`](Ipen.SSID.UI/frmCalculo.cs:70) vs
+[`frmCalculo.cs:823`](Ipen.SSID.UI/frmCalculo.cs:823)
 
-Birchall usa `Math.Log(2)` (0,6931471805599453); `MontarEquacao` usa o literal `0.693`.
-Erro relativo de ~2×10⁻⁴ — pequeno por passo, mas **acumulativo** ao longo de milhares
-de dias, tornando os métodos não comparáveis entre si.
+Birchall usava `Math.Log(2)` (0,6931471805599453); `MontarEquacao` usava o literal
+`0.693`. Erro relativo de ~2×10⁻⁴ — pequeno por passo, mas **acumulativo** ao longo de
+milhares de dias, tornando os métodos não comparáveis entre si. Corrigido unificando os
+dois em `Math.Log(2)`.
 
 ---
 
@@ -753,18 +777,18 @@ de dias, tornando os métodos não comparáveis entre si.
 
 | # | Achado | Local |
 |---|---|---|
-| M-1 | `Descricao` não é HTML-encoded no relatório (`nmModelo` é). Descrição com `<`, `>` ou `&` quebra a tabela | [`frmCalculo.cs:90`](Ipen.SSID.UI/frmCalculo.cs:90), [`687`](Ipen.SSID.UI/frmCalculo.cs:687) |
+| M-1 | `Descricao` não é HTML-encoded no relatório (`nmModelo` é). Descrição com `<`, `>` ou `&` quebra a tabela | [`frmCalculo.cs:92`](Ipen.SSID.UI/frmCalculo.cs:92), [`699`](Ipen.SSID.UI/frmCalculo.cs:699) |
 | M-2 | `ConectarBancoDeDados` compara com `""` mas `LerSettings` devolve `null` para chave ausente | [`frmPrincipal.cs:51`](Ipen.CBT.UI/frmPrincipal.cs:51) |
-| M-3 | `GravarSettings` lança NRE se a chave não existir no `.config` (indexador devolve `null`) | [`frmPrincipal.cs:520`](Ipen.CBT.UI/frmPrincipal.cs:520) |
-| M-4 | `OleDbDataReader` nunca é fechado em `PreencherCaixas`/`PreencherLinhas` (só a conexão, via `CloseConnection`) | [`DataBD.cs:251`](Ipen.CompartimentalModel/DataBD.cs:251), [`295`](Ipen.CompartimentalModel/DataBD.cs:295) |
+| M-3 | `GravarSettings` lança NRE se a chave não existir no `.config` (indexador devolve `null`) | [`frmPrincipal.cs:527`](Ipen.CBT.UI/frmPrincipal.cs:527) |
+| M-4 | `OleDbDataReader` nunca é fechado em `PreencherCaixas`/`PreencherLinhas` (só a conexão, via `CloseConnection`) | [`DataBD.cs:257`](Ipen.CompartimentalModel/DataBD.cs:257), [`301`](Ipen.CompartimentalModel/DataBD.cs:301) |
 | M-5 | Nenhuma conexão/comando OleDb usa `using`; exceção no meio vaza a conexão do pool | `DataBD.cs` inteiro |
 | M-6 | Nome de parâmetro digitado errado: `"Incoporacao"` (funciona só porque OleDb é posicional) | [`DataBD.cs:147`](Ipen.CompartimentalModel/DataBD.cs:147) |
 | M-7 | `RemoverModelo` concatena `idModelo` na SQL em vez de parametrizar (baixo risco por ser `int`, mas padrão inconsistente com o resto) | [`DataBD.cs:28`](Ipen.CompartimentalModel/DataBD.cs:28) |
 | M-8 | Caminho de desenvolvedor `D:\Projetos\SVN\trunk\...` versionado nos dois `app.config` | `Ipen.CBT.UI/app.config`, `Ipen.SSID.UI/App.config` |
-| M-9 | `Application.Exit()` em vez de `this.Close()` no menu Sair do SSID — pula o descarte de formulários | [`frmCalculo.cs:613`](Ipen.SSID.UI/frmCalculo.cs:613) |
+| M-9 | `Application.Exit()` em vez de `this.Close()` no menu Sair do SSID — pula o descarte de formulários | [`frmCalculo.cs:624`](Ipen.SSID.UI/frmCalculo.cs:624) |
 | M-10 | `BackBuffer` (Bitmap) não é liberado no `Dispose` da `Caixas`, só em `DestruirBuffer` | [`Caixas.cs:439`](Ipen.CompartimentalModel/Caixas.cs:439) |
-| M-11 | Eixos do gráfico fixados em `AxisType.Log`; valor zero ou negativo (comum com o bug C-4) não é plotável | [`frmCalculo.cs:230-231`](Ipen.SSID.UI/frmCalculo.cs:230) |
-| M-12 | `iz` chega a 1001 se o laço não convergir, dividindo por 2¹⁰⁰¹ e zerando a matriz sem aviso | [`frmCalculo.cs:297`](Ipen.SSID.UI/frmCalculo.cs:297) |
+| M-11 | Eixos do gráfico fixados em `AxisType.Log`; valor zero ou negativo (comum com o bug C-4) não é plotável | [`frmCalculo.cs:232-233`](Ipen.SSID.UI/frmCalculo.cs:232) |
+| M-12 | `iz` chega a 1001 se o laço não convergir, dividindo por 2¹⁰⁰¹ e zerando a matriz sem aviso | [`frmCalculo.cs:299`](Ipen.SSID.UI/frmCalculo.cs:299) |
 | M-13 | Nenhuma validação de que a soma das frações de incorporação seja 1,0 | — |
 | M-14 | Nenhuma validação de taxa negativa ou de modelo desconexo antes de calcular | — |
 
@@ -820,7 +844,7 @@ Efeitos observáveis:
 | `Ipen.CBT.UI/CBT.csproj` | Projeto obsoleto; o ativo é `Ipen.CBT.UI.csproj` |
 | `Ipen.SSID.UI/Compartimento.cs` | DTO usado apenas por `LerDataSet`, que está inteiramente comentado |
 | ~~`Ipen.SSID.UI/Conexao.cs`~~ | ✅ **REMOVIDO** — morto e ainda com string de conexão Jet |
-| `frmCalculo.LerDataSet` | 30 linhas comentadas ([`frmCalculo.cs:515-544`](Ipen.SSID.UI/frmCalculo.cs:515)) |
+| `frmCalculo.LerDataSet` | 30 linhas comentadas ([`frmCalculo.cs:521-550`](Ipen.SSID.UI/frmCalculo.cs:521)) |
 | ~15 handlers vazios | `mnuEditarLocalizar_Click`, `mnuFerramentasOpcoes_Click`, `novoToolStripMenuItem_Click`, etc. |
 
 ### 10.5 Estilo e manutenibilidade
@@ -837,12 +861,17 @@ Efeitos observáveis:
   mojibake em tempo de compilação.
 - **Estado global mutável** — `Configuracoes` expõe quatro campos `static` públicos
   (`Arquivo`, `ExibirRotulos`, `ExibirSetas`, `ExibirTodasLigacoes`).
-- **Sem testes.** Nenhum projeto de teste; nenhum caso de regressão para o solver.
-- **Sem README, sem `.gitignore`, sem CI.** Artefatos de build (`bin/`, `obj/`, `.vs/`)
-  não estão ignorados.
+- ~~**Sem testes.**~~ Parcialmente resolvido: [`tools/validate`](tools/validate) cobre a
+  correção numérica dos quatro solvers (ver [§12](#12-recomendações-priorizadas)), mas
+  segue sem cobertura para a camada de dados, o editor ou os achados G-2/G-6/M-*.
+- ~~**Sem `.gitignore`.**~~ ✅ **RESOLVIDO** — `bin/`, `obj/`, `.vs/`, `Backup/` e
+  `UpgradeLog.htm` agora são ignorados.
+- **Sem README.md dedicado, sem CI.** Este `DOCUMENTACAO.md` cobre boa parte do que um
+  README cobriria, mas não é o que o GitHub renderiza automaticamente na página do
+  repositório.
 - **Mensagens de erro para o usuário final** com texto de desenvolvedor:
-  `"Stupid Error"` ([`frmCalculo.cs:57`](Ipen.SSID.UI/frmCalculo.cs:57)),
-  `"Unexpected ERROR!!"` ([`frmPrincipal.cs:825`](Ipen.CBT.UI/frmPrincipal.cs:825)).
+  `"Stupid Error"` ([`frmCalculo.cs:56`](Ipen.SSID.UI/frmCalculo.cs:56)),
+  `"Unexpected ERROR!!"` ([`frmPrincipal.cs:841`](Ipen.CBT.UI/frmPrincipal.cs:841)).
 
 ---
 
@@ -944,7 +973,8 @@ Ver [`tools/validate/README.md`](tools/validate/README.md) para o detalhamento.
 
 ### Fase 3 — Higiene de repositório (baixo custo, alto retorno)
 
-13. Adicionar `.gitignore` (`bin/`, `obj/`, `.vs/`, `*.user`, `Backup/`, `UpgradeLog.htm`).
+13. ~~Adicionar `.gitignore`.~~ ✅ **FEITO** (`bin/`, `obj/`, `.vs/`, `*.user`, `Backup/`,
+    `UpgradeLog.htm`).
 14. Adicionar `README.md` com propósito, requisitos e instruções de build.
 15. Remover código morto ([§10.4](#104-código-morto-versionado)) — `frmGrafico.cs`,
     `Starter.cs`, `CBT.csproj`, `Compartimento.cs`, `LerDataSet` (`Conexao.cs` já saiu).
@@ -976,19 +1006,21 @@ Ver [`tools/validate/README.md`](tools/validate/README.md) para o detalhamento.
 
 | Arquivo | Linhas | Responsabilidade |
 |---|---:|---|
-| `Ipen.CBT.UI/frmPrincipal.cs` | 1217 | Janela principal do editor |
-| `Ipen.SSID.UI/frmCalculo.cs` | 925 | UI do solver + 4 métodos numéricos + relatório |
+| `Ipen.CBT.UI/frmPrincipal.cs` | 1257 | Janela principal do editor |
+| `Ipen.SSID.UI/frmCalculo.cs` | 937 | UI do solver + 4 métodos numéricos + relatório |
 | `Ipen.CBT.UI/frmGrafico.cs` | 598 | ⚠️ órfão, não compila |
-| `Ipen.CBT.UI/frmEditModelo.cs` | 512 | Editor tabular (duplica frmPrincipal) |
+| `Ipen.CBT.UI/frmEditModelo.cs` | 518 | Editor tabular (duplica frmPrincipal) |
 | `Ipen.CompartimentalModel/Caixas.cs` | 450 | Compartimento (entidade + controle visual) |
 | `Ipen.CBT.UI/LinhaProp.cs` | 428 | Diálogo de propriedades da ligação |
+| `Ipen.CompartimentalModel/DataBD.cs` | 325 | Acesso a dados (Access/OleDb) |
 | `Ipen.CBT.UI/Painel.cs` | 321 | Canvas: linhas, setas, rótulos |
-| `Ipen.CompartimentalModel/DataBD.cs` | 319 | Acesso a dados (Access/OleDb) |
-| `Ipen.CBT.UI/CaixaProp.cs` | 294 | Diálogo de propriedades do compartimento |
+| `tools/validate/Program.cs` | 312 | Validação numérica: 3 casos analíticos × 4 solvers |
+| `Ipen.CBT.UI/CaixaProp.cs` | 305 | Diálogo de propriedades do compartimento |
 | `Ipen.CompartimentalModel/Linhas.cs` | 291 | Ligação/transferência |
 | `Ipen.CompartimentalModel/Sistema.cs` | 188 | Agregado raiz (singleton) |
 | `Ipen.CompartimentalModel/CaixasCollection.cs` | 159 | Coleção + agregação de eventos |
 | `Ipen.CompartimentalModel/Reservatorio.cs` | 156 | Mapeamento objeto ↔ XML |
+| `Ipen.CompartimentalModel/Configuracoes.cs` | 120 | Flags de exibição + detecção do provider ACE |
 | `Ipen.CompartimentalModel/DrawingUtils.cs` | 113 | Utilitários GDI+ |
 | `Ipen.CompartimentalModel/Modelos.cs` | 112 | Metadados do modelo |
 | `Ipen.CompartimentalModel/DataXML.cs` | 66 | Fachada de import/export XML |
