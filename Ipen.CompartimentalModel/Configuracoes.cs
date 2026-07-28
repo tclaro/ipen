@@ -10,7 +10,15 @@ namespace Ipen.CompartimentalModel
         public static string Arquivo;
         public static bool ExibirRotulos;
         public static bool ExibirSetas;
-        public static bool ExibirTodasLigacoes;
+
+        /// <summary>
+        /// Renomeado de "ExibirTodasLigacoes" (nome invertido em relação ao
+        /// que sempre armazenou: true significa "mostrar só as ligações do
+        /// compartimento selecionado", não "mostrar todas"). Só o
+        /// identificador mudou - a semântica e a chave "Ligacoes" do
+        /// app.config continuam as mesmas.
+        /// </summary>
+        public static bool ExibirApenasLigacoesSelecionadas;
 
         /// <summary>
         /// Força um provider OLE DB específico. Se ficar nulo (o normal),

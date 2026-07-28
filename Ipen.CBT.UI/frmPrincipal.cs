@@ -100,7 +100,7 @@ namespace Ipen.CBT.UI
         {
             bool Exibir = Convert.ToBoolean(LerSettings("Ligacoes"));
             exibirApenasLigaçõesDoCompartimentoSelecionadoToolStripMenuItem.Checked = Exibir;
-            Configuracoes.ExibirTodasLigacoes = Exibir;
+            Configuracoes.ExibirApenasLigacoesSelecionadas = Exibir;
         }
         
         #region Métodos de eventos
@@ -153,7 +153,7 @@ namespace Ipen.CBT.UI
                 this.PnlCanvas.ResumeLayout();
 
             }
-            this.PnlCanvas.Refresh();
+            this.PnlCanvas.Invalidate();
         }
 
         private void mnuArquivoSalvar_Click(object sender, EventArgs e)
@@ -218,7 +218,7 @@ namespace Ipen.CBT.UI
                 foreach (Caixas cx in this.Modelo.Colecao.Caixas)
                     this.PnlCanvas.IncluirCaixa(cx);
                 this.PnlCanvas.ResumeLayout();
-                this.PnlCanvas.Refresh();
+                this.PnlCanvas.Invalidate();
             }
         }
 
@@ -301,7 +301,7 @@ namespace Ipen.CBT.UI
             bool Exibir = !exibirRótuloDeTransferênciasToolStripMenuItem.Checked;
             exibirRótuloDeTransferênciasToolStripMenuItem.Checked = Exibir;
             CompartimentalModel.Configuracoes.ExibirRotulos = Exibir;
-            this.PnlCanvas.Refresh();
+            this.PnlCanvas.Invalidate();
             GravarSettings("Rotulos", Exibir.ToString());
         }
 
@@ -431,7 +431,7 @@ namespace Ipen.CBT.UI
             //Limpa a colecao e a tela?
             this.PnlCanvas.SistemaCompartimental.Clear();
             this.PnlCanvas.Controls.Clear();
-            this.PnlCanvas.Refresh();
+            this.PnlCanvas.Invalidate();
         }
         
         private void SolicitarNovaCaixa()
@@ -551,7 +551,7 @@ namespace Ipen.CBT.UI
             S.Caixas.Clear();
             S.Linhas.Clear();
             this.PnlCanvas.Controls.Clear();
-            this.PnlCanvas.Refresh();
+            this.PnlCanvas.Invalidate();
         }
 
         #endregion
@@ -770,7 +770,7 @@ namespace Ipen.CBT.UI
             LimparTelaLigacao();
 
             //AtualizarPainel();
-            this.PnlCanvas.Refresh();
+            this.PnlCanvas.Invalidate();
             
         }
 
@@ -1111,14 +1111,14 @@ namespace Ipen.CBT.UI
             this.SuspendLayout();
 
             this.PnlCanvas.Controls.Clear();
-            this.PnlCanvas.Refresh();
+            this.PnlCanvas.Invalidate();
 
             foreach (Caixas cx in this.Modelo.Colecao.Caixas)
             {
                 this.PnlCanvas.Controls.Add(cx);
                 cx.BringToFront();
                 this.PnlCanvas.VerificarCaixasSobrepostas(cx);
-                this.PnlCanvas.Refresh();
+                this.PnlCanvas.Invalidate();
             }
 
             this.ResumeLayout();
@@ -1129,7 +1129,7 @@ namespace Ipen.CBT.UI
             bool Exibir = !exibirSetasDeDireçãoToolStripMenuItem.Checked;
             exibirSetasDeDireçãoToolStripMenuItem.Checked = Exibir;
             CompartimentalModel.Configuracoes.ExibirSetas = Exibir;
-            this.PnlCanvas.Refresh();
+            this.PnlCanvas.Invalidate();
             GravarSettings("Setas", Exibir.ToString());
         }
 
@@ -1164,8 +1164,8 @@ namespace Ipen.CBT.UI
             
             bool Exibir = !exibirApenasLigaçõesDoCompartimentoSelecionadoToolStripMenuItem.Checked;
             exibirApenasLigaçõesDoCompartimentoSelecionadoToolStripMenuItem.Checked = Exibir;
-            CompartimentalModel.Configuracoes.ExibirTodasLigacoes = Exibir;
-            this.PnlCanvas.Refresh();
+            CompartimentalModel.Configuracoes.ExibirApenasLigacoesSelecionadas = Exibir;
+            this.PnlCanvas.Invalidate();
             GravarSettings("Ligacoes", Exibir.ToString());
         }
 
@@ -1247,7 +1247,7 @@ namespace Ipen.CBT.UI
                 foreach (Caixas cx in this.Modelo.Colecao.Caixas)
                     this.PnlCanvas.IncluirCaixa(cx);
                 this.PnlCanvas.ResumeLayout();
-                this.PnlCanvas.Refresh();
+                this.PnlCanvas.Invalidate();
             }
         }
 

@@ -22,6 +22,15 @@ namespace Ipen.CompartimentalModel
         private Color backColor;
         private Color foreColor;
         private Font font;
+
+        //Cache de MeasureString para os rótulos desta linha. Duas posições
+        //("slots"), porque uma ligação bidirecional ("Ambos") mede dois
+        //textos (NomeAB e NomeBA) no mesmo frame - com um único slot, cada
+        //chamada invalidaria o cache da outra e nada seria reaproveitado.
+        private string _rotuloCacheTexto1, _rotuloCacheChaveFonte1;
+        private SizeF _rotuloCacheTamanho1;
+        private string _rotuloCacheTexto2, _rotuloCacheChaveFonte2;
+        private SizeF _rotuloCacheTamanho2;
         #endregion
 
 		#region Construtor
@@ -30,7 +39,15 @@ namespace Ipen.CompartimentalModel
         }
 		public Linhas(Caixas CaixaInicio, Caixas CaixaFim, System.Drawing.Color CorDaLinha, Linhas.Direcao Fluxo, float ValorAB, float ValorBA)
 		{
-            this.BackColor = Color.Transparent;
+            //Painel.OnPaint desenha a linha com BackColor, não ForeColor.
+            //Deixar BackColor = Transparent aqui (como era antes) fazia
+            //linhas importadas de XML via Reservatorio.ImportarArquivo
+            //nascerem invisíveis, pois esse caminho nunca reatribui BackColor
+            //depois de construir a Linhas - diferente do caminho via banco
+            //(DataBD.PreencherLinhas), que sempre o faz logo em seguida.
+            //Nada no projeto depende de BackColor == Transparent como estado
+            //inicial "não definido".
+            this.BackColor = CorDaLinha;
             _EstaSelecionado = false;
             this.ForeColor = CorDaLinha;
             this.Font = new System.Drawing.Font("Tahoma", 8, System.Drawing.FontStyle.Italic);
@@ -56,6 +73,36 @@ namespace Ipen.CompartimentalModel
 		#endregion
 
 		#region Métodos públicos
+        /// <summary>
+        /// Equivalente a g.MeasureString(texto, this.Font), mas cacheado: só
+        /// remede quando o texto ou a fonte mudam. Nome/NomeAB/NomeBA são
+        /// derivados de Numero e dos valores, então comparar a string já é
+        /// uma chave de invalidação confiável.
+        /// </summary>
+        public SizeF MedirRotulo(Graphics g, string texto)
+        {
+            string chaveFonte = this.font.Name + "|" + this.font.Size + "|" + this.font.Style;
+
+            if (texto == _rotuloCacheTexto1 && chaveFonte == _rotuloCacheChaveFonte1)
+                return _rotuloCacheTamanho1;
+            if (texto == _rotuloCacheTexto2 && chaveFonte == _rotuloCacheChaveFonte2)
+                return _rotuloCacheTamanho2;
+
+            SizeF tamanho = g.MeasureString(texto, this.font);
+
+            //O slot 1 (mais recente) vira o slot 2, e o resultado novo ocupa
+            //o slot 1 - um LRU de duas posições.
+            _rotuloCacheTexto2 = _rotuloCacheTexto1;
+            _rotuloCacheChaveFonte2 = _rotuloCacheChaveFonte1;
+            _rotuloCacheTamanho2 = _rotuloCacheTamanho1;
+
+            _rotuloCacheTexto1 = texto;
+            _rotuloCacheChaveFonte1 = chaveFonte;
+            _rotuloCacheTamanho1 = tamanho;
+
+            return tamanho;
+        }
+
 		public bool PontoNessaLinha(System.Drawing.Point pto)
 		{
 			float m = this.CoeficienteAngular;
@@ -79,18 +126,34 @@ namespace Ipen.CompartimentalModel
 		}
         public int XdeY(int Y)
         {
-            if (this.CoeficienteAngular == 0)
+            return XdeY(Y, this.CoeficienteAngular);
+        }
+        /// <summary>
+        /// Igual a XdeY(int), mas recebe o coeficiente angular já calculado -
+        /// para quem (como DesenharSetaDirecao) já o tem em mãos e chama isto
+        /// várias vezes por linha por frame.
+        /// </summary>
+        public int XdeY(int Y, float m)
+        {
+            if (m == 0)
                 return 0;
 
-            int Retorno = (int)((Y - this.PontoInicio.Y) / this.CoeficienteAngular) + PontoInicio.X;
+            int Retorno = (int)((Y - this.PontoInicio.Y) / m) + PontoInicio.X;
             return Retorno;
         }
         public int YdeX(int X)
         {
-            if (this.CoeficienteAngular == float.PositiveInfinity || this.CoeficienteAngular == float.NegativeInfinity)
+            return YdeX(X, this.CoeficienteAngular);
+        }
+        /// <summary>
+        /// Igual a YdeX(int), mas recebe o coeficiente angular já calculado.
+        /// </summary>
+        public int YdeX(int X, float m)
+        {
+            if (m == float.PositiveInfinity || m == float.NegativeInfinity)
                 return 0;
 
-            int Retorno = (int)((X - this.PontoInicio.X) * this.CoeficienteAngular) + PontoInicio.Y;
+            int Retorno = (int)((X - this.PontoInicio.X) * m) + PontoInicio.Y;
             return Retorno;
         }
 

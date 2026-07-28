@@ -36,6 +36,9 @@ namespace Ipen.CompartimentalModel
         public Caixas(int Numero, string Texto, System.Drawing.Point Posicao, System.Drawing.Color Cor, bool Acompanhar, bool Eliminacao): this(Numero, Texto, Posicao, Cor, Acompanhar, Eliminacao, false, 0){ }
         public Caixas(int Numero, string Texto, System.Drawing.Point Posicao, System.Drawing.Color Cor, bool Acompanhar, bool Eliminacao, bool Incorporacao, double Fracao)
 		{
+            //OnPaintBackground já é um no-op nesta classe; isto fecha o
+            //restante do caminho de erase-antes-de-pintar do WinForms.
+            SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.OptimizedDoubleBuffer, true);
 
             _Arrastando = false;
             _DragPoint = new Point();
@@ -141,7 +144,11 @@ namespace Ipen.CompartimentalModel
                 this._EstaSelecionado = value;
                 BoxEventArgs be = new BoxEventArgs();
                 be.Box = this;
-                be.EventType = BoxEventArgs.BoxEventTypes.PropertyChanged;
+                //Tipo próprio (em vez de PropertyChanged) para que o Painel
+                //possa distinguir "só mudou seleção" e pular
+                //VerificarCaixasSobrepostas, que não faz sentido reposicionar
+                //caixas por causa de um clique de seleção.
+                be.EventType = BoxEventArgs.BoxEventTypes.SelectionChanged;
                 OnPropertyChanged(be);
             }
         }
@@ -226,6 +233,10 @@ namespace Ipen.CompartimentalModel
                 return _PontoCentral;
             }
         }
+        public bool EstaArrastando
+        {
+            get { return _Arrastando; }
+        }
         #endregion
 
         #endregion
@@ -241,7 +252,7 @@ namespace Ipen.CompartimentalModel
            
             public enum BoxEventTypes
             {
-                Deleted, Moved, PropertyChanged
+                Deleted, Moved, PropertyChanged, SelectionChanged
             }
         }
         public delegate void CaixaEventHandler(BoxEventArgs be);
@@ -297,8 +308,10 @@ namespace Ipen.CompartimentalModel
         {
             if (_Arrastando)
             {
-                this.Left = this.Left + e.X - _DragPoint.X;
-                this.Top = this.Top + e.Y - _DragPoint.Y;
+                //Atribuir Location de uma vez (em vez de Left e Top em
+                //sequência) faz o evento Move disparar uma única vez por
+                //movimento, não duas - metade dos repaints do arrasto.
+                this.Location = new Point(this.Left + e.X - _DragPoint.X, this.Top + e.Y - _DragPoint.Y);
             }
             base.OnMouseMove(e);
 
@@ -316,13 +329,13 @@ namespace Ipen.CompartimentalModel
         }
         protected override void OnPaint(PaintEventArgs e)
         {
-
             Desenhar();
-            e.Graphics.DrawImage(BackBuffer, 0, 0);
+            if (BackBuffer != null)
+                e.Graphics.DrawImage(BackBuffer, 0, 0);
         }
         private void Desenhar()
         {
-            if (BackBuffer == null)
+            if (BackBuffer == null && this.ClientSize.Width > 0 && this.ClientSize.Height > 0)
             {
                 #region Desenhar
                 BackBuffer = new Bitmap(this.ClientSize.Width, this.ClientSize.Height);
